@@ -1,5 +1,8 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -10,6 +13,13 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+/**
+ * Группа роутов для админки
+ */
+Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['admin', 'auth']], function() {
+    Route::get('/', 'DashboardController@dashboard')->name('admin.index');
+});
 
 Route::get('/', function () {
     return view('welcome');
