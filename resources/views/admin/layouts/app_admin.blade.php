@@ -36,7 +36,14 @@
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
-                        &nbsp;
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Контент</a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="{{route('admin.category.index')}}">Категории</a></li>
+                                <li><a href="admin/posts">Материалы</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="admin/users">Пользователи</a></li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -71,7 +78,10 @@
             </div>
         </nav>
 
-        @yield('content')
+        <div class="container">
+            @yield('content')
+        </div>
+
     </div>
 
     <!-- Scripts -->

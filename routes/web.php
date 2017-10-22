@@ -15,10 +15,11 @@ use Illuminate\Support\Facades\Auth;
 */
 
 /**
- * Группа роутов для админки
+ * Group routes for admin panel
  */
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['admin', 'auth']], function() {
     Route::get('/', 'DashboardController@dashboard')->name('admin.index');
+    Route::resource('/category', 'CategoryController', ['as'=>'admin']);
 });
 
 Route::get('/', function () {
