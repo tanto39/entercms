@@ -27,7 +27,7 @@
                     <td>{{$category->created_at}}</td>
                     <td>{{$category->published}}</td>
                     <td>
-                        <a href="{{route('admin.category.edit')}}">Редактировать</a>
+                        <a href="{{route('admin.category.edit', ['id'=>$category->id])}}">Редактировать</a>
                     </td>
                 </tr>
             @empty
@@ -42,7 +42,7 @@
         <tfoot>
             <tr>
                 <td colspan="3">
-                    <ul class="pagination pull-right">
+                    <ul class="pagination">
                         {{$categories->links()}}
                     </ul>
                 </td>
