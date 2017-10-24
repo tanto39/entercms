@@ -16,6 +16,9 @@
 <label for="slug">Ссылка</label>
 <input type="text" id="slug" class="form-control" name="slug" value="{{$category->slug or ""}}">
 
+<label for="order">Порядок</label>
+<input type="number" id="order" class="form-control" name="order" value="{{$category->order or ""}}">
+
 <label for="parent_id">Родительская категория</label>
 <select id="parent_id" class="form-control" name="parent_id">
     <option value="0">-- Без родителя</option>

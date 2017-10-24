@@ -13,6 +13,7 @@ class Category extends Model
     protected $fillable = [
         'published',
         'title',
+        'order',
         'slug',
         'meta_key',
         'meta_desc',
