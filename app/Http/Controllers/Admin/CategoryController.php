@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class CategoryController extends Controller
 {
@@ -30,7 +31,8 @@ class CategoryController extends Controller
         return view('admin.categories.create', [
             'category' => [],
             'categories' => Category::with('children')->where('parent_id', '0')->get(),
-            'delimiter' => '-'
+            'delimiter' => '',
+            'user' => Auth::user()
         ]);
     }
 
@@ -66,7 +68,12 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        //
+        return view('admin.categories.edit', [
+            'category' => $category,
+            'categories' => Category::with('children')->where('parent_id', '0')->get(),
+            'delimiter' => '-',
+            'user' => Auth::user()
+        ]);
     }
 
     /**
@@ -78,7 +85,8 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        //
+        $category->update($request->all());
+        return redirect()->route('admin.category.index');
     }
 
     /**

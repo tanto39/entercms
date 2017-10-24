@@ -27,7 +27,7 @@
                     <td>{{$category->created_at}}</td>
                     <td>{{$category->published}}</td>
                     <td>
-                        <a href="{{route('admin.category.edit', ['id'=>$category->id])}}">Редактировать</a>
+                        <a href="{{route('admin.category.edit', $category)}}">Редактировать</a>
                     </td>
                 </tr>
             @empty

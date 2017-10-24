@@ -19,7 +19,8 @@ class Category extends Model
         'description',
         'content',
         'created_by',
-        'modified_by'
+        'modify_by',
+        'parent_id'
     ];
 
     /**
@@ -28,7 +29,7 @@ class Category extends Model
      */
     public function setSlugAttribute($slug) {
         if (empty($slug)) {
-            $this->attributes['slug'] = Str::slug(mb_substr($this->title . "-" . $this->id, 0, 40), '-');
+            $this->attributes['slug'] = Str::slug(mb_substr($this->title . "-" . $this->id, 0, 100), '-');
         }
         else {
             $this->attributes['slug'] = $slug;

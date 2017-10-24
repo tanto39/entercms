@@ -40,4 +40,14 @@
 
 <hr>
 
+<input type="hidden" name="created_by"
+    @if(isset($category->id))
+         value="{{$category->created_by or ""}}"
+    @else
+        value="{{$user->id or ""}}"
+    @endif
+>
+
+<input type="hidden" name="modify_by" value="{{$user->id or ""}}">
+
 <input class="btn btn-primary" type="submit" value="Сохранить">
