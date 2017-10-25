@@ -3,8 +3,9 @@
 @section('content')
     @component('admin.components.breadcrumbs')
         @slot('title')Создать категорию@endslot
-        @slot('parent')Главная@endslot
-        @slot('active')Категории@endslot
+        @slot('parent') Категории @endslot
+        @slot('parentlink') admin.category.index @endslot
+        @slot('active') Создание @endslot
     @endcomponent
 
     <hr>

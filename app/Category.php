@@ -18,7 +18,7 @@ class Category extends Model
         'meta_key',
         'meta_desc',
         'description',
-        'content',
+        'full_content',
         'created_by',
         'modify_by',
         'parent_id'
@@ -34,6 +34,19 @@ class Category extends Model
         }
         else {
             $this->attributes['slug'] = $slug;
+        }
+    }
+
+    /**
+     * Set order if empty
+     * @param $order
+     */
+    public function setOrderAttribute($order) {
+        if (empty($order)) {
+            $this->attributes['order'] = 10000;
+        }
+        else {
+            $this->attributes['order'] = $order;
         }
     }
 

@@ -36,9 +36,9 @@
     {{$category->description or ""}}
 </textarea>
 
-<label for="content">Контент</label>
-<textarea id="content" class="form-control" name="content" rows="15">
-    {{$category->content or ""}}
+<label for="full_content">Контент</label>
+<textarea id="full_content" class="form-control" name="full_content" rows="15">
+    {{$category->full_content or ""}}
 </textarea>
 
 <hr>

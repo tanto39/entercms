@@ -3,8 +3,7 @@
 @section('content')
 
     @component('admin.components.breadcrumbs')
-        @slot('title')Список категорий@endslot
-        @slot('parent')Главная@endslot
+        @slot('title') Список категорий @endslot
         @slot('active')Категории@endslot
     @endcomponent
 
@@ -16,10 +15,9 @@
         <thead>
             <th>Название</th>
             <th>Порядок</th>
-            <th>Дата публикации</th>
+            <th>Изменено</th>
             <th>Активность</th>
             <th>Редактировать</th>
-            <th>Удалить</th>
         </thead>
 
         <tbody>
@@ -27,13 +25,10 @@
                 <tr>
                     <td>{{$category->title}}</td>
                     <td>{{$category->order or ""}}</td>
-                    <td>{{$category->created_at}}</td>
+                    <td>{{$category->updated_at}}</td>
                     <td><span style="font-size:2em; color:@if($category->published == 1) #008000 @else #ff0000 @endif">&#10004;</span></td>
                     <td>
                         <a href="{{route('admin.category.edit', $category)}}"><span style="font-size:2em">&#9998;</span></a>
-                    </td>
-                    <td>
-                        <a href="{{route('admin.category.destroy', $category)}}"><span style="font-size:2em">&#10005;</span></a>
                     </td>
                 </tr>
             @empty
