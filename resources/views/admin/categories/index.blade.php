@@ -8,7 +8,19 @@
     @endcomponent
 
     <hr>
-    <a class="btn btn-default" href="{{route('admin.category.create')}}">Создать категорию</a>
+        <a class="btn btn-default" href="{{route('admin.category.create')}}">Создать категорию</a>
+    <hr>
+    <form class="form-inline" method="post" action="{{route('admin.category.filter')}}">
+        <label for="category-select">Родительская категория</label>
+        {{csrf_field()}}
+        <select id="category-select" class="form-control" name="categorySelect">
+            <option value="0">Все категории</option>
+            @foreach($parents as $parent)
+                <option value="{{$parent->id}}" @if($filterCategory == $parent->id) selected="" @endif>{{$parent->title}}</option>
+            @endforeach
+        </select>
+        <input class="btn btn-primary" type="submit" value="Выполнить">
+    </form>
     <hr>
 
     <table class="table table-striped">

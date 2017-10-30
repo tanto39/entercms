@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Category;
+use Illuminate\Cookie\CookieJar;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -14,12 +15,19 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //$category = new Category();
+        $parentCategory = $request->cookie('parentCategory');
+
+        if($parentCategory)
+            $categories = Category::orderby('order', 'asc')->orderby('updated_at', 'desc')->where('parent_id', $parentCategory)->paginate(20);
+        else
+            $categories = Category::orderby('order', 'asc')->orderby('updated_at', 'desc')->paginate(20);
 
         return view('admin.categories.index', [
-            'categories' => Category::orderby('order', 'asc')->orderby('updated_at', 'desc')->paginate(20)
+            'categories' => $categories,
+            'parents' => Category::orderby('title', 'asc')->select(['id', 'title'])->get(),
+            'filterCategory' => $parentCategory
         ]);
     }
 
@@ -106,6 +114,23 @@ class CategoryController extends Controller
         Category::destroy($category->id);
 
         $request->session()->flash('success', 'Категория удалена');
+        return redirect()->route('admin.category.index');
+    }
+
+    /**
+     * Set cookie for category filter
+     *
+     * @param CookieJar $cookieJar
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function filter(CookieJar $cookieJar, Request $request) {
+        if($request->categorySelect > 0)
+            $cookieJar->queue(cookie('parentCategory', $request->categorySelect, 60));
+        elseif($request->categorySelect == 0)
+            $cookieJar->queue($cookieJar->forget('parentCategory'));
+        //dd($cookieJar);
+
         return redirect()->route('admin.category.index');
     }
 }

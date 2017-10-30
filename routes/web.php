@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Auth;
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['admin', 'auth']], function() {
     Route::get('/', 'DashboardController@dashboard')->name('admin.index');
     Route::resource('/category', 'CategoryController', ['as'=>'admin']);
+    Route::post('/category/filter','CategoryController@filter')->name('admin.category.filter');
 });
 
 Route::get('/', function () {
