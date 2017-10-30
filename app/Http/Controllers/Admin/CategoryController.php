@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Category;
+use Illuminate\Cookie\CookieJar;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class CategoryController extends Controller
 {
@@ -13,10 +15,19 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $parentCategory = $request->cookie('parentCategory');
+
+        if($parentCategory)
+            $categories = Category::orderby('order', 'asc')->orderby('updated_at', 'desc')->where('parent_id', $parentCategory)->paginate(20);
+        else
+            $categories = Category::orderby('order', 'asc')->orderby('updated_at', 'desc')->paginate(20);
+
         return view('admin.categories.index', [
-            'categories' => Category::paginate(2)
+            'categories' => $categories,
+            'parents' => Category::orderby('title', 'asc')->select(['id', 'title'])->get(),
+            'filterCategory' => $parentCategory
         ]);
     }
 
@@ -27,7 +38,12 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.categories.create', [
+            'category' => [],
+            'categories' => Category::with('children')->where('parent_id', '0')->get(),
+            'delimiter' => '',
+            'user' => Auth::user()
+        ]);
     }
 
     /**
@@ -38,7 +54,10 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $category = Category::create($request->all());
+
+        $request->session()->flash('success', 'Категория добавлена');
+        return redirect()->route('admin.category.edit', $category);
     }
 
     /**
@@ -60,7 +79,12 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        //
+        return view('admin.categories.edit', [
+            'category' => $category,
+            'categories' => Category::with('children')->where('parent_id', '0')->get(),
+            'delimiter' => '-',
+            'user' => Auth::user()
+        ]);
     }
 
     /**
@@ -72,17 +96,41 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        //
+        $category->update($request->all());
+
+        $request->session()->flash('success', 'Категория отредактирована');
+        return redirect()->route('admin.category.edit', $category);
     }
 
     /**
      * Remove the specified resource from storage.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @param  \App\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Category $category)
+    public function destroy(Request $request, Category $category)
     {
-        //
+        Category::destroy($category->id);
+
+        $request->session()->flash('success', 'Категория удалена');
+        return redirect()->route('admin.category.index');
+    }
+
+    /**
+     * Set cookie for category filter
+     *
+     * @param CookieJar $cookieJar
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function filter(CookieJar $cookieJar, Request $request) {
+        if($request->categorySelect > 0)
+            $cookieJar->queue(cookie('parentCategory', $request->categorySelect, 60));
+        elseif($request->categorySelect == 0)
+            $cookieJar->queue($cookieJar->forget('parentCategory'));
+        //dd($cookieJar);
+
+        return redirect()->route('admin.category.index');
     }
 }

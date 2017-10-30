@@ -79,6 +79,7 @@
         </nav>
 
         <div class="container">
+            @include('admin.partials.msg')
             @yield('content')
         </div>
 

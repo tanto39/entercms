@@ -3,31 +3,44 @@
 @section('content')
 
     @component('admin.components.breadcrumbs')
-        @slot('title')Список категорий@endslot
-        @slot('parent')Главная@endslot
+        @slot('title') Список категорий @endslot
         @slot('active')Категории@endslot
     @endcomponent
 
     <hr>
-    <a class="btn btn-default" href="{{route('admin.category.create')}}">Создать категорию</a>
+        <a class="btn btn-default" href="{{route('admin.category.create')}}">Создать категорию</a>
+    <hr>
+    <form class="form-inline" method="post" action="{{route('admin.category.filter')}}">
+        <label for="category-select">Родительская категория</label>
+        {{csrf_field()}}
+        <select id="category-select" class="form-control" name="categorySelect">
+            <option value="0">Все категории</option>
+            @foreach($parents as $parent)
+                <option value="{{$parent->id}}" @if($filterCategory == $parent->id) selected="" @endif>{{$parent->title}}</option>
+            @endforeach
+        </select>
+        <input class="btn btn-primary" type="submit" value="Выполнить">
+    </form>
     <hr>
 
     <table class="table table-striped">
         <thead>
             <th>Название</th>
-            <th>Дата публикации</th>
+            <th>Порядок</th>
+            <th>Изменено</th>
             <th>Активность</th>
-            <th>Действие</th>
+            <th>Редактировать</th>
         </thead>
 
         <tbody>
             @forelse($categories as $category)
                 <tr>
                     <td>{{$category->title}}</td>
-                    <td>{{$category->created_at}}</td>
-                    <td>{{$category->published}}</td>
+                    <td>{{$category->order or ""}}</td>
+                    <td>{{$category->updated_at}}</td>
+                    <td><span style="font-size:2em; color:@if($category->published == 1) #008000 @else #ff0000 @endif">&#10004;</span></td>
                     <td>
-                        <a href="{{route('admin.category.edit')}}">Редактировать</a>
+                        <a href="{{route('admin.category.edit', $category)}}"><span style="font-size:2em">&#9998;</span></a>
                     </td>
                 </tr>
             @empty
@@ -42,7 +55,7 @@
         <tfoot>
             <tr>
                 <td colspan="3">
-                    <ul class="pagination pull-right">
+                    <ul class="pagination">
                         {{$categories->links()}}
                     </ul>
                 </td>
