@@ -18,16 +18,27 @@ class CategoryController extends Controller
     public function index(Request $request)
     {
         $parentCategory = $request->cookie('parentCategory');
+        $searchText = $request->get('searchText');
+        //dd($searchText);
 
-        if($parentCategory)
-            $categories = Category::orderby('order', 'asc')->orderby('updated_at', 'desc')->where('parent_id', $parentCategory)->paginate(20);
+        if(!empty($searchText))
+            $categories = Category::orderby('order', 'asc')
+                                    ->orderby('updated_at', 'desc')
+                                    ->where('title', 'like', "%{$searchText}%")
+                                    ->paginate(20);
+        elseif($parentCategory)
+            $categories = Category::orderby('order', 'asc')
+                                    ->orderby('updated_at', 'desc')
+                                    ->where('parent_id', $parentCategory)
+                                    ->paginate(20);
         else
             $categories = Category::orderby('order', 'asc')->orderby('updated_at', 'desc')->paginate(20);
 
         return view('admin.categories.index', [
             'categories' => $categories,
             'parents' => Category::orderby('title', 'asc')->select(['id', 'title'])->get(),
-            'filterCategory' => $parentCategory
+            'filterCategory' => $parentCategory,
+            'searchText' => $searchText
         ]);
     }
 
@@ -129,7 +140,6 @@ class CategoryController extends Controller
             $cookieJar->queue(cookie('parentCategory', $request->categorySelect, 60));
         elseif($request->categorySelect == 0)
             $cookieJar->queue($cookieJar->forget('parentCategory'));
-        //dd($cookieJar);
 
         return redirect()->route('admin.category.index');
     }
