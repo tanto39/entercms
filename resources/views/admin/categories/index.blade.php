@@ -4,9 +4,14 @@
 
     @component('admin.components.breadcrumbs')
         @slot('title') Список категорий @endslot
-        @slot('active')Категории@endslot
+        @slot('active') Категории @endslot
     @endcomponent
 
+    <hr>
+        @component('admin.components.search')
+            @slot('searchRoute') admin.category.index @endslot
+            @slot('searchText') {{$searchText}} @endslot
+        @endcomponent
     <hr>
         <a class="btn btn-default" href="{{route('admin.category.create')}}">Создать категорию</a>
     <hr>
