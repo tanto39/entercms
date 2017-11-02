@@ -15,23 +15,7 @@
     <hr>
         <a class="btn btn-default" href="{{route('admin.category.create')}}">Создать категорию</a>
     <hr>
-    <form class="form-inline" method="post" action="{{route('admin.category.filter')}}">
-        <label for="category-select">Родительская категория</label>
-        {{csrf_field()}}
-        <select id="category-select" class="form-control" name="categorySelect">
-            <option value="0">Все категории</option>
-            @foreach($parents as $parent)
-                <option value="{{$parent->id}}" @if($filterCategory == $parent->id) selected="" @endif>{{$parent->title}}</option>
-            @endforeach
-        </select>
-        <label for="active-select">Фильтр по активности</label>
-        <select id="active-select" class="form-control" name="activeSelect">
-            <option value="all">Все категории</option>
-            <option value="active" @if($filterActive == 'Y') selected="" @endif>Активные</option>
-            <option value="noactive" @if($filterActive == 'N') selected="" @endif>Неактивные</option>
-        </select>
-        <input class="btn btn-primary" type="submit" value="Выполнить">
-    </form>
+        @include('admin.categories.partials.filter')
     <hr>
 
     <table class="table table-striped">

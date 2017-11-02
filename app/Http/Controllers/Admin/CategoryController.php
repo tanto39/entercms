@@ -17,11 +17,33 @@ class CategoryController extends Controller
      */
     public function index(Request $request)
     {
+        $filterActive = "";
+        $sort = "";
+        $parentCategory = "";
+        $searchText = "";
+
         $parentCategory = $request->cookie('parentCategory');
         $filterActive = $request->cookie('filterActive');
+        $sort = $request->cookie('sort');
         $searchText = $request->get('searchText');
 
-        $categories = Category::orderby('order', 'asc')->orderby('updated_at', 'desc');
+        // Sort
+        switch ($sort) {
+            case "dateUp":
+            $categories = Category::orderby('updated_at', 'desc');
+            break;
+
+            case "dateDown":
+            $categories = Category::orderby('updated_at', 'asc');
+            break;
+
+            case "title":
+            $categories = Category::orderby('title', 'asc');
+            break;
+
+            default:
+            $categories = Category::orderby('order', 'asc')->orderby('updated_at', 'desc');
+        }
 
         // Search
         if(!empty($searchText))
@@ -44,7 +66,8 @@ class CategoryController extends Controller
             'parents' => Category::orderby('title', 'asc')->select(['id', 'title'])->get(),
             'filterCategory' => $parentCategory,
             'searchText' => $searchText,
-            'filterActive' => $filterActive
+            'filterActive' => $filterActive,
+            'sort' => $sort
         ]);
     }
 
@@ -135,7 +158,7 @@ class CategoryController extends Controller
     }
 
     /**
-     * Set cookie for category filter
+     * Set cookie for category filter and sort
      *
      * @param CookieJar $cookieJar
      * @param Request $request
@@ -149,12 +172,16 @@ class CategoryController extends Controller
             $cookieJar->queue($cookieJar->forget('parentCategory'));
 
         // Filter by activity
-        if($request->activeSelect == "active")
-            $cookieJar->queue(cookie('filterActive', 'Y', 60));
-        elseif($request->activeSelect == "noactive")
-            $cookieJar->queue(cookie('filterActive', 'N', 60));
+        if($request->activeSelect && $request->activeSelect != "all")
+            $cookieJar->queue(cookie('filterActive', $request->activeSelect, 60));
         elseif($request->activeSelect == "all")
             $cookieJar->queue($cookieJar->forget('filterActive'));
+
+        // Sort
+        if($request->sort && $request->sort != "default")
+            $cookieJar->queue(cookie('sort', $request->sort, 60));
+        elseif($request->sort == "default")
+            $cookieJar->queue($cookieJar->forget('sort'));
 
         return redirect()->route('admin.category.index');
     }
