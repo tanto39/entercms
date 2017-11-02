@@ -24,6 +24,12 @@
                 <option value="{{$parent->id}}" @if($filterCategory == $parent->id) selected="" @endif>{{$parent->title}}</option>
             @endforeach
         </select>
+        <label for="active-select">Фильтр по активности</label>
+        <select id="active-select" class="form-control" name="activeSelect">
+            <option value="all">Все категории</option>
+            <option value="active" @if($filterActive == 'Y') selected="" @endif>Активные</option>
+            <option value="noactive" @if($filterActive == 'N') selected="" @endif>Неактивные</option>
+        </select>
         <input class="btn btn-primary" type="submit" value="Выполнить">
     </form>
     <hr>

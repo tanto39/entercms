@@ -18,27 +18,33 @@ class CategoryController extends Controller
     public function index(Request $request)
     {
         $parentCategory = $request->cookie('parentCategory');
+        $filterActive = $request->cookie('filterActive');
         $searchText = $request->get('searchText');
-        //dd($searchText);
 
+        $categories = Category::orderby('order', 'asc')->orderby('updated_at', 'desc');
+
+        // Search
         if(!empty($searchText))
-            $categories = Category::orderby('order', 'asc')
-                                    ->orderby('updated_at', 'desc')
-                                    ->where('title', 'like', "%{$searchText}%")
-                                    ->paginate(20);
-        elseif($parentCategory)
-            $categories = Category::orderby('order', 'asc')
-                                    ->orderby('updated_at', 'desc')
-                                    ->where('parent_id', $parentCategory)
-                                    ->paginate(20);
-        else
-            $categories = Category::orderby('order', 'asc')->orderby('updated_at', 'desc')->paginate(20);
+            $categories = $categories->where('title', 'like', "%{$searchText}%");
+
+        // Filter by parent category
+        if($parentCategory)
+            $categories = $categories->where('parent_id', $parentCategory);
+
+        // Filter by activity
+        if($filterActive == 'Y')
+            $categories = $categories->where('published', 1);
+        elseif($filterActive == 'N')
+            $categories = $categories->where('published', 0);
+
+        $categories = $categories->paginate(20);
 
         return view('admin.categories.index', [
             'categories' => $categories,
             'parents' => Category::orderby('title', 'asc')->select(['id', 'title'])->get(),
             'filterCategory' => $parentCategory,
-            'searchText' => $searchText
+            'searchText' => $searchText,
+            'filterActive' => $filterActive
         ]);
     }
 
@@ -136,10 +142,19 @@ class CategoryController extends Controller
      * @return \Illuminate\Http\RedirectResponse
      */
     public function filter(CookieJar $cookieJar, Request $request) {
+        // Filter by parent category
         if($request->categorySelect > 0)
             $cookieJar->queue(cookie('parentCategory', $request->categorySelect, 60));
         elseif($request->categorySelect == 0)
             $cookieJar->queue($cookieJar->forget('parentCategory'));
+
+        // Filter by activity
+        if($request->activeSelect == "active")
+            $cookieJar->queue(cookie('filterActive', 'Y', 60));
+        elseif($request->activeSelect == "noactive")
+            $cookieJar->queue(cookie('filterActive', 'N', 60));
+        elseif($request->activeSelect == "all")
+            $cookieJar->queue($cookieJar->forget('filterActive'));
 
         return redirect()->route('admin.category.index');
     }
