@@ -24,7 +24,6 @@
             {{csrf_field()}}
             <input class="btn btn-danger" type="submit" value="Удалить">
         </form>
-    @endif
-
+    @endif﻿
 
 @endsection

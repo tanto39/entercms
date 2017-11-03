@@ -17,28 +17,57 @@ class CategoryController extends Controller
      */
     public function index(Request $request)
     {
-        $parentCategory = $request->cookie('parentCategory');
-        $searchText = $request->get('searchText');
-        //dd($searchText);
+        $filterActive = "";
+        $sort = "";
+        $parentCategory = "";
+        $searchText = "";
 
+        $parentCategory = $request->cookie('parentCategory');
+        $filterActive = $request->cookie('filterActive');
+        $sort = $request->cookie('sort');
+        $searchText = $request->get('searchText');
+
+        // Sort
+        switch ($sort) {
+            case "dateUp":
+            $categories = Category::orderby('updated_at', 'desc');
+            break;
+
+            case "dateDown":
+            $categories = Category::orderby('updated_at', 'asc');
+            break;
+
+            case "title":
+            $categories = Category::orderby('title', 'asc');
+            break;
+
+            default:
+            $categories = Category::orderby('order', 'asc')->orderby('updated_at', 'desc');
+        }
+
+        // Search
         if(!empty($searchText))
-            $categories = Category::orderby('order', 'asc')
-                                    ->orderby('updated_at', 'desc')
-                                    ->where('title', 'like', "%{$searchText}%")
-                                    ->paginate(20);
-        elseif($parentCategory)
-            $categories = Category::orderby('order', 'asc')
-                                    ->orderby('updated_at', 'desc')
-                                    ->where('parent_id', $parentCategory)
-                                    ->paginate(20);
-        else
-            $categories = Category::orderby('order', 'asc')->orderby('updated_at', 'desc')->paginate(20);
+            $categories = $categories->where('title', 'like', "%{$searchText}%");
+
+        // Filter by parent category
+        if($parentCategory)
+            $categories = $categories->where('parent_id', $parentCategory);
+
+        // Filter by activity
+        if($filterActive == 'Y')
+            $categories = $categories->where('published', 1);
+        elseif($filterActive == 'N')
+            $categories = $categories->where('published', 0);
+
+        $categories = $categories->paginate(20);
 
         return view('admin.categories.index', [
             'categories' => $categories,
             'parents' => Category::orderby('title', 'asc')->select(['id', 'title'])->get(),
             'filterCategory' => $parentCategory,
-            'searchText' => $searchText
+            'searchText' => $searchText,
+            'filterActive' => $filterActive,
+            'sort' => $sort
         ]);
     }
 
@@ -129,17 +158,30 @@ class CategoryController extends Controller
     }
 
     /**
-     * Set cookie for category filter
+     * Set cookie for category filter and sort
      *
      * @param CookieJar $cookieJar
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function filter(CookieJar $cookieJar, Request $request) {
+        // Filter by parent category
         if($request->categorySelect > 0)
             $cookieJar->queue(cookie('parentCategory', $request->categorySelect, 60));
         elseif($request->categorySelect == 0)
             $cookieJar->queue($cookieJar->forget('parentCategory'));
+
+        // Filter by activity
+        if($request->activeSelect && $request->activeSelect != "all")
+            $cookieJar->queue(cookie('filterActive', $request->activeSelect, 60));
+        elseif($request->activeSelect == "all")
+            $cookieJar->queue($cookieJar->forget('filterActive'));
+
+        // Sort
+        if($request->sort && $request->sort != "default")
+            $cookieJar->queue(cookie('sort', $request->sort, 60));
+        elseif($request->sort == "default")
+            $cookieJar->queue($cookieJar->forget('sort'));
 
         return redirect()->route('admin.category.index');
     }
