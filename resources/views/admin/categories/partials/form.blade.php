@@ -53,4 +53,8 @@
 
 <input type="hidden" name="modify_by" value="{{$user->id or ""}}">
 
-<input class="btn btn-primary" type="submit" value="Сохранить">
+<input class="btn btn-primary" type="submit" name="save" value="Сохранить">
+
+@if(isset($category->id))
+    <input class="btn btn-danger" type="submit" name="delete" value="Удалить">
+@endif
