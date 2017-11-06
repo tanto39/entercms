@@ -136,9 +136,18 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
+        if ($request->delete) {
+            $this->destroy($request, $category);
+            return redirect()->route('admin.category.index');
+        }
+
         $category->update($request->all());
 
         $request->session()->flash('success', 'Категория отредактирована');
+
+        if ($request->saveFromList)
+            return redirect()->route('admin.category.index');
+
         return redirect()->route('admin.category.edit', $category);
     }
 
@@ -152,9 +161,7 @@ class CategoryController extends Controller
     public function destroy(Request $request, Category $category)
     {
         Category::destroy($category->id);
-
         $request->session()->flash('success', 'Категория удалена');
-        return redirect()->route('admin.category.index');
     }
 
     /**
@@ -164,24 +171,32 @@ class CategoryController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function filter(CookieJar $cookieJar, Request $request) {
-        // Filter by parent category
-        if($request->categorySelect > 0)
-            $cookieJar->queue(cookie('parentCategory', $request->categorySelect, 60));
-        elseif($request->categorySelect == 0)
-            $cookieJar->queue($cookieJar->forget('parentCategory'));
-
-        // Filter by activity
-        if($request->activeSelect && $request->activeSelect != "all")
-            $cookieJar->queue(cookie('filterActive', $request->activeSelect, 60));
-        elseif($request->activeSelect == "all")
-            $cookieJar->queue($cookieJar->forget('filterActive'));
-
-        // Sort
-        if($request->sort && $request->sort != "default")
-            $cookieJar->queue(cookie('sort', $request->sort, 60));
-        elseif($request->sort == "default")
+    public function filter(CookieJar $cookieJar, Request $request)
+    {
+        if($request->reset) {
             $cookieJar->queue($cookieJar->forget('sort'));
+            $cookieJar->queue($cookieJar->forget('parentCategory'));
+            $cookieJar->queue($cookieJar->forget('filterActive'));
+        }
+        else {
+            // Filter by parent category
+            if($request->categorySelect > 0)
+                $cookieJar->queue(cookie('parentCategory', $request->categorySelect, 60));
+            elseif($request->categorySelect == 0)
+                $cookieJar->queue($cookieJar->forget('parentCategory'));
+
+            // Filter by activity
+            if($request->activeSelect && $request->activeSelect != "all")
+                $cookieJar->queue(cookie('filterActive', $request->activeSelect, 60));
+            elseif($request->activeSelect == "all")
+                $cookieJar->queue($cookieJar->forget('filterActive'));
+
+            // Sort
+            if($request->sort && $request->sort != "default")
+                $cookieJar->queue(cookie('sort', $request->sort, 60));
+            elseif($request->sort == "default")
+                $cookieJar->queue($cookieJar->forget('sort'));
+        }
 
         return redirect()->route('admin.category.index');
     }

@@ -1,21 +1,26 @@
-<form class="form-inline" method="post" action="{{route('admin.category.filter')}}">
+<form method="post" action="{{route('admin.category.filter')}}">
 
-    <label for="category-select">Родительская категория</label>
-    {{csrf_field()}}
-    <select id="category-select" class="form-control" name="categorySelect">
-        <option value="0">Все категории</option>
-        @foreach($parents as $parent)
-            <option value="{{$parent->id}}" @if($filterCategory == $parent->id) selected="" @endif>{{$parent->title}}</option>
-        @endforeach
-    </select>
+    <div style="display: flex;">
+        <div style="flex-basis: 50%; padding-right: 20px;">
+            <label for="category-select">Родительская категория</label>
+            {{csrf_field()}}
+            <select id="category-select" class="form-control" name="categorySelect">
+                <option value="0">Все категории</option>
+                @foreach($parents as $parent)
+                    <option value="{{$parent->id}}" @if($filterCategory == $parent->id) selected="" @endif>{{$parent->title}}</option>
+                @endforeach
+            </select>
+        </div>
 
-    <label for="active-select">Фильтр по активности</label>
-    <select id="active-select" class="form-control" name="activeSelect">
-        <option value="all">Все категории</option>
-        <option value="Y" @if($filterActive == 'Y') selected="" @endif>Активные</option>
-        <option value="N" @if($filterActive == 'N') selected="" @endif>Неактивные</option>
-    </select>
-    <br>
+        <div>
+            <label for="active-select">Фильтр по активности</label>
+            <select id="active-select" class="form-control" name="activeSelect">
+                <option value="all">Все категории</option>
+                <option value="Y" @if($filterActive == 'Y') selected="" @endif>Активные</option>
+                <option value="N" @if($filterActive == 'N') selected="" @endif>Неактивные</option>
+            </select>
+        </div>
+    </div>
     <br>
 
     <label for="sort">Сортировка</label>
@@ -27,8 +32,8 @@
     </select>
 
     <br>
-    <br>
-    <input class="btn btn-primary" type="submit" value="Выполнить">
+    <input class="btn btn-primary" type="submit" name="exec" value="Выполнить">
+    <input class="btn btn-primary" type="submit" name="reset" value="Сбросить">
 
 
 </form>
