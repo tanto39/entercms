@@ -43,6 +43,7 @@
                                 <li><a href="admin/posts">Материалы</a></li>
                             </ul>
                         </li>
+                        <li><a href="admin/property">Свойства</a></li>
                         <li><a href="admin/users">Пользователи</a></li>
                     </ul>
 

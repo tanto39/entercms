@@ -23,8 +23,8 @@ class CategoryController extends Controller
         $searchText = "";
 
         $parentCategory = $request->cookie('parentCategory');
-        $filterActive = $request->cookie('filterActive');
-        $sort = $request->cookie('sort');
+        $filterActive = $request->cookie('filterActiveCategory');
+        $sort = $request->cookie('sortCategory');
         $searchText = $request->get('searchText');
 
         // Sort
@@ -174,9 +174,9 @@ class CategoryController extends Controller
     public function filter(CookieJar $cookieJar, Request $request)
     {
         if($request->reset) {
-            $cookieJar->queue($cookieJar->forget('sort'));
+            $cookieJar->queue($cookieJar->forget('sortCategory'));
             $cookieJar->queue($cookieJar->forget('parentCategory'));
-            $cookieJar->queue($cookieJar->forget('filterActive'));
+            $cookieJar->queue($cookieJar->forget('filterActiveCategory'));
         }
         else {
             // Filter by parent category
@@ -187,15 +187,15 @@ class CategoryController extends Controller
 
             // Filter by activity
             if($request->activeSelect && $request->activeSelect != "all")
-                $cookieJar->queue(cookie('filterActive', $request->activeSelect, 60));
+                $cookieJar->queue(cookie('filterActiveCategory', $request->activeSelect, 60));
             elseif($request->activeSelect == "all")
-                $cookieJar->queue($cookieJar->forget('filterActive'));
+                $cookieJar->queue($cookieJar->forget('filterActiveCategory'));
 
             // Sort
             if($request->sort && $request->sort != "default")
-                $cookieJar->queue(cookie('sort', $request->sort, 60));
+                $cookieJar->queue(cookie('sortCategory', $request->sort, 60));
             elseif($request->sort == "default")
-                $cookieJar->queue($cookieJar->forget('sort'));
+                $cookieJar->queue($cookieJar->forget('sortCategory'));
         }
 
         return redirect()->route('admin.category.index');
