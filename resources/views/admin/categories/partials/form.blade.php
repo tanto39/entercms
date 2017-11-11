@@ -20,7 +20,7 @@
 <input type="number" id="order" class="form-control" name="order" value="{{$category->order or ""}}">
 
 <label for="parent_id">Родительская категория</label>
-<select id="parent_id" class="form-control" name="parent_id">
+<select id="parent_id" class="form-control selectpicker" data-live-search="true" name="parent_id">
     <option value="0">-- Без родителя</option>
     @include('admin.categories.partials.categories', ['categories' => $categories])
 </select>

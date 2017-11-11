@@ -13,6 +13,16 @@ class CreatePropertiesTable extends Migration
      */
     public function up()
     {
+        // Group properties table
+        Schema::create('prop_groups', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('order')->nullable();
+            $table->string('title');
+            $table->string('slug')->unique()->nullable();
+            $table->timestamps();
+        });
+
+        // Properties table
         Schema::create('properties', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('order')->nullable();
@@ -24,12 +34,16 @@ class CreatePropertiesTable extends Migration
             $table->text('full_content')->nullable();
             $table->string('slug')->unique()->nullable();
             $table->tinyInteger('published')->nullable();
-            $table->text('type')->nullable();
+            $table->string('type')->nullable(); // values: html, img, int, str, category_link, item_link
+            $table->string('is_insert');        // values: Y, N
+            $table->string('prop_kind');        // // values: category, item
             $table->integer('category_id')->nullable()->unsigned();
+            $table->integer('group_id')->nullable()->unsigned();
             $table->timestamps();
 
             // Foreign keys
             $table->foreign('category_id')->references('id')->on('categories');
+            $table->foreign('group_id')->references('id')->on('prop_groups');
         });
     }
 
@@ -41,5 +55,6 @@ class CreatePropertiesTable extends Migration
     public function down()
     {
         Schema::dropIfExists('properties');
+        Schema::dropIfExists('prop_groups');
     }
 }

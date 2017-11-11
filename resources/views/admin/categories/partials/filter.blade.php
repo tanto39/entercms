@@ -4,7 +4,7 @@
         <div style="flex-basis: 50%; padding-right: 20px;">
             <label for="category-select">Родительская категория</label>
             {{csrf_field()}}
-            <select id="category-select" class="form-control" name="categorySelect">
+            <select id="category-select" class="form-control selectpicker" data-live-search="true" name="categorySelect">
                 <option value="0">Все категории</option>
                 @foreach($parents as $parent)
                     <option value="{{$parent->id}}" @if($filterCategory == $parent->id) selected="" @endif>{{$parent->title}}</option>

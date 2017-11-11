@@ -20,7 +20,10 @@ class Property extends Model
         'meta_desc',
         'description',
         'full_content',
-        'type',
-        'category_id'
+        'type',           // values: html, img, int, str, category_link, item_link
+        'is_insert',      // values: Y, N
+        'prop_kind',       // values: category, item
+        'category_id',
+        'group_id'
     ];
 }
