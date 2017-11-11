@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 
 class Category extends Model
 {
+    use AdminPanel;
     /**
      * Fields white list
      */
@@ -14,6 +15,7 @@ class Category extends Model
         'published',
         'title',
         'order',
+        'preview_img',
         'slug',
         'meta_key',
         'meta_desc',
@@ -21,34 +23,9 @@ class Category extends Model
         'full_content',
         'created_by',
         'modify_by',
-        'parent_id'
+        'parent_id',
+        'properties'
     ];
-
-    /**
-     * Set slug (uri) if empty
-     * @param $slug
-     */
-    public function setSlugAttribute($slug) {
-        if (empty($slug)) {
-            $this->attributes['slug'] = Str::slug(mb_substr($this->title . "-" . $this->id, 0, 100), '-');
-        }
-        else {
-            $this->attributes['slug'] = $slug;
-        }
-    }
-
-    /**
-     * Set order if empty
-     * @param $order
-     */
-    public function setOrderAttribute($order) {
-        if (empty($order)) {
-            $this->attributes['order'] = 10000;
-        }
-        else {
-            $this->attributes['order'] = $order;
-        }
-    }
 
     /**
      * Get children category

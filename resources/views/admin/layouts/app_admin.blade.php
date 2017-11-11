@@ -11,7 +11,8 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/admin-app.css') }}" rel="stylesheet">
+
 </head>
 <body>
     <div id="app">
@@ -28,9 +29,7 @@
                     </button>
 
                     <!-- Branding Image -->
-                    <a class="navbar-brand" href="{{ url('/') }}">
-                        {{ config('app.name', 'Laravel') }}
-                    </a>
+                    <a class="navbar-brand" href="{{ url('/admin') }}">EnterCMS</a>
                 </div>
 
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
@@ -41,6 +40,13 @@
                             <ul class="dropdown-menu" role="menu">
                                 <li><a href="{{route('admin.category.index')}}">Категории</a></li>
                                 <li><a href="admin/posts">Материалы</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Свойства</a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="{{route('admin.property.index')}}">Свойства</a></li>
+                                <li><a href="{{route('admin.propgroup.index')}}">Группы свойств</a></li>
                             </ul>
                         </li>
                         <li><a href="admin/users">Пользователи</a></li>
@@ -86,7 +92,7 @@
     </div>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('js/admin-app.js') }}"></script>
 
     {{-- TinyMCE include --}}
     <script src="{{URL::to('js/tinymce/tinymce.min.js')}}"></script>
@@ -127,5 +133,6 @@
 
         tinymce.init(editor_config);
     </script>
+
 </body>
 </html>
