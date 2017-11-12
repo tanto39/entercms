@@ -19,6 +19,21 @@
 <label for="order">Порядок</label>
 <input type="number" id="order" class="form-control" name="order" value="{{$category->order or ""}}">
 
+<div class="image-wrap" style="margin: 20px 0">
+<label for="preview_img">Изображение</label>
+<input type="file" multiple id="preview_img" class="form-control" name="preview_img[]">
+    <div id="image-placeholder" style="display: flex">
+        @if(!empty($preview_images))
+            @foreach($preview_images as $image)
+                <div class="img-item">
+                    <img style="max-width: 200px;" src="{{ url('/images/shares/previews/'.$image) }}" alt="">
+                    <button class="btn btn-danger" name="deleteImg" value="{{$image}}">Удалить</button>
+                </div>
+            @endforeach
+        @endif
+    </div>
+</div>
+
 <label for="parent_id">Родительская категория</label>
 <select id="parent_id" class="form-control selectpicker" data-live-search="true" name="parent_id">
     <option value="0">-- Без родителя</option>
