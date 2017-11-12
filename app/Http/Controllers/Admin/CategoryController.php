@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Category;
+use App\ImgHelper;
 use Illuminate\Cookie\CookieJar;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -119,11 +120,14 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
+        $preview_images = unserialize($category->preview_img);
+
         return view('admin.categories.edit', [
             'category' => $category,
             'categories' => Category::with('children')->where('parent_id', '0')->get(),
             'delimiter' => '-',
-            'user' => Auth::user()
+            'user' => Auth::user(),
+            'preview_images' => $preview_images
         ]);
     }
 
@@ -139,6 +143,12 @@ class CategoryController extends Controller
         if ($request->delete) {
             $this->destroy($request, $category);
             return redirect()->route('admin.category.index');
+        }
+
+        // Delete preview images
+        if ($request->deleteImg) {
+            $this->deleteImg($request, $category);
+            return redirect()->route('admin.category.edit', $category);
         }
 
         $category->update($request->all());
@@ -160,6 +170,16 @@ class CategoryController extends Controller
      */
     public function destroy(Request $request, Category $category)
     {
+        // Delete preview images
+        $obImage = $category->select(['id', 'preview_img'])->where('id', $category->id)->get();
+        $arImage = unserialize($obImage->pluck('preview_img')[0]);
+
+        foreach ($arImage as $key => $image) {
+            $imgPath = public_path('images/shares/previews/' . $image);
+            ImgHelper::deleteImg($imgPath);
+        }
+
+        // Delete category
         Category::destroy($category->id);
         $request->session()->flash('success', 'Категория удалена');
     }
@@ -199,5 +219,31 @@ class CategoryController extends Controller
         }
 
         return redirect()->route('admin.category.index');
+    }
+
+    /**
+     * Delete preview image
+     *
+     * @param Request $request
+     * @param Category $category
+     */
+    public function deleteImg(Request $request, Category $category)
+    {
+        $obImage = $category->select(['id', 'preview_img'])->where('id', $category->id)->get();
+        $arImage = unserialize($obImage->pluck('preview_img')[0]);
+
+        foreach ($arImage as $key => $image) {
+            if ($image == $request->deleteImg) {
+                unset($arImage[$key]);
+
+                // Delete image on server
+                $imgPath = public_path('images/shares/previews/' . $request->deleteImg);
+                ImgHelper::deleteImg($imgPath);
+            }
+        }
+
+        // Delete image from database
+        $arImage = serialize($arImage);
+        $category->where('id', $category->id)->update(['preview_img' => $arImage]);
     }
 }

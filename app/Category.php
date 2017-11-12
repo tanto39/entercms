@@ -8,6 +8,7 @@ use Illuminate\Support\Str;
 class Category extends Model
 {
     use AdminPanel;
+
     /**
      * Fields white list
      */
@@ -33,5 +34,27 @@ class Category extends Model
      */
     public function children() {
         return $this->hasMany(self::class, 'parent_id');
+    }
+
+    /**
+     * Load preview images
+     *
+     * @param $images
+     */
+    public function setPreviewImgAttribute($images)
+    {
+        $oldImages = [];
+
+        // Images from DB
+        $obImage = $this->select(['id', 'preview_img'])->where('id', $this->id)->get();
+
+        if (count($obImage) > 0)
+            $oldImages = unserialize($obImage->pluck('preview_img')[0]);
+
+        // Load images
+        $arImage = ImgHelper::LoadImg($images, $oldImages);
+
+        if($arImage)
+            $this->attributes['preview_img'] = $arImage;
     }
 }

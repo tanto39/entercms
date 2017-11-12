@@ -11,7 +11,8 @@ trait AdminPanel
      * Set slug (uri) if empty
      * @param $slug
      */
-    public function setSlugAttribute($slug) {
+    public function setSlugAttribute($slug)
+    {
         if (empty($slug)) {
             $this->attributes['slug'] = Str::slug(mb_substr($this->title . "-" . $this->id, 0, 100), '-');
         }
@@ -24,7 +25,8 @@ trait AdminPanel
      * Set order if empty
      * @param $order
      */
-    public function setOrderAttribute($order) {
+    public function setOrderAttribute($order)
+    {
         if (empty($order)) {
             $this->attributes['order'] = 10000;
         }
