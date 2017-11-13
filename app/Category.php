@@ -3,6 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Str;
 
 class Category extends Model
@@ -37,24 +39,30 @@ class Category extends Model
     }
 
     /**
-     * Load preview images
-     *
-     * @param $images
+     * Create table categories
      */
-    public function setPreviewImgAttribute($images)
+    public static function createTable()
     {
-        $oldImages = [];
+        Schema::create('categories', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('order')->nullable();
+            $table->string('title');
+            $table->string('preview_img')->nullable();
+            $table->text('meta_key')->nullable();
+            $table->text('meta_desc')->nullable();
+            $table->text('description')->nullable();
+            $table->text('full_content')->nullable();
+            $table->text('slug')->nullable();
+            $table->integer('parent_id')->nullable();
+            $table->tinyInteger('published')->nullable();
+            $table->integer('created_by')->nullable()->unsigned();
+            $table->integer('modify_by')->nullable()->unsigned();
+            $table->text('properties')->nullable();
+            $table->timestamps();
 
-        // Images from DB
-        $obImage = $this->select(['id', 'preview_img'])->where('id', $this->id)->get();
-
-        if (count($obImage) > 0)
-            $oldImages = unserialize($obImage->pluck('preview_img')[0]);
-
-        // Load images
-        $arImage = ImgHelper::LoadImg($images, $oldImages);
-
-        if($arImage)
-            $this->attributes['preview_img'] = $arImage;
+            // Foreign keys
+            $table->foreign('created_by')->references('id')->on('users');
+            $table->foreign('modify_by')->references('id')->on('users');
+        });
     }
 }

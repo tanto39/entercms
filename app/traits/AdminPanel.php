@@ -14,11 +14,19 @@ trait AdminPanel
     public function setSlugAttribute($slug)
     {
         if (empty($slug)) {
-            $this->attributes['slug'] = Str::slug(mb_substr($this->title . "-" . $this->id, 0, 100), '-');
+            $slugResult = Str::slug(mb_substr($this->title . "-" . $this->id, 0, 100), '-');
         }
         else {
-            $this->attributes['slug'] = $slug;
+            $slugResult = $slug;
         }
+
+        // Check unique slug
+        $obSlug = $this->select(['id', 'slug'])->where('slug', $slugResult)->where('id', '!=', $this->id)->get();
+
+        if ((count($obSlug) > 0) && ($obSlug->pluck('slug')[0] == $slugResult))
+            $slugResult .= time();
+
+        $this->attributes['slug'] = $slugResult;
     }
 
     /**
@@ -33,5 +41,27 @@ trait AdminPanel
         else {
             $this->attributes['order'] = $order;
         }
+    }
+
+    /**
+     * Load preview images
+     *
+     * @param $images
+     */
+    public function setPreviewImgAttribute($images)
+    {
+        $oldImages = [];
+
+        // Images from DB
+        $obImage = $this->select(['id', 'preview_img'])->where('id', $this->id)->get();
+
+        if (count($obImage) > 0)
+            $oldImages = unserialize($obImage->pluck('preview_img')[0]);
+
+        // Load images
+        $arImage = ImgHelper::LoadImg($images, $oldImages);
+
+        if($arImage)
+            $this->attributes['preview_img'] = $arImage;
     }
 }

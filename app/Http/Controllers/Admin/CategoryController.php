@@ -140,9 +140,14 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        if ($request->delete) {
-            $this->destroy($request, $category);
-            return redirect()->route('admin.category.index');
+        // Delete category
+        if ($request->delete)
+            return $this->destroy($request, $category);
+
+        // Copy category
+        if ($request->copy) {
+            $request->preview_img = NULL;
+            return  $this->store($request);
         }
 
         // Delete preview images
@@ -174,14 +179,17 @@ class CategoryController extends Controller
         $obImage = $category->select(['id', 'preview_img'])->where('id', $category->id)->get();
         $arImage = unserialize($obImage->pluck('preview_img')[0]);
 
-        foreach ($arImage as $key => $image) {
-            $imgPath = public_path('images/shares/previews/' . $image);
-            ImgHelper::deleteImg($imgPath);
+        if ($arImage) {
+            foreach ($arImage as $key => $image) {
+                $imgPath = public_path('images/shares/previews/' . $image);
+                ImgHelper::deleteImg($imgPath);
+            }
         }
 
         // Delete category
         Category::destroy($category->id);
         $request->session()->flash('success', 'Категория удалена');
+        return redirect()->route('admin.category.index');
     }
 
     /**
