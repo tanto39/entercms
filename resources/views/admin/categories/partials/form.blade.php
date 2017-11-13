@@ -5,8 +5,8 @@
         <option value="0" @if($category->published == 0) selected="" @endif>Не опубликовано</option>
         <option value="1" @if($category->published == 1) selected="" @endif>Опубликовано</option>
     @else
-        <option value="0">Не опубликовано</option>
         <option value="1">Опубликовано</option>
+        <option value="0">Не опубликовано</option>
     @endif
 </select>
 
@@ -47,9 +47,7 @@
 <input type="text" id="meta_desc" class="form-control" name="meta_desc" value="{{$category->meta_desc or ""}}">
 
 <label for="description">Описание</label>
-<textarea id="description" class="form-control" name="description" rows="3">
-    {{$category->description or ""}}
-</textarea>
+<textarea id="description" class="form-control" name="description" rows="3">{{$category->description or ""}}</textarea>
 
 <label for="full_content">Контент</label>
 <textarea id="full_content" class="form-control" name="full_content" rows="15">
@@ -71,5 +69,8 @@
 <input class="btn btn-primary" type="submit" name="save" value="Сохранить">
 
 @if(isset($category->id))
-    <input class="btn btn-danger" type="submit" name="delete" value="Удалить">
+    <div style="margin:20px 0">
+        <input class="btn btn-danger" type="submit" name="copy" value="Копировать">
+        <input class="btn btn-danger" type="submit" name="delete" value="Удалить">
+    </div>
 @endif
