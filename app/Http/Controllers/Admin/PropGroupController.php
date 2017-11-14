@@ -10,9 +10,10 @@ use App\Http\Controllers\Controller;
 class PropGroupController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of the resource
      *
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index(Request $request)
     {
@@ -114,10 +115,8 @@ class PropGroupController extends Controller
      */
     public function update(Request $request, PropGroup $propgroup)
     {
-        if ($request->delete) {
-            $this->destroy($request, $propgroup);
-            return redirect()->route('admin.propgroup.index');
-        }
+        if ($request->delete)
+            return $this->destroy($request, $propgroup);
 
         $propgroup->update($request->all());
 
@@ -132,13 +131,15 @@ class PropGroupController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\PropGroup  $propgroup
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param PropGroup $propgroup
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Request $request, PropGroup $propgroup)
     {
         PropGroup::destroy($propgroup->id);
         $request->session()->flash('success', 'Группа удалена');
+        return redirect()->route('admin.propgroup.index');
     }
 
     /**
