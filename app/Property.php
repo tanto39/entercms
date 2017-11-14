@@ -22,9 +22,9 @@ class Property extends Model
         'meta_desc',
         'description',
         'full_content',
-        'type',           // values: html, img, int, str, category_link, item_link
+        'type',           // values: html, img, file, int, str, category_link, item_link
         'is_insert',      // values: Y, N
-        'prop_kind',       // values: category, item
+        'prop_kind',      // values: category, item
         'category_id',
         'group_id'
     ];
@@ -39,9 +39,9 @@ class Property extends Model
             $table->integer('order')->nullable();
             $table->string('title');
             $table->text('slug')->nullable();
-            $table->string('type')->nullable(); // values: html, img, file, int, str, category_link, item_link
-            $table->string('is_insert');        // values: Y, N
-            $table->string('prop_kind');        // // values: category, item
+            $table->integer('type')->nullable()->unsigned();; // values: html, img, file, int, str, category_link, item_link
+            $table->string('is_insert')->default('Y');        // values: Y, N
+            $table->integer('prop_kind')->nullable()->unsigned();;        // // values: category, item
             $table->integer('category_id')->nullable()->unsigned();
             $table->integer('group_id')->nullable()->unsigned();
             $table->timestamps();
@@ -49,6 +49,8 @@ class Property extends Model
             // Foreign keys
             $table->foreign('category_id')->references('id')->on('categories');
             $table->foreign('group_id')->references('id')->on('prop_groups');
+            $table->foreign('prop_kind')->references('id')->on('prop_kinds');
+            $table->foreign('type')->references('id')->on('prop_types');
         });
     }
 }
