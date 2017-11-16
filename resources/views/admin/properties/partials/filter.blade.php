@@ -1,5 +1,64 @@
 <form method="post" action="{{route('admin.property.filter')}}">
-    {{ csrf_field() }}
+    {{csrf_field()}}
+    <div style="display: flex;">
+
+        <div style="flex-basis: 33%; padding-right: 20px;">
+            <label for="kind-select">Вид</label>
+            <select id="kind-select" class="form-control" name="filter[prop_kind]">
+                <option value="all">Все виды</option>
+                @foreach($propKinds as $propKind)
+                    <option value="{{$propKind->id}}" @if(isset($filter['prop_kind']) && $filter['prop_kind'] == $propKind->id) selected="" @endif>{{$propKind->title}}</option>
+                @endforeach
+            </select>
+        </div>
+
+        <div style="flex-basis: 33%; padding-right: 20px;">
+            <label for="type-select">Тип</label>
+            <select id="type-select" class="form-control" name="filter[type]">
+                <option value="all">Все типы</option>
+                @foreach($propTypes as $propType)
+                    <option value="{{$propType->id}}" @if(isset($filter['type']) && $filter['type'] == $propType->id) selected="" @endif>{{$propType->title}}</option>
+                @endforeach
+            </select>
+        </div>
+
+        <div style="flex-basis: 33%; padding-right: 20px;">
+            <label for="insert-select">Для вложенных категорий</label>
+            <select id="insert-select" class="form-control" name="filter[is_insert]">
+                <option value="all">Все</option>
+                <option value="1" @if(isset($filter['is_insert']) && $filter['is_insert'] == 1) selected="" @endif>Вложенные</option>
+                <option value="0" @if(isset($filter['is_insert']) && $filter['is_insert'] == 0) selected="" @endif>Не вложенные</option>
+            </select>
+        </div>
+
+    </div>
+
+    <div style="display: flex;">
+
+        <div style="flex-basis: 50%; padding-right: 20px;">
+            <label for="prop-group">Группа свойств</label>
+            <select id="prop-group" class="form-control selectpicker" data-live-search="true" name="filter[group_id]">
+                <option value="all">Все группы</option>
+                <option value="NULL" @if(isset($filter['group_id']) && $filter['group_id'] == 'NULL') selected="" @endif>Без группы</option>
+                @foreach($propGroups as $propGroup)
+                    <option value="{{$propGroup->id}}" @if(isset($filter['group_id']) && $filter['group_id'] == $propGroup->id) selected="" @endif>{{$propGroup->title}}</option>
+                @endforeach
+            </select>
+        </div>
+
+        <div style="flex-basis: 50%; padding-right: 20px;">
+            <label for="category-select">Категория</label>
+            <select id="category-select" class="form-control selectpicker" data-live-search="true" name="filter[category_id]">
+                <option value="all">Все категории</option>
+                <option value="NULL" @if(isset($filter['category_id']) && $filter['category_id'] == 'NULL') selected="" @endif>Для всех категорий</option>
+                @foreach($categories as $category)
+                    <option value="{{$category->id}}" @if(isset($filter['category_id']) && $filter['category_id'] == $category->id) selected="" @endif>{{$category->title}}</option>
+                @endforeach
+            </select>
+        </div>
+
+    </div>
+    <br>
 
     <label for="sort">Сортировка</label>
     <select id="sort" class="form-control" name="sort">

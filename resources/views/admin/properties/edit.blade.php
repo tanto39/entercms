@@ -2,7 +2,7 @@
 
 @section('content')
     @component('admin.components.breadcrumbs')
-        @slot('title') Редактировать свойства @endslot
+        @slot('title') Редактировать свойство @endslot
         @slot('parent') Свойства @endslot
         @slot('parentlink') admin.property.index @endslot
         @slot('active') Редактирование @endslot

@@ -6,9 +6,23 @@ use App\Property;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Cookie\CookieJar;
+use App\Category;
+use App\PropKind;
+use App\PropGroup;
+use App\PropType;
 
 class PropertyController extends Controller
 {
+    use \App\FilterController;
+
+    public $categories = [];
+    public $propKinds = [];
+    public $propGroups = [];
+    public $propTypes = [];
+
+    public $indexRoute = 'admin.property.index';
+    public $prefix = 'Property';
+
     /**
      * Display a listing of the resource
      *
@@ -17,29 +31,12 @@ class PropertyController extends Controller
      */
     public function index(Request $request)
     {
-        $sort = "";
-        $searchText = "";
+        $this->getSelectForForm();
 
-        $sort = $request->cookie('sortProperty');
         $searchText = $request->get('searchText');
 
-        // Sort
-        switch ($sort) {
-            case "dateUp":
-                $properties = Property::orderby('updated_at', 'desc');
-                break;
-
-            case "dateDown":
-                $properties = Property::orderby('updated_at', 'asc');
-                break;
-
-            case "title":
-                $properties = Property::orderby('title', 'asc');
-                break;
-
-            default:
-                $properties = Property::orderby('order', 'asc')->orderby('updated_at', 'desc');
-        }
+        $properties = new Property();
+        $properties = $this->filterExec($request, $properties);
 
         // Search
         if(!empty($searchText))
@@ -50,7 +47,12 @@ class PropertyController extends Controller
         return view('admin.properties.index', [
             'properties' => $properties,
             'searchText' => $searchText,
-            'sort' => $sort
+            'categories' => $this->categories,
+            'propKinds' => $this->propKinds,
+            'propGroups' => $this->propGroups,
+            'propTypes' => $this->propTypes,
+            'filter' => $this->arFilter,
+            'sort' => $this->sortVal,
         ]);
     }
 
@@ -61,9 +63,15 @@ class PropertyController extends Controller
      */
     public function create()
     {
+        $this->getSelectForForm();
+
         return view('admin.properties.create', [
             'property' => [],
-            'delimiter' => ''
+            'delimiter' => '',
+            'categories' => $this->categories,
+            'propKinds' => $this->propKinds,
+            'propGroups' => $this->propGroups,
+            'propTypes' => $this->propTypes,
         ]);
     }
 
@@ -75,7 +83,9 @@ class PropertyController extends Controller
      */
     public function store(Request $request)
     {
-        $property = Property::create($request->all());
+        $requestData = $this->getRequestData($request);
+
+        $property = Property::create($requestData);
 
         $request->session()->flash('success', 'Свойство добавлено');
         return redirect()->route('admin.property.edit', $property);
@@ -100,9 +110,15 @@ class PropertyController extends Controller
      */
     public function edit(Property $property)
     {
+        $this->getSelectForForm();
+
         return view('admin.properties.edit', [
             'property' => $property,
-            'delimiter' => '-'
+            'delimiter' => '-',
+            'categories' => $this->categories,
+            'propKinds' => $this->propKinds,
+            'propGroups' => $this->propGroups,
+            'propTypes' => $this->propTypes,
         ]);
     }
 
@@ -118,7 +134,9 @@ class PropertyController extends Controller
         if ($request->delete)
             return $this->destroy($request, $property);
 
-        $property->update($request->all());
+        $requestData = $this->getRequestData($request);
+
+        $property->update($requestData);
 
         $request->session()->flash('success', 'Свойство отредактировано');
 
@@ -143,25 +161,32 @@ class PropertyController extends Controller
     }
 
     /**
-     * Set cookie for property filter and sort
-     *
-     * @param CookieJar $cookieJar
-     * @param Request $request
-     * @return \Illuminate\Http\RedirectResponse
+     * Get options for select in form
      */
-    public function filter(CookieJar $cookieJar, Request $request)
+    public function getSelectForForm()
     {
-        if($request->reset) {
-            $cookieJar->queue($cookieJar->forget('sortProperty'));
-        }
-        else {
-            // Sort
-            if($request->sort && $request->sort != "default")
-                $cookieJar->queue(cookie('sortProperty', $request->sort, 60));
-            elseif($request->sort == "default")
-                $cookieJar->queue($cookieJar->forget('sortProperty'));
-        }
+        $this->categories = Category::with('children')->where('parent_id', '0')->get();
+        $this->propKinds = PropKind::orderby('title', 'asc')->select(['id', 'title'])->get();
+        $this->propGroups = PropGroup::orderby('title', 'asc')->select(['id', 'title'])->get();
+        $this->propTypes = PropType::orderby('title', 'asc')->select(['id', 'title'])->get();
+    }
 
-        return redirect()->route('admin.property.index');
+    /**
+     * Get request and check
+     *
+     * @param Request $request
+     * @return array
+     */
+    public function getRequestData(Request $request)
+    {
+        $requestData = $request->all();
+
+        if ($requestData['category_id'] == 0)
+            $requestData['category_id'] = NULL;
+
+        if ($requestData['group_id'] == 0)
+            $requestData['group_id'] = NULL;
+
+        return $requestData;
     }
 }

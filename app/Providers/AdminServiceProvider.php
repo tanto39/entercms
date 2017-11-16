@@ -25,5 +25,6 @@ class AdminServiceProvider extends ServiceProvider
     {
         require_once app_path() . '/traits/AdminPanel.php';
         require_once app_path() . '/helpers/ImgHelper.php';
+        require_once app_path() . '/traits/FilterController.php';
     }
 }

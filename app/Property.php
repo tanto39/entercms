@@ -13,17 +13,11 @@ class Property extends Model
      * Fields white list
      */
     protected $fillable = [
-        'published',
         'title',
-        'preview_img',
         'order',
         'slug',
-        'meta_key',
-        'meta_desc',
-        'description',
-        'full_content',
         'type',           // values: html, img, file, int, str, category_link, item_link
-        'is_insert',      // values: Y, N
+        'is_insert',      // values: 1, 0
         'prop_kind',      // values: category, item
         'category_id',
         'group_id'
@@ -39,9 +33,9 @@ class Property extends Model
             $table->integer('order')->nullable();
             $table->string('title');
             $table->text('slug')->nullable();
-            $table->integer('type')->nullable()->unsigned();; // values: html, img, file, int, str, category_link, item_link
-            $table->string('is_insert')->default('Y');        // values: Y, N
-            $table->integer('prop_kind')->nullable()->unsigned();;        // // values: category, item
+            $table->integer('type')->nullable()->unsigned(); // values: html, img, file, int, str, category_link, item_link
+            $table->tinyInteger('is_insert')->default(1);        // values: 1, 0
+            $table->integer('prop_kind')->nullable()->unsigned(); // values: category, item
             $table->integer('category_id')->nullable()->unsigned();
             $table->integer('group_id')->nullable()->unsigned();
             $table->timestamps();
