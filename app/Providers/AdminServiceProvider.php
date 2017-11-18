@@ -23,8 +23,9 @@ class AdminServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        require_once app_path() . '/traits/ImgController.php';
         require_once app_path() . '/traits/AdminPanel.php';
-        require_once app_path() . '/helpers/ImgHelper.php';
         require_once app_path() . '/traits/FilterController.php';
+        require_once app_path() . '/traits/SearchController.php';
     }
 }

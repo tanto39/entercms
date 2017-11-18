@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Property;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Cookie\CookieJar;
 use App\Category;
 use App\PropKind;
 use App\PropGroup;
@@ -14,6 +13,7 @@ use App\PropType;
 class PropertyController extends Controller
 {
     use \App\FilterController;
+    use \App\SearchController;
 
     public $categories = [];
     public $propKinds = [];
@@ -33,20 +33,19 @@ class PropertyController extends Controller
     {
         $this->getSelectForForm();
 
-        $searchText = $request->get('searchText');
-
         $properties = new Property();
+
+        // Filter
         $properties = $this->filterExec($request, $properties);
 
         // Search
-        if(!empty($searchText))
-            $properties = $properties->where('title', 'like', "%{$searchText}%");
+        $properties = $this->searchByTitle($request, $properties);
 
         $properties = $properties->paginate(20);
 
         return view('admin.properties.index', [
             'properties' => $properties,
-            'searchText' => $searchText,
+            'searchText' => $this->searchText,
             'categories' => $this->categories,
             'propKinds' => $this->propKinds,
             'propGroups' => $this->propGroups,
@@ -165,7 +164,7 @@ class PropertyController extends Controller
      */
     public function getSelectForForm()
     {
-        $this->categories = Category::with('children')->where('parent_id', '0')->get();
+        $this->categories = Category::orderby('title', 'asc')->select(['id', 'title'])->get();
         $this->propKinds = PropKind::orderby('title', 'asc')->select(['id', 'title'])->get();
         $this->propGroups = PropGroup::orderby('title', 'asc')->select(['id', 'title'])->get();
         $this->propTypes = PropType::orderby('title', 'asc')->select(['id', 'title'])->get();

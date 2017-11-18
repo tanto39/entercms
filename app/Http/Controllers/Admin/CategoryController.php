@@ -4,13 +4,19 @@ namespace App\Http\Controllers\Admin;
 
 use App\Category;
 use App\ImgHelper;
-use Illuminate\Cookie\CookieJar;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
 class CategoryController extends Controller
 {
+    use \App\FilterController;
+    use \App\SearchController;
+    use \App\ImgController;
+
+    public $indexRoute = 'admin.category.index';
+    public $prefix = 'Category';
+
     /**
      * Display a listing of the resource
      *
@@ -19,57 +25,22 @@ class CategoryController extends Controller
      */
     public function index(Request $request)
     {
-        $filterActive = "";
-        $sort = "";
-        $parentCategory = "";
-        $searchText = "";
+        $categories = new Category();
 
-        $parentCategory = $request->cookie('parentCategory');
-        $filterActive = $request->cookie('filterActiveCategory');
-        $sort = $request->cookie('sortCategory');
-        $searchText = $request->get('searchText');
-
-        // Sort
-        switch ($sort) {
-            case "dateUp":
-            $categories = Category::orderby('updated_at', 'desc');
-            break;
-
-            case "dateDown":
-            $categories = Category::orderby('updated_at', 'asc');
-            break;
-
-            case "title":
-            $categories = Category::orderby('title', 'asc');
-            break;
-
-            default:
-            $categories = Category::orderby('order', 'asc')->orderby('updated_at', 'desc');
-        }
+        // Filter
+        $categories = $this->filterExec($request, $categories);
 
         // Search
-        if(!empty($searchText))
-            $categories = $categories->where('title', 'like', "%{$searchText}%");
-
-        // Filter by parent category
-        if($parentCategory)
-            $categories = $categories->where('parent_id', $parentCategory);
-
-        // Filter by activity
-        if($filterActive == 'Y')
-            $categories = $categories->where('published', 1);
-        elseif($filterActive == 'N')
-            $categories = $categories->where('published', 0);
+        $categories = $this->searchByTitle($request, $categories);
 
         $categories = $categories->paginate(20);
 
         return view('admin.categories.index', [
             'categories' => $categories,
             'parents' => Category::orderby('title', 'asc')->select(['id', 'title'])->get(),
-            'filterCategory' => $parentCategory,
-            'searchText' => $searchText,
-            'filterActive' => $filterActive,
-            'sort' => $sort
+            'searchText' => $this->searchText,
+            'filter' => $this->arFilter,
+            'sort' => $this->sortVal,
         ]);
     }
 
@@ -153,7 +124,7 @@ class CategoryController extends Controller
 
         // Delete preview images
         if ($request->deleteImg) {
-            $this->deleteImg($request, $category);
+            $this->deleteMultipleImg($request, $category, 'preview_img', 'images/shares/previews/');
             return redirect()->route('admin.category.edit', $category);
         }
 
@@ -177,82 +148,11 @@ class CategoryController extends Controller
     public function destroy(Request $request, Category $category)
     {
         // Delete preview images
-        $obImage = $category->select(['id', 'preview_img'])->where('id', $category->id)->get();
-        $arImage = unserialize($obImage->pluck('preview_img')[0]);
-
-        if ($arImage) {
-            foreach ($arImage as $key => $image) {
-                $imgPath = public_path('images/shares/previews/' . $image);
-                ImgHelper::deleteImg($imgPath);
-            }
-        }
+        $this->deleteImgWithDestroy($category, 'preview_img', 'images/shares/previews/');
 
         // Delete category
         Category::destroy($category->id);
         $request->session()->flash('success', 'Категория удалена');
         return redirect()->route('admin.category.index');
-    }
-
-    /**
-     * Set cookie for category filter and sort
-     *
-     * @param CookieJar $cookieJar
-     * @param Request $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function filter(CookieJar $cookieJar, Request $request)
-    {
-        if($request->reset) {
-            $cookieJar->queue($cookieJar->forget('sortCategory'));
-            $cookieJar->queue($cookieJar->forget('parentCategory'));
-            $cookieJar->queue($cookieJar->forget('filterActiveCategory'));
-        }
-        else {
-            // Filter by parent category
-            if($request->categorySelect > 0)
-                $cookieJar->queue(cookie('parentCategory', $request->categorySelect, 60));
-            elseif($request->categorySelect == 0)
-                $cookieJar->queue($cookieJar->forget('parentCategory'));
-
-            // Filter by activity
-            if($request->activeSelect && $request->activeSelect != "all")
-                $cookieJar->queue(cookie('filterActiveCategory', $request->activeSelect, 60));
-            elseif($request->activeSelect == "all")
-                $cookieJar->queue($cookieJar->forget('filterActiveCategory'));
-
-            // Sort
-            if($request->sort && $request->sort != "default")
-                $cookieJar->queue(cookie('sortCategory', $request->sort, 60));
-            elseif($request->sort == "default")
-                $cookieJar->queue($cookieJar->forget('sortCategory'));
-        }
-
-        return redirect()->route('admin.category.index');
-    }
-
-    /**
-     * Delete preview image
-     *
-     * @param Request $request
-     * @param Category $category
-     */
-    public function deleteImg(Request $request, Category $category)
-    {
-        $obImage = $category->select(['id', 'preview_img'])->where('id', $category->id)->get();
-        $arImage = unserialize($obImage->pluck('preview_img')[0]);
-
-        foreach ($arImage as $key => $image) {
-            if ($image == $request->deleteImg) {
-                unset($arImage[$key]);
-
-                // Delete image on server
-                $imgPath = public_path('images/shares/previews/' . $request->deleteImg);
-                ImgHelper::deleteImg($imgPath);
-            }
-        }
-
-        // Delete image from database
-        $arImage = serialize($arImage);
-        $category->where('id', $category->id)->update(['preview_img' => $arImage]);
     }
 }
