@@ -8,6 +8,8 @@ use Illuminate\Support\Str;
 trait AdminPanel
 {
     use ImgController;
+    use HandlePropertyController;
+
     /**
      * Set slug (uri) if empty
      * @param $slug

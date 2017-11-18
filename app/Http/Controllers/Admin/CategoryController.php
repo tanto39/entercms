@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Category;
-use App\ImgHelper;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -13,6 +12,7 @@ class CategoryController extends Controller
     use \App\FilterController;
     use \App\SearchController;
     use \App\ImgController;
+    use \App\HandlePropertyController;
 
     public $indexRoute = 'admin.category.index';
     public $prefix = 'Category';
@@ -51,11 +51,17 @@ class CategoryController extends Controller
      */
     public function create()
     {
+        $category = new Category();
+
+        // Get properties
+        $this->getProperties($category, 'category_id', 'parent_id', 1);
+
         return view('admin.categories.create', [
             'category' => [],
             'categories' => Category::with('children')->where('parent_id', '0')->get(),
             'delimiter' => '',
-            'user' => Auth::user()
+            'user' => Auth::user(),
+            'properties' => $this->arProps
         ]);
     }
 
@@ -67,7 +73,12 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $category = Category::create($request->all());
+        $requestData = $request->all();
+
+        // Set properties array
+        $requestData['properties'] = $this->setProperties($requestData['properties']);
+
+        $category = Category::create($requestData);
 
         $request->session()->flash('success', 'Категория добавлена');
         return redirect()->route('admin.category.edit', $category);
@@ -94,12 +105,16 @@ class CategoryController extends Controller
     {
         $preview_images = unserialize($category->preview_img);
 
+        // Get properties
+        $this->getProperties($category,  'category_id', 'parent_id', 1, $category->properties, $category->id);
+
         return view('admin.categories.edit', [
             'category' => $category,
             'categories' => Category::with('children')->where('parent_id', '0')->get(),
             'delimiter' => '-',
             'user' => Auth::user(),
-            'preview_images' => $preview_images
+            'preview_images' => $preview_images,
+            'properties' => $this->arProps
         ]);
     }
 
@@ -128,7 +143,12 @@ class CategoryController extends Controller
             return redirect()->route('admin.category.edit', $category);
         }
 
-        $category->update($request->all());
+        $requestData = $request->all();
+
+        // Set properties array
+        $requestData['properties'] = $this->setProperties($requestData['properties']);
+
+        $category->update($requestData);
 
         $request->session()->flash('success', 'Категория отредактирована');
 

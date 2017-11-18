@@ -164,7 +164,7 @@ class PropertyController extends Controller
      */
     public function getSelectForForm()
     {
-        $this->categories = Category::orderby('title', 'asc')->select(['id', 'title'])->get();
+        $this->categories = Category::with('children')->where('parent_id', '0')->get();
         $this->propKinds = PropKind::orderby('title', 'asc')->select(['id', 'title'])->get();
         $this->propGroups = PropGroup::orderby('title', 'asc')->select(['id', 'title'])->get();
         $this->propTypes = PropType::orderby('title', 'asc')->select(['id', 'title'])->get();

@@ -59,13 +59,18 @@
     @endif
 >
 
+{{-- Properties filter include --}}
+@include("admin/partials.properties")
+
 <input type="hidden" name="modify_by" value="{{$user->id or ""}}">
 
-<input class="btn btn-primary" type="submit" name="save" value="Сохранить">
+<div style="margin:20px 0">
+    <input class="btn btn-primary" type="submit" name="save" value="Сохранить">
 
-@if(isset($category->id))
+    @if(isset($category->id))
     <div style="margin:20px 0">
         <input class="btn btn-danger" type="submit" name="copy" value="Копировать">
         <input class="btn btn-danger" type="submit" name="delete" value="Удалить">
     </div>
-@endif
+    @endif
+</div>
