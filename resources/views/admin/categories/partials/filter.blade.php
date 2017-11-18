@@ -4,20 +4,21 @@
         <div style="flex-basis: 50%; padding-right: 20px;">
             <label for="category-select">Родительская категория</label>
             {{csrf_field()}}
-            <select id="category-select" class="form-control selectpicker" data-live-search="true" name="categorySelect">
-                <option value="0">Все категории</option>
+            <select id="category-select" class="form-control selectpicker" data-live-search="true" name="filter[parent_id]">
+                <option value="all">Все категории</option>
+                <option value="0" @if(isset($filter['parent_id']) && $filter['parent_id'] == 0) selected="" @endif>Без родителя</option>
                 @foreach($parents as $parent)
-                    <option value="{{$parent->id}}" @if($filterCategory == $parent->id) selected="" @endif>{{$parent->title}}</option>
+                    <option value="{{$parent->id}}" @if(isset($filter['parent_id']) && $filter['parent_id'] == $parent->id) selected="" @endif>{{$parent->title}}</option>
                 @endforeach
             </select>
         </div>
 
         <div>
             <label for="active-select">Фильтр по активности</label>
-            <select id="active-select" class="form-control" name="activeSelect">
+            <select id="active-select" class="form-control" name="filter[published]">
                 <option value="all">Все категории</option>
-                <option value="Y" @if($filterActive == 'Y') selected="" @endif>Активные</option>
-                <option value="N" @if($filterActive == 'N') selected="" @endif>Неактивные</option>
+                <option value="1" @if(isset($filter['published']) && $filter['published'] == 1) selected="" @endif>Активные</option>
+                <option value="0" @if(isset($filter['published']) && $filter['published'] == 0) selected="" @endif>Неактивные</option>
             </select>
         </div>
     </div>

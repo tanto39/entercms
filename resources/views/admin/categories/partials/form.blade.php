@@ -1,13 +1,8 @@
 
 <label for="published">Статус</label>
 <select id="published" class="form-control" name="published">
-    @if(isset($category->id))
-        <option value="0" @if($category->published == 0) selected="" @endif>Не опубликовано</option>
-        <option value="1" @if($category->published == 1) selected="" @endif>Опубликовано</option>
-    @else
-        <option value="1">Опубликовано</option>
-        <option value="0">Не опубликовано</option>
-    @endif
+    <option value="1" @if(isset($category->id) && $category->published == 1) selected="" @endif>Опубликовано</option>
+    <option value="0" @if(isset($category->id) && $category->published == 0) selected="" @endif>Не опубликовано</option>
 </select>
 
 <label for="title">Заголовок</label>

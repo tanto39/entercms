@@ -3,12 +3,17 @@
 namespace App\Http\Controllers\Admin;
 
 use App\PropGroup;
-use Illuminate\Cookie\CookieJar;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class PropGroupController extends Controller
 {
+    use \App\FilterController;
+    use \App\SearchController;
+
+    public $indexRoute = 'admin.propgroup.index';
+    public $prefix = 'PropGroup';
+
     /**
      * Display a listing of the resource
      *
@@ -17,40 +22,21 @@ class PropGroupController extends Controller
      */
     public function index(Request $request)
     {
-        $sort = "";
-        $searchText = "";
+        $propgroups = new PropGroup();
 
-        $sort = $request->cookie('sortPropGroup');
-        $searchText = $request->get('searchText');
-
-        // Sort
-        switch ($sort) {
-            case "dateUp":
-                $propgroups = PropGroup::orderby('updated_at', 'desc');
-                break;
-
-            case "dateDown":
-                $propgroups = PropGroup::orderby('updated_at', 'asc');
-                break;
-
-            case "title":
-                $propgroups = PropGroup::orderby('title', 'asc');
-                break;
-
-            default:
-                $propgroups = PropGroup::orderby('order', 'asc')->orderby('updated_at', 'desc');
-        }
+        // Filter
+        $propgroups = $this->filterExec($request, $propgroups);
 
         // Search
-        if(!empty($searchText))
-            $propgroups = $propgroups->where('title', 'like', "%{$searchText}%");
+        $propgroups = $this->searchByTitle($request, $propgroups);
 
         $propgroups = $propgroups->paginate(20);
 
         return view('admin.propgroups.index', [
             'propgroups' => $propgroups,
-            'searchText' => $searchText,
-            'sort' => $sort
+            'searchText' => $this->searchText,
+            'filter' => $this->arFilter,
+            'sort' => $this->sortVal
         ]);
     }
 
@@ -139,29 +125,6 @@ class PropGroupController extends Controller
     {
         PropGroup::destroy($propgroup->id);
         $request->session()->flash('success', 'Группа удалена');
-        return redirect()->route('admin.propgroup.index');
-    }
-
-    /**
-     * Set cookie for property group filter and sort
-     *
-     * @param CookieJar $cookieJar
-     * @param Request $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function filter(CookieJar $cookieJar, Request $request)
-    {
-        if($request->reset) {
-            $cookieJar->queue($cookieJar->forget('sortPropGroup'));
-        }
-        else {
-            // Sort
-            if($request->sort && $request->sort != "default")
-                $cookieJar->queue(cookie('sortPropGroup', $request->sort, 60));
-            elseif($request->sort == "default")
-                $cookieJar->queue($cookieJar->forget('sortPropGroup'));
-        }
-
         return redirect()->route('admin.propgroup.index');
     }
 }
