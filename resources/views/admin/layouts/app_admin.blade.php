@@ -93,6 +93,7 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/admin-app.js') }}"></script>
+    <script src="{{ asset('js/scripts.js') }}"></script>
 
     {{-- TinyMCE include --}}
     <script src="{{URL::to('js/tinymce/tinymce.min.js')}}"></script>

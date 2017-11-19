@@ -10,8 +10,11 @@ namespace App;
  */
 trait HandlePropertyController
 {
+    use \App\PropEnumController;
+
     public $arProps = [];
     public $propList = [];
+    public $insertCount = 0;
 
     /**
      * Set properties array and serialize them
@@ -61,6 +64,12 @@ trait HandlePropertyController
             foreach ($this->propList as $key=>$property) {
                 $this->arProps[$property["id"]] = $property;
 
+                // Enumeration property
+                if ($property['type'] == PROP_TYPE_LIST) {
+                    $this->getListValues($property["id"]);
+                    $this->arProps[$property["id"]]['arList'] = $this->propEnums;
+                }
+
                 if (!empty($propValues[$property["id"]]))
                     $this->arProps[$property["id"]]['value'] = $propValues[$property["id"]]['value'];
             }
@@ -87,7 +96,7 @@ trait HandlePropertyController
             ->toArray();
 
         foreach ($categoryProps as $key=>$property) {
-            if ($property['is_insert'] == 1)
+            if (($this->insertCount === 0 && $property['is_insert'] === 0) || ($property['is_insert'] == 1))
                 $this->propList[] = $property;
         }
 
@@ -99,5 +108,7 @@ trait HandlePropertyController
 
         if (isset($parentId))
             $this->getPropList($parentId, $fieldLinkId, $selectTable, $fieldParentId, $propKind);
+
+        $this->insertCount++;
     }
 }

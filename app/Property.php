@@ -9,6 +9,7 @@ use Illuminate\Database\Schema\Blueprint;
 class Property extends Model
 {
     use AdminPanel;
+
     /**
      * Fields white list
      */
@@ -16,11 +17,19 @@ class Property extends Model
         'title',
         'order',
         'slug',
-        'type',           // values: html, img, file, int, str, category_link, item_link
+        'type',           // values: html, img, file, int, str, list, category_link, item_link
         'is_insert',      // values: 1, 0
         'prop_kind',      // values: category, item
         'category_id',
-        'group_id'
+        'group_id',
+        'default'
+    ];
+
+    /**
+     * Protected fields
+     */
+    protected $guarded = [
+        'id'
     ];
 
     /**
@@ -33,7 +42,8 @@ class Property extends Model
             $table->integer('order')->nullable();
             $table->string('title');
             $table->text('slug')->nullable();
-            $table->integer('type')->nullable()->unsigned(); // values: html, img, file, int, str, category_link, item_link
+            $table->text('default')->nullable();
+            $table->integer('type')->nullable()->unsigned(); // values: html, img, file, int, str, list, category_link, item_link
             $table->tinyInteger('is_insert')->default(1);        // values: 1, 0
             $table->integer('prop_kind')->nullable()->unsigned(); // values: category, item
             $table->integer('category_id')->nullable()->unsigned();

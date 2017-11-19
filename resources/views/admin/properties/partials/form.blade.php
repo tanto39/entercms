@@ -42,7 +42,27 @@
 <label for="order">Порядок</label>
 <input type="number" id="order" class="form-control" name="order" value="{{$property->order or ""}}">
 
-</br>
+@isset($property->type)
+    @if($property->type == PROP_TYPE_LIST)
+        <h4>Значения списка</h4>
+        <div class="add-input-wrap">
+            @if(isset($propEnums))
+                @foreach($propEnums as $key=>$propEnum)
+                    <input type="text" class="form-control" name="prop_enums[{{$propEnum['id']}}]" value="{{$propEnum['title'] or ""}}">
+                @endforeach
+            @endif
+                <input type="text" class="form-control" name="prop_enums_add[]" value="">
+                <button class="btn btn-primary" onclick="addInput('.add-input-wrap'); return false">Добавить</button>
+        </div>
+    @else
+        <label for="default">Значение по умолчанию</label>
+        <input type="text" id="default" class="form-control" name="default" value="{{$property->default or ""}}">
+    @endif
+@endisset
+
+<input type="hidden" name="id" value="{{$property->id or ""}}">
+
+<br>
 <input class="btn btn-primary" type="submit" name="save" value="Сохранить">
 
 @if(isset($property->id))
