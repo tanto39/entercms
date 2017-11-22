@@ -7,6 +7,7 @@ use App\PropGroup;
 use App\Property;
 use App\PropType;
 use App\PropKind;
+use App\PropEnum;
 
 class CreatePropertiesTable extends Migration
 {
@@ -28,6 +29,9 @@ class CreatePropertiesTable extends Migration
 
         // Properties table
         Property::createTable();
+
+        // Properties enumeration table
+        PropEnum::createTable();
     }
 
     /**
@@ -37,6 +41,7 @@ class CreatePropertiesTable extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('prop_enums');
         Schema::dropIfExists('properties');
         Schema::dropIfExists('prop_groups');
         Schema::dropIfExists('prop_types');

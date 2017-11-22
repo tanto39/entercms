@@ -14,6 +14,7 @@ class PropertyController extends Controller
 {
     use \App\FilterController;
     use \App\SearchController;
+    use \App\PropEnumController;
 
     public $categories = [];
     public $propKinds = [];
@@ -111,6 +112,10 @@ class PropertyController extends Controller
     {
         $this->getSelectForForm();
 
+        // Get properties of type list values
+        if ($property->type == 6)
+            $this->getListValues($property->id);
+
         return view('admin.properties.edit', [
             'property' => $property,
             'delimiter' => '-',
@@ -118,6 +123,7 @@ class PropertyController extends Controller
             'propKinds' => $this->propKinds,
             'propGroups' => $this->propGroups,
             'propTypes' => $this->propTypes,
+            'propEnums' => $this->propEnums
         ]);
     }
 
@@ -134,6 +140,9 @@ class PropertyController extends Controller
             return $this->destroy($request, $property);
 
         $requestData = $this->getRequestData($request);
+
+        if(isset($requestData['prop_enums']))
+            $this->updateListValues($requestData['prop_enums']);
 
         $property->update($requestData);
 
@@ -186,6 +195,10 @@ class PropertyController extends Controller
         if ($requestData['group_id'] == 0)
             $requestData['group_id'] = NULL;
 
+        if ($requestData['prop_enums_add'])
+            $this->addListValues($requestData['prop_enums_add'], $requestData['id']);
+
         return $requestData;
     }
+
 }

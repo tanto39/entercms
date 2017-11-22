@@ -36,6 +36,7 @@ class PropType extends Model
         DB::insert('insert into prop_types (title, slug) values (?, ?)', ['Изображение', 'img']);
         DB::insert('insert into prop_types (title, slug) values (?, ?)', ['Файл', 'file']);
         DB::insert('insert into prop_types (title, slug) values (?, ?)', ['HTML', 'html']);
+        DB::insert('insert into prop_types (title, slug) values (?, ?)', ['Список', 'list']);
         DB::insert('insert into prop_types (title, slug) values (?, ?)', ['Привязка к категории', 'category_link']);
         DB::insert('insert into prop_types (title, slug) values (?, ?)', ['Привязка к материалу', 'item_link']);
     }

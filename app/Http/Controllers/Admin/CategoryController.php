@@ -146,7 +146,8 @@ class CategoryController extends Controller
         $requestData = $request->all();
 
         // Set properties array
-        $requestData['properties'] = $this->setProperties($requestData['properties']);
+        if (isset($requestData['properties']))
+            $requestData['properties'] = $this->setProperties($requestData['properties']);
 
         $category->update($requestData);
 
