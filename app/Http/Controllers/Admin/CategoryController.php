@@ -54,7 +54,7 @@ class CategoryController extends Controller
         $category = new Category();
 
         // Get properties
-        $this->getProperties($category, 'category_id', 'parent_id', 1);
+        $this->getProperties($category, 'category_id', 'parent_id', PROP_KIND_CATEGORY);
 
         return view('admin.categories.create', [
             'category' => [],
@@ -106,8 +106,9 @@ class CategoryController extends Controller
         $preview_images = unserialize($category->preview_img);
 
         // Get properties
-        $this->getProperties($category,  'category_id', 'parent_id', 1, $category->properties, $category->id);
+        $this->getProperties($category,  'category_id', 'parent_id', PROP_KIND_CATEGORY, $category->properties, $category->id);
 
+        //dd($this->arProps);
         return view('admin.categories.edit', [
             'category' => $category,
             'categories' => Category::with('children')->where('parent_id', '0')->get(),

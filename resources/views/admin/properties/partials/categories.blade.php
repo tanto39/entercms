@@ -5,6 +5,10 @@
                 selected=""
             @endif
         @endisset
+
+        @if(isset($property['type']) && isset($property['value']) && ($property['type'] == PROP_TYPE_CATEGORY_LINK) && ($property['value'] == $category_list->id))
+            selected=""
+        @endif
     >
     {!! $delimiter or "" !!}{{$category_list->title or ""}}
     </option>

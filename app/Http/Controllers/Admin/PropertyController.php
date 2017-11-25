@@ -113,7 +113,7 @@ class PropertyController extends Controller
         $this->getSelectForForm();
 
         // Get properties of type list values
-        if ($property->type == 6)
+        if ($property->type == PROP_TYPE_LIST)
             $this->getListValues($property->id);
 
         return view('admin.properties.edit', [
@@ -163,6 +163,9 @@ class PropertyController extends Controller
      */
     public function destroy(Request $request, Property $property)
     {
+        if ($property->type == PROP_TYPE_LIST)
+            $this->deleteListValues($property->id);
+
         Property::destroy($property->id);
         $request->session()->flash('success', 'Свойство удалено');
         return redirect()->route('admin.property.index');
@@ -195,7 +198,7 @@ class PropertyController extends Controller
         if ($requestData['group_id'] == 0)
             $requestData['group_id'] = NULL;
 
-        if ($requestData['prop_enums_add'])
+        if (isset($requestData['prop_enums_add']))
             $this->addListValues($requestData['prop_enums_add'], $requestData['id']);
 
         return $requestData;

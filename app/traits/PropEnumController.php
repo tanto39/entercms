@@ -54,4 +54,22 @@ trait PropEnumController
             }
         }
     }
+
+    /**
+     * Delete values from enumeration table
+     *
+     * @param $propId
+     */
+    public function deleteListValues($propId)
+    {
+        $arListId = [];
+        $arList = PropEnum::where('prop_id', $propId)->get();
+
+        if (!empty($arList)) {
+            foreach ($arList as $key=>$list) {
+                $arListId[] = $list->id;
+            }
+            PropEnum::destroy($arListId);
+        }
+    }
 }
