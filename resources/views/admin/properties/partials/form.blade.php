@@ -54,6 +54,8 @@
                 <input type="text" class="form-control" name="prop_enums_add[]" value="">
                 <button class="btn btn-primary" onclick="addInput('.add-input-wrap'); return false">Добавить</button>
         </div>
+    @elseif($property->type == PROP_TYPE_CATEGORY_LINK)
+
     @else
         <label for="default">Значение по умолчанию</label>
         <input type="text" id="default" class="form-control" name="default" value="{{$property->default or ""}}">
@@ -62,9 +64,10 @@
 
 <input type="hidden" name="id" value="{{$property->id or ""}}">
 
-<br>
-<input class="btn btn-primary" type="submit" name="save" value="Сохранить">
+<div class="form-buttons" style="margin: 20px 0;">
+    <input class="btn btn-primary" type="submit" name="save" value="Сохранить">
 
-@if(isset($property->id))
-    <input class="btn btn-danger" type="submit" name="delete" value="Удалить">
-@endif
+    @if(isset($property->id))
+        <input class="btn btn-danger" type="submit" name="delete" value="Удалить">
+    @endif
+</div>
