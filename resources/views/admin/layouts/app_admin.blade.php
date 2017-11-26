@@ -134,9 +134,6 @@
 
         tinymce.init(editor_config);
 
-
-        // Delete image from preview
-
     </script>
 
 </body>
