@@ -13,6 +13,20 @@
                 <option value="0">Без привязки</option>
                 @include('admin.properties.partials.categories', ['categories' => $categories])
             </select>
+        @elseif($property['type'] === PROP_TYPE_IMG)
+            <div class="image-wrap">
+                <input type="file" multiple id="prop-{{$propId}}" class="form-control" name="properties[{{$propId}}][]">
+                <div class="image-property-placeholder" style="display: flex">
+                    @if(!empty($property['value']))
+                        @foreach($property['value'] as $image)
+                            <div class="img-item">
+                                <img style="max-width: 200px;" src="{{ url('/images/shares/previews/'.$image['MIDDLE']) }}" alt="">
+                                <button class="btn btn-danger" name="deletePropImg" value="{{$image['MIDDLE']}}">Удалить</button>
+                            </div>
+                        @endforeach
+                    @endif
+                </div>
+            </div>
         @else
             <input type="text" id="prop-{{$propId}}" class="form-control" name="properties[{{$propId}}]" value="@if(isset($property['value'])){{$property['value']}}@elseif(isset($property['default'])){{$property['default']}}@else @endif">
         @endif

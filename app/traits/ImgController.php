@@ -3,9 +3,12 @@
 namespace App;
 
 use Illuminate\Http\Request;
+use Intervention\Image\ImageManagerStatic as Image;
 
 trait ImgController
 {
+    public $propImages = [];
+
     /**
      * Load preview images
      *
@@ -22,7 +25,7 @@ trait ImgController
             $oldImages = unserialize($obImage->pluck('preview_img')[0]);
 
         // Load images
-        $arImage = $this->LoadImg($images, $oldImages, 'images/shares/previews');
+        $arImage = serialize($this->LoadImg($images, $oldImages));
 
         if($arImage)
             $this->attributes['preview_img'] = $arImage;
@@ -37,20 +40,13 @@ trait ImgController
      * @param $imgDirectory
      * @return mixed
      */
-    public function deleteMultipleImg(Request $request, $selectTable, $imgField, $imgDirectory)
+    public function deleteMultiplePrevImg(Request $request, $selectTable, $imgField, $imgDirectory = PREV_IMG_FULL_PATH)
     {
         $obImage = $selectTable->select(['id', $imgField])->where('id', $selectTable->id)->get();
         $arImage = unserialize($obImage->pluck($imgField)[0]);
 
-        foreach ($arImage as $key => $image) {
-            if ($image == $request->deleteImg) {
-                unset($arImage[$key]);
-
-                // Delete image on server
-                $imgPath = public_path($imgDirectory . $request->deleteImg);
-                $this->deleteImg($imgPath);
-            }
-        }
+        // Delete from server and array
+        $arImage = $this->deleteMultipleImg($arImage, $request->deleteImg);
 
         // Delete image from database
         $arImage = serialize($arImage);
@@ -60,13 +56,82 @@ trait ImgController
     }
 
     /**
+     * Delete image property value
+     *
+     * @param Request $request
+     * @param $selectTable
+     * @param string $imgDirectory
+     * @return mixed
+     */
+    public function deleteMultiplePropImg(Request $request, $selectTable, $imgDirectory = PREV_IMG_FULL_PATH)
+    {
+        $strProps = $selectTable->select(['id', 'properties'])->where('id', $selectTable->id)->get()->toArray()[0]['properties'];
+        $arProps = unserialize($strProps);
+
+        foreach ($arProps as $key=>$arProp) {
+            if ($arProp['type'] == PROP_TYPE_IMG) {
+                // Delete from server and array
+                $arProps[$key]['value'] = $this->deleteMultipleImg($arProp['value'], $request->deletePropImg);
+            }
+        }
+
+        $strProps = serialize($arProps);
+        $selectTable->where('id', $selectTable->id)->update(['properties' => $strProps]);
+
+        return $selectTable;
+    }
+
+    /**
+     * Delete multiple images
+     *
+     * @param $arImage
+     * @param $requestDelFileName
+     * @param string $imgDirectory
+     * @return mixed
+     */
+    public function deleteMultipleImg($arImage, $requestDelFileName, $imgDirectory = PREV_IMG_FULL_PATH)
+    {
+        foreach ($arImage as $key => $image) {
+            if ($image['MIDDLE'] == $requestDelFileName) {
+                unset($arImage[$key]);
+
+                // Delete image on server
+                $this->deleteImgFromServer($image);
+            }
+        }
+
+        return $arImage;
+    }
+
+    /**
+     * Delete image from server
+     *
+     * @param $image
+     * @param string $imgDirectory
+     */
+    public function deleteImgFromServer($image, $imgDirectory = PREV_IMG_FULL_PATH)
+    {
+        $imgPath = public_path($imgDirectory . $image['FULL']);
+        $middleImgPath = public_path($imgDirectory . $image['MIDDLE']);
+        $smallImgPath = public_path($imgDirectory . $image['SMALL']);
+
+        $this->deleteImg($imgPath);
+        $this->deleteImg($middleImgPath);
+        $this->deleteImg($smallImgPath);
+    }
+
+    /**
      * Load images
      *
      * @param $images - images from request
      * @param $arImage - images from DB
-     * @return bool|string
+     * @param $imgDirectory
+     * @param $fullWidth
+     * @param $smallWidth
+     * @param $middleWidth
+     * @return array
      */
-    public function LoadImg($images, $arImage, $imgDirectory)
+    public function LoadImg($images, $arImage, $imgDirectory = PREV_IMG_FULL_PATH, $fullWidth = PREV_IMG_FULL_WIDTH, $smallWidth = PREV_IMG_SMALL_WIDTH, $middleWidth = PREV_IMG_MIDDLE_WIDTH)
     {
         if(empty($arImage))
             $arImage = [];
@@ -85,13 +150,46 @@ trait ImgController
                 return false;
 
             // Move image
+            $time = time();
+
             $imageName = str_replace('.', '-', $image->getClientOriginalName())
-                .time().'.'.$imgExtension;
-            $image->move(public_path($imgDirectory), $imageName);
-            $arImage[] = $imageName;
+                . $time .'.'.$imgExtension;
+
+            $middleImgName = str_replace('.', '-', 'middle-' . $image->getClientOriginalName())
+                . $time .'.'.$imgExtension;
+
+            $smallImgName = str_replace('.', '-', 'small-' . $image->getClientOriginalName())
+                . $time .'.'.$imgExtension;
+
+            $image_resize = Image::make($image->getRealPath());
+
+            // Resize and save
+            // Full
+            $image_resize->widen($fullWidth, function ($constraint) {
+                $constraint->upsize();
+            });
+            $image_resize->save(public_path($imgDirectory . $imageName));
+
+            // Middle
+            $image_resize->widen($middleWidth, function ($constraint) {
+                $constraint->upsize();
+            });
+            $image_resize->save(public_path($imgDirectory . $middleImgName));
+
+            // Small
+            $image_resize->widen($smallWidth, function ($constraint) {
+                $constraint->upsize();
+            });
+            $image_resize->save(public_path($imgDirectory . $smallImgName));
+
+            $arImage[] = [
+                'FULL' => $imageName,
+                'MIDDLE' => $middleImgName,
+                'SMALL' => $smallImgName
+            ];
         }
 
-        return serialize($arImage);
+        return $arImage;
     }
 
     /**
@@ -111,18 +209,31 @@ trait ImgController
      *
      * @param $selectTable
      * @param $imgField
-     * @param $imgDirectoty
+     * @param $imgDirectory
      */
-    public function deleteImgWithDestroy($selectTable, $imgField, $imgDirectoty)
+    public function deleteImgWithDestroy($selectTable, $imgField, $imgDirectory = PREV_IMG_FULL_PATH)
     {
-        // Delete preview images
-        $obImage = $selectTable->select(['id', $imgField])->where('id', $selectTable->id)->get();
-        $arImage = unserialize($obImage->pluck($imgField)[0]);
+        $arProps = [];
+        $arImage = [];
 
-        if ($arImage) {
+        // Delete preview images
+        $obImage = $selectTable->select(['id', $imgField, 'properties'])->where('id', $selectTable->id)->get();
+        $arImage = unserialize($obImage->pluck($imgField)[0]);
+        $arProps = unserialize($obImage->pluck('properties')[0]);
+
+        if (count($arProps) > 0) {
+            foreach ($arProps as $key=>$arProp) {
+                if ($arProp['type'] == PROP_TYPE_IMG) {
+                    foreach ($arProp['value'] as $keyImg=>$arDelImg)
+                        $this->deleteImgFromServer($arDelImg);
+                }
+            }
+        }
+
+        if (count($arImage) > 0) {
+            //dd($arImage);
             foreach ($arImage as $key => $image) {
-                $imgPath = public_path($imgDirectoty . $image);
-                $this->deleteImg($imgPath);
+                $this->deleteImgFromServer($image);
             }
         }
     }

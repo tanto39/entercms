@@ -47,7 +47,7 @@ class Category extends Model
             $table->increments('id');
             $table->integer('order')->nullable();
             $table->string('title');
-            $table->string('preview_img')->nullable();
+            $table->text('preview_img')->nullable();
             $table->text('meta_key')->nullable();
             $table->text('meta_desc')->nullable();
             $table->text('description')->nullable();

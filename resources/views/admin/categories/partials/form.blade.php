@@ -21,8 +21,8 @@
         @if(!empty($preview_images))
             @foreach($preview_images as $image)
                 <div class="img-item">
-                    <img style="max-width: 200px;" src="{{ url('/images/shares/previews/'.$image) }}" alt="">
-                    <button class="btn btn-danger" name="deleteImg" value="{{$image}}">Удалить</button>
+                    <img style="max-width: 200px;" src="{{ url('/images/shares/previews/'.$image['MIDDLE']) }}" alt="">
+                    <button class="btn btn-danger" name="deleteImg" value="{{$image['MIDDLE']}}">Удалить</button>
                 </div>
             @endforeach
         @endif

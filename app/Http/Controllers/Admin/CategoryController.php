@@ -13,6 +13,7 @@ class CategoryController extends Controller
     use \App\SearchController;
     use \App\ImgController;
     use \App\HandlePropertyController;
+    use \App\CategoryTrait;
 
     public $indexRoute = 'admin.category.index';
     public $prefix = 'Category';
@@ -54,7 +55,7 @@ class CategoryController extends Controller
         $category = new Category();
 
         // Get properties
-        $this->getProperties($category, 'category_id', 'parent_id', PROP_KIND_CATEGORY);
+        $this->getProperties($category,PROP_KIND_CATEGORY,'category_id', 'parent_id');
 
         return view('admin.categories.create', [
             'category' => [],
@@ -76,7 +77,8 @@ class CategoryController extends Controller
         $requestData = $request->all();
 
         // Set properties array
-        $requestData['properties'] = $this->setProperties($requestData['properties']);
+        if (isset($requestData['properties']))
+            $requestData['properties'] = $this->setProperties($requestData['properties']);
 
         $category = Category::create($requestData);
 
@@ -106,7 +108,7 @@ class CategoryController extends Controller
         $preview_images = unserialize($category->preview_img);
 
         // Get properties
-        $this->getProperties($category,  'category_id', 'parent_id', PROP_KIND_CATEGORY, $category->properties, $category->id);
+        $this->getProperties($category,PROP_KIND_CATEGORY,'category_id', 'parent_id', $category->properties, $category->id);
 
         //dd($this->arProps);
         return view('admin.categories.edit', [
@@ -140,7 +142,12 @@ class CategoryController extends Controller
 
         // Delete preview images
         if ($request->deleteImg) {
-            $this->deleteMultipleImg($request, $category, 'preview_img', 'images/shares/previews/');
+            $this->deleteMultiplePrevImg($request, $category, 'preview_img');
+            return redirect()->route('admin.category.edit', $category);
+        }
+
+        if ($request->deletePropImg) {
+            $this->deleteMultiplePropImg($request, $category);
             return redirect()->route('admin.category.edit', $category);
         }
 
@@ -148,7 +155,7 @@ class CategoryController extends Controller
 
         // Set properties array
         if (isset($requestData['properties']))
-            $requestData['properties'] = $this->setProperties($requestData['properties']);
+            $requestData['properties'] = $this->setProperties($requestData['properties'], $category, $category->id);
 
         $category->update($requestData);
 
@@ -169,11 +176,8 @@ class CategoryController extends Controller
      */
     public function destroy(Request $request, Category $category)
     {
-        // Delete preview images
-        $this->deleteImgWithDestroy($category, 'preview_img', 'images/shares/previews/');
+        $this->recurceDestroy($category, 'parent_id');
 
-        // Delete category
-        Category::destroy($category->id);
         $request->session()->flash('success', 'Категория удалена');
         return redirect()->route('admin.category.index');
     }

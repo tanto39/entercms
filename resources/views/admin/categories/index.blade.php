@@ -74,7 +74,3 @@
         </tfoot>
     </table>
 @endsection
-
-<script type="text/javascript">
-
-</script>

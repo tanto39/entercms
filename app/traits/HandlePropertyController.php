@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\Property;
+
 /**
  * Set and get property array
  *
@@ -20,22 +22,47 @@ trait HandlePropertyController
      * Set properties array and serialize them
      *
      * @param array $properties
+     * @param $selectTable
+     * @param $elementId
      * @return string
      */
-    public function setProperties($properties = [])
+    public function setProperties($properties = [], $selectTable = NULL, $elementId = NULL)
     {
         $strProp = "";
+        $propOb = [];
+        $obProps = [];
+        $oldImages = [];
 
-        if(count($properties) > 0) {
-            foreach ($properties as $propId=>$property) {
+        if (count($properties) > 0) {
+
+            foreach ($properties as $propId => $property) {
+
+                if (!is_null($selectTable)) {
+                    $obProps = unserialize($selectTable
+                        ->where('id', $elementId)
+                        ->select('properties')
+                        ->get()
+                        ->toArray()[0]['properties']);
+                }
                 $propOb = Property::where('id', $propId)->get()->toArray()[0];
 
-                if ($propOb) {
-                    $this->arProps[$propId] = $propOb;
+                $this->arProps = $obProps;
+
+                $this->arProps[$propId] = $propOb;
+
+                // Image properties
+                if ($propOb['type'] == PROP_TYPE_IMG) {
+
+                    if (isset($obProps[$propId]['value']))
+                        $oldImages = $obProps[$propId]['value'];
+
+                    $this->arProps[$propId]['value'] = $this->LoadImg($property, $oldImages);
+                }
+                else {
                     $this->arProps[$propId]['value'] = $property;
                 }
-            }
 
+            }
             $strProp = serialize($this->arProps);
         }
 
@@ -52,7 +79,7 @@ trait HandlePropertyController
      * @param string $strProp
      * @param null $categoryId
      */
-    public function getProperties($selectTable, $fieldLinkId, $fieldParentId, $propKind, $strProp = "", $categoryId = NULL)
+    public function getProperties($selectTable, $propKind, $fieldLinkId = 'category_id', $fieldParentId = 'parent_id', $strProp = "", $categoryId = NULL)
     {
         $propValues = [];
 
@@ -70,7 +97,7 @@ trait HandlePropertyController
                     $this->arProps[$property["id"]]['arList'] = $this->propEnums;
                 }
 
-                if (!empty($propValues[$property["id"]]))
+                if (!empty($propValues[$property["id"]]) && isset($propValues[$property["id"]]['value']))
                     $this->arProps[$property["id"]]['value'] = $propValues[$property["id"]]['value'];
             }
         }
@@ -110,5 +137,25 @@ trait HandlePropertyController
             $this->getPropList($parentId, $fieldLinkId, $selectTable, $fieldParentId, $propKind);
 
         $this->insertCount++;
+    }
+
+    /**
+     * Delete propertyes of category with destroy category
+     *
+     * @param $selectTable
+     */
+    public function deletePropertyWithDestroy($selectTable)
+    {
+        $propOb = Property::where('category_id', $selectTable->id)->select(['id', 'type'])->get()->toArray();
+        $propIds = [];
+
+        foreach ($propOb as $key=>$prop) {
+            if ($prop['type'] == PROP_TYPE_LIST)
+                $this->deleteListValues($prop['id']);
+
+            $propIds[] = $prop['id'];
+        }
+
+        Property::destroy($propIds);
     }
 }
