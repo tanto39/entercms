@@ -20,12 +20,22 @@
                     @if(!empty($property['value']))
                         @foreach($property['value'] as $image)
                             <div class="img-item">
-                                <img style="max-width: 200px;" src="{{ url('/images/shares/previews/'.$image['MIDDLE']) }}" alt="">
+                                <img style="max-width: 200px;" src="{{ url('/' . PREV_IMG_FULL_PATH . $image['MIDDLE']) }}" alt="">
                                 <button class="btn btn-danger" name="deletePropImg" value="{{$image['MIDDLE']}}">Удалить</button>
                             </div>
                         @endforeach
                     @endif
                 </div>
+            </div>
+        @elseif($property['type'] === PROP_TYPE_FILE)
+            <div class="file-wrap">
+                <input type="file" id="prop-{{$propId}}" class="form-control" name="properties[{{$propId}}]">
+                @if(!empty($property['value']))
+                    <div class="file-item">
+                        <a download="" href="{{ url('/' . FILE_LOAD_PATH . $property['value']) }}">{{$property['value']}}</a>
+                        <button class="btn btn-danger" name="deletePropFile" value="{{$property['value']}}">Удалить</button>
+                    </div>
+                @endif
             </div>
         @else
             <input type="text" id="prop-{{$propId}}" class="form-control" name="properties[{{$propId}}]" value="@if(isset($property['value'])){{$property['value']}}@elseif(isset($property['default'])){{$property['default']}}@else @endif">

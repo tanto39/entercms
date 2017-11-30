@@ -221,7 +221,7 @@ trait ImgController
         $arImage = unserialize($obImage->pluck($imgField)[0]);
         $arProps = unserialize($obImage->pluck('properties')[0]);
 
-        if (count($arProps) > 0) {
+        if ($arProps && count($arProps) > 0) {
             foreach ($arProps as $key=>$arProp) {
                 if ($arProp['type'] == PROP_TYPE_IMG) {
                     foreach ($arProp['value'] as $keyImg=>$arDelImg)
@@ -230,8 +230,7 @@ trait ImgController
             }
         }
 
-        if (count($arImage) > 0) {
-            //dd($arImage);
+        if ($arImage && count($arImage) > 0) {
             foreach ($arImage as $key => $image) {
                 $this->deleteImgFromServer($image);
             }
