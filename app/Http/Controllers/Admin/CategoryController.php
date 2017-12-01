@@ -12,6 +12,7 @@ class CategoryController extends Controller
     use \App\FilterController;
     use \App\SearchController;
     use \App\ImgController;
+    use \App\FileController;
     use \App\HandlePropertyController;
     use \App\CategoryTrait;
 
@@ -146,8 +147,15 @@ class CategoryController extends Controller
             return redirect()->route('admin.category.edit', $category);
         }
 
+        // Delete property images
         if ($request->deletePropImg) {
             $this->deleteMultiplePropImg($request, $category);
+            return redirect()->route('admin.category.edit', $category);
+        }
+
+        // Delete property files
+        if ($request->deletePropFile) {
+            $this->deletePropFile($request->deletePropFile, $category);
             return redirect()->route('admin.category.edit', $category);
         }
 

@@ -14,6 +14,9 @@ trait CategoryTrait
         // Delete preview images
         $this->deleteImgWithDestroy($selectTable, 'preview_img');
 
+        // Delete download files
+        $this->deleteFileWithDestroy($selectTable);
+
         // Delete properties
         $this->deletePropertyWithDestroy($selectTable);
 

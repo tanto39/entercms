@@ -58,6 +58,9 @@ trait HandlePropertyController
 
                     $this->arProps[$propId]['value'] = $this->LoadImg($property, $oldImages);
                 }
+                elseif($propOb['type'] == PROP_TYPE_FILE) {
+                    $this->arProps[$propId]['value'] = $this->LoadFile($property);
+                }
                 else {
                     $this->arProps[$propId]['value'] = $property;
                 }
