@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Property;
+use App\PropGroup;
 
 /**
  * Set and get property array
@@ -29,46 +30,47 @@ trait HandlePropertyController
     public function setProperties($properties = [], $selectTable = NULL, $elementId = NULL)
     {
         $strProp = "";
-        $propOb = [];
         $obProps = [];
         $oldImages = [];
+        $arProps = [];
+
+        if (!is_null($selectTable)) {
+            $obProps = unserialize($selectTable
+                ->where('id', $elementId)
+                ->select('properties')
+                ->get()
+                ->toArray()[0]['properties']);
+        }
+        $this->arProps = $obProps;
 
         if (count($properties) > 0) {
-
             foreach ($properties as $propId => $property) {
+                $propOb = [];
+                $propGroupName = PROP_GROUP_NAME_ALL;
 
-                if (!is_null($selectTable)) {
-                    $obProps = unserialize($selectTable
-                        ->where('id', $elementId)
-                        ->select('properties')
-                        ->get()
-                        ->toArray()[0]['properties']);
-                }
                 $propOb = Property::where('id', $propId)->get()->toArray()[0];
 
-                $this->arProps = $obProps;
+                if (!is_null($propOb['group_id']))
+                    $propGroupName = PropGroup::where('id', $propOb['group_id'])->select(['id', 'title'])->get()->toArray()[0]['title'];
 
-                $this->arProps[$propId] = $propOb;
+                $this->arProps[$propGroupName][$propId] = $propOb;
 
                 // Image properties
                 if ($propOb['type'] == PROP_TYPE_IMG) {
+                    if (isset($obProps[$propGroupName][$propId]['value']))
+                        $oldImages = $obProps[$propGroupName][$propId]['value'];
 
-                    if (isset($obProps[$propId]['value']))
-                        $oldImages = $obProps[$propId]['value'];
-
-                    $this->arProps[$propId]['value'] = $this->LoadImg($property, $oldImages);
+                    $this->arProps[$propGroupName][$propId]['value'] = $this->LoadImg($property, $oldImages);
                 }
-                elseif($propOb['type'] == PROP_TYPE_FILE) {
-                    $this->arProps[$propId]['value'] = $this->LoadFile($property);
+                if($propOb['type'] == PROP_TYPE_FILE) {
+                    $this->arProps[$propGroupName][$propId]['value'] = $this->LoadFile($property);
                 }
-                else {
-                    $this->arProps[$propId]['value'] = $property;
+                if(($propOb['type'] !== PROP_TYPE_FILE) && ($propOb['type'] !== PROP_TYPE_IMG)){
+                    $this->arProps[$propGroupName][$propId]['value'] = $property;
                 }
-
             }
-            $strProp = serialize($this->arProps);
         }
-
+        $strProp = serialize($this->arProps);
         return $strProp;
     }
 
@@ -85,6 +87,7 @@ trait HandlePropertyController
     public function getProperties($selectTable, $propKind, $fieldLinkId = 'category_id', $fieldParentId = 'parent_id', $strProp = "", $categoryId = NULL)
     {
         $propValues = [];
+        $propGroupName = PROP_GROUP_NAME_ALL;
 
         $propValues = unserialize($strProp);
 
@@ -92,17 +95,22 @@ trait HandlePropertyController
 
         if (count($this->propList) > 0) {
             foreach ($this->propList as $key=>$property) {
-                $this->arProps[$property["id"]] = $property;
+                if (!is_null($property['group_id']))
+                    $propGroupName = PropGroup::where('id', $property['group_id'])->get()->toArray()[0]['title'];
+
+                $this->arProps[$propGroupName][$property["id"]] = $property;
 
                 // Enumeration property
                 if ($property['type'] == PROP_TYPE_LIST) {
                     $this->getListValues($property["id"]);
-                    $this->arProps[$property["id"]]['arList'] = $this->propEnums;
+                    $this->arProps[$propGroupName][$property["id"]]['arList'] = $this->propEnums;
                 }
 
-                if (!empty($propValues[$property["id"]]) && isset($propValues[$property["id"]]['value']))
-                    $this->arProps[$property["id"]]['value'] = $propValues[$property["id"]]['value'];
+                if (!empty($propValues[$propGroupName][$property["id"]]) && isset($propValues[$propGroupName][$property["id"]]['value']))
+                    $this->arProps[$propGroupName][$property["id"]]['value'] = $propValues[$propGroupName][$property["id"]]['value'];
             }
+
+
         }
     }
 
@@ -126,7 +134,7 @@ trait HandlePropertyController
             ->toArray();
 
         foreach ($categoryProps as $key=>$property) {
-            if (($this->insertCount === 0 && $property['is_insert'] === 0) || ($property['is_insert'] == 1))
+            if ( (($this->insertCount === 0 && $property['is_insert'] === 0) || ($property['is_insert'] == 1)) && (!in_array($property, $this->propList)) )
                 $this->propList[] = $property;
         }
 

@@ -52,14 +52,16 @@ trait FileController
     public function deletePropFile($file, $selectTable, $directory = FILE_LOAD_PATH)
     {
         $strProps = $selectTable->select(['id', 'properties'])->where('id', $selectTable->id)->get()->toArray()[0]['properties'];
-        $arProps = unserialize($strProps);
+        $arPropsGrous = unserialize($strProps);
 
-        foreach ($arProps as $key=>$arProp) {
-            if ($arProp['type'] == PROP_TYPE_FILE)
-                unset($arProps[$key]);
+        foreach ($arPropsGrous as $groupName => $arProps) {
+            foreach ($arProps as $key => $arProp) {
+                if ($arProp['type'] == PROP_TYPE_FILE)
+                    unset($arPropsGrous[$groupName][$key]);
+            }
         }
 
-        $strProps = serialize($arProps);
+        $strProps = serialize($arPropsGrous);
         $selectTable->where('id', $selectTable->id)->update(['properties' => $strProps]);
 
         $filePath = public_path($directory . $file);
@@ -87,14 +89,17 @@ trait FileController
     public function deleteFileWithDestroy($selectTable, $directory = FILE_LOAD_PATH)
     {
         $obImage = $selectTable->select(['id', 'properties'])->where('id', $selectTable->id)->get();
-        $arProps = unserialize($obImage->pluck('properties')[0]);
+        $arPropsGrous = unserialize($obImage->pluck('properties')[0]);
 
-        if (count($arProps) > 0) {
-            foreach ($arProps as $key=>$arProp) {
-                if ($arProp['type'] == PROP_TYPE_FILE) {
-                    $this->deletePropFile($arProp['value'], $selectTable, $directory);
+        if (count($arPropsGrous) > 0) {
+            foreach ($arPropsGrous as $groupName => $arProps) {
+                foreach ($arProps as $key => $arProp) {
+                    if ($arProp['type'] == PROP_TYPE_FILE) {
+                        $this->deletePropFile($arProp['value'], $selectTable, $directory);
+                    }
                 }
             }
         }
+
     }
 }
