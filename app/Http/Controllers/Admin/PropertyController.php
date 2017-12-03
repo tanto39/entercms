@@ -12,9 +12,12 @@ use App\PropType;
 
 class PropertyController extends Controller
 {
+    use \App\ImgController;
+    use \App\FileController;
     use \App\FilterController;
     use \App\SearchController;
     use \App\PropEnumController;
+    use \App\HandlePropertyController;
 
     public $categories = [];
     public $propKinds = [];
@@ -141,7 +144,15 @@ class PropertyController extends Controller
 
         $requestData = $this->getRequestData($request);
 
-        if(isset($requestData['prop_enums']))
+        if ($requestData['old_type'] != $requestData['type']) {
+            $this->deletePropertyWithChangeType($requestData, $requestData['category_id']);
+
+            if ( $requestData['old_type'] == PROP_TYPE_LIST)
+                $this->deleteListValues($requestData['id']);
+        }
+
+
+        if (isset($requestData['prop_enums']) && $requestData['old_type'] == $requestData['type'])
             $this->updateListValues($requestData['prop_enums']);
 
         $property->update($requestData);

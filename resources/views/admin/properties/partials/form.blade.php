@@ -63,6 +63,7 @@
 @endisset
 
 <input type="hidden" name="id" value="{{$property->id or ""}}">
+<input type="hidden" name="old_type" value="{{$property->type or ""}}">
 
 <div class="form-buttons" style="margin: 20px 0;">
     <input class="btn btn-primary" type="submit" name="save" value="Сохранить">
