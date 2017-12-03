@@ -66,16 +66,18 @@ trait ImgController
     public function deleteMultiplePropImg(Request $request, $selectTable, $imgDirectory = PREV_IMG_FULL_PATH)
     {
         $strProps = $selectTable->select(['id', 'properties'])->where('id', $selectTable->id)->get()->toArray()[0]['properties'];
-        $arProps = unserialize($strProps);
+        $arPropsGrous = unserialize($strProps);
 
-        foreach ($arProps as $key=>$arProp) {
-            if ($arProp['type'] == PROP_TYPE_IMG) {
-                // Delete from server and array
-                $arProps[$key]['value'] = $this->deleteMultipleImg($arProp['value'], $request->deletePropImg);
+        foreach ($arPropsGrous as $groupName => $arProps) {
+            foreach ($arProps as $key => $arProp) {
+                if ($arProp['type'] == PROP_TYPE_IMG) {
+                    // Delete from server and array
+                    $arPropsGrous[$groupName][$key]['value'] = $this->deleteMultipleImg($arProp['value'], $request->deletePropImg);
+                }
             }
         }
 
-        $strProps = serialize($arProps);
+        $strProps = serialize($arPropsGrous);
         $selectTable->where('id', $selectTable->id)->update(['properties' => $strProps]);
 
         return $selectTable;
@@ -213,19 +215,22 @@ trait ImgController
      */
     public function deleteImgWithDestroy($selectTable, $imgField, $imgDirectory = PREV_IMG_FULL_PATH)
     {
+        $arPropsGrous = [];
         $arProps = [];
         $arImage = [];
 
         // Delete preview images
         $obImage = $selectTable->select(['id', $imgField, 'properties'])->where('id', $selectTable->id)->get();
         $arImage = unserialize($obImage->pluck($imgField)[0]);
-        $arProps = unserialize($obImage->pluck('properties')[0]);
+        $arPropsGrous = unserialize($obImage->pluck('properties')[0]);
 
-        if ($arProps && count($arProps) > 0) {
-            foreach ($arProps as $key=>$arProp) {
-                if ($arProp['type'] == PROP_TYPE_IMG) {
-                    foreach ($arProp['value'] as $keyImg=>$arDelImg)
-                        $this->deleteImgFromServer($arDelImg);
+        if ($arPropsGrous && count($arPropsGrous) > 0) {
+            foreach ($arPropsGrous as $groupName => $arProps) {
+                foreach ($arProps as $key => $arProp) {
+                    if ($arProp['type'] == PROP_TYPE_IMG) {
+                        foreach ($arProp['value'] as $keyImg => $arDelImg)
+                            $this->deleteImgFromServer($arDelImg);
+                    }
                 }
             }
         }

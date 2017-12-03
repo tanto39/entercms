@@ -63,7 +63,7 @@ class CategoryController extends Controller
             'categories' => Category::with('children')->where('parent_id', '0')->get(),
             'delimiter' => '',
             'user' => Auth::user(),
-            'properties' => $this->arProps
+            'propGroups' => $this->arProps
         ]);
     }
 
@@ -111,14 +111,13 @@ class CategoryController extends Controller
         // Get properties
         $this->getProperties($category,PROP_KIND_CATEGORY,'category_id', 'parent_id', $category->properties, $category->id);
 
-        //dd($this->arProps);
         return view('admin.categories.edit', [
             'category' => $category,
             'categories' => Category::with('children')->where('parent_id', '0')->get(),
             'delimiter' => '-',
             'user' => Auth::user(),
             'preview_images' => $preview_images,
-            'properties' => $this->arProps
+            'propGroups' => $this->arProps
         ]);
     }
 
