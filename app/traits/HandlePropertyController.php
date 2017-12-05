@@ -2,8 +2,10 @@
 
 namespace App;
 
+use App\Category;
 use App\Property;
 use App\PropGroup;
+use phpDocumentor\Reflection\Types\Object_;
 
 /**
  * Set and get property array
@@ -13,8 +15,6 @@ use App\PropGroup;
  */
 trait HandlePropertyController
 {
-    use \App\PropEnumController;
-
     public $arProps = [];
     public $propList = [];
     public $insertCount = 0;
@@ -169,4 +169,73 @@ trait HandlePropertyController
 
         Property::destroy($propIds);
     }
+
+    /**
+     * Delete property values from element with change property kind
+     *
+     * @param $requestData
+     */
+    public function deletePropertyWithChangeType($requestData, $categoryId)
+    {
+        $arProperties = [];
+        $arChildId = [];
+
+        $selectTable = new Object_();
+        $filterField = "id";
+
+        switch ($requestData['prop_kind']) {
+            case PROP_KIND_CATEGORY:
+                $selectTable = new Category();
+                if (!is_null($categoryId))
+                    $arChildId = $selectTable->where('parent_id', $categoryId)->select(['id'])->get()->toArray();
+                else
+                    $arChildId = $selectTable->select(['id'])->get()->toArray();
+                break;
+        }
+
+        // Get property array from DB
+        if (!is_null($categoryId))
+            $arElements = $selectTable->where($filterField, $categoryId)->select(['id', 'properties'])->get()->toArray();
+        else
+            $arElements = $selectTable->select(['id', 'properties'])->get()->toArray();
+
+        foreach ($arElements as $key=>$arElement) {
+            $arProperties = unserialize($arElement['properties']);
+
+            if (empty($arProperties))
+                continue;
+
+            foreach ($arProperties as $propGroup=>$arProperty) {
+                if (key_exists($requestData['id'], $arProperty)) {
+
+                    // Delete images
+                    if ($requestData['old_type'] == PROP_TYPE_IMG) {
+                        foreach ($arProperty[$requestData['id']]['value'] as $keyImg=>$arImg) {
+                            $this->deleteMultipleImg($arProperty[$requestData['id']]['value'], $arImg['MIDDLE']);
+                        }
+                    }
+
+                    // Delete files
+                    if ($requestData['old_type'] == PROP_TYPE_FILE)
+                        $this->deleteFileFromServer($arProperty[$requestData['id']]['value']);
+
+                    // Delete enums values
+                    if ($requestData['old_type'] == PROP_TYPE_LIST)
+                        $this->deleteListValues($requestData['id']);
+
+                    // Delete property values from value array
+                    unset($arProperties[$propGroup][$requestData['id']]);
+
+                    $selectTable->where('id', $arElement['id'])->update(['properties' => serialize($arProperties)]);
+                }
+            }
+        }
+
+        // Recurce for child categories
+        if (!empty($arChildId)) {
+            foreach ($arChildId as $childId)
+                $this->deletePropertyWithChangeType($requestData, $childId['id']);
+        }
+    }
+
 }

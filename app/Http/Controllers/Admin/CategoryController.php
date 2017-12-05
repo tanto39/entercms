@@ -11,6 +11,7 @@ class CategoryController extends Controller
 {
     use \App\FilterController;
     use \App\SearchController;
+    use \App\PropEnumController;
     use \App\ImgController;
     use \App\FileController;
     use \App\HandlePropertyController;

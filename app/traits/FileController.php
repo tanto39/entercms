@@ -64,19 +64,21 @@ trait FileController
         $strProps = serialize($arPropsGrous);
         $selectTable->where('id', $selectTable->id)->update(['properties' => $strProps]);
 
-        $filePath = public_path($directory . $file);
-        $this->deleteFileFromServer($filePath);
+        $this->deleteFileFromServer($file, $directory);
     }
 
     /**
      * Delete file from server
      *
      * @param $file
+     * @param $directory
      */
-    public function deleteFileFromServer($file)
+    public function deleteFileFromServer($file, $directory = FILE_LOAD_PATH)
     {
+        $filePath = public_path($directory . $file);
+
         $sem = sem_get(1);
-        if ( sem_acquire($sem) && file_exists($file) ) @unlink($file);
+        if ( sem_acquire($sem) && file_exists($filePath) ) @unlink($filePath);
         sem_remove($sem);
     }
 
