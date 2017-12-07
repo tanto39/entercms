@@ -1,8 +1,8 @@
 <form method="post" action="{{route('admin.property.filter')}}">
     {{csrf_field()}}
-    <div style="display: flex;">
+    <div class="flex">
 
-        <div style="flex-basis: 33%; padding-right: 20px;">
+        <div class="flex-basis-33">
             <label for="kind-select">Вид</label>
             <select id="kind-select" class="form-control" name="filter[prop_kind]">
                 <option value="all">Все виды</option>
@@ -12,7 +12,7 @@
             </select>
         </div>
 
-        <div style="flex-basis: 33%; padding-right: 20px;">
+        <div class="flex-basis-33">
             <label for="type-select">Тип</label>
             <select id="type-select" class="form-control" name="filter[type]">
                 <option value="all">Все типы</option>
@@ -22,7 +22,7 @@
             </select>
         </div>
 
-        <div style="flex-basis: 33%; padding-right: 20px;">
+        <div class="flex-basis-33">
             <label for="insert-select">Для вложенных категорий</label>
             <select id="insert-select" class="form-control" name="filter[is_insert]">
                 <option value="all">Все</option>
@@ -33,9 +33,9 @@
 
     </div>
 
-    <div style="display: flex;">
+    <div class="flex">
 
-        <div style="flex-basis: 50%; padding-right: 20px;">
+        <div class="flex-basis-50">
             <label for="prop-group">Группа свойств</label>
             <select id="prop-group" class="form-control selectpicker" data-live-search="true" name="filter[group_id]">
                 <option value="all">Все группы</option>
@@ -46,7 +46,7 @@
             </select>
         </div>
 
-        <div style="flex-basis: 50%; padding-right: 20px;">
+        <div class="flex-basis-50">
             <label for="category-select">Категория</label>
             <select id="category-select" class="form-control selectpicker" data-live-search="true" name="filter[category_id]">
                 <option value="all">Все категории</option>

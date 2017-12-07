@@ -66,7 +66,7 @@
 <input type="hidden" name="old_type" value="{{$property->type or ""}}">
 <input type="hidden" name="old_category_id" value="{{$property->category_id or ""}}">
 
-<div class="form-buttons" style="margin: 20px 0;">
+<div class="form-buttons">
     <input class="btn btn-primary" type="submit" name="save" value="Сохранить">
 
     @if(isset($property->id))
