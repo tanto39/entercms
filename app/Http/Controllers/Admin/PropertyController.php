@@ -144,13 +144,17 @@ class PropertyController extends Controller
 
         $requestData = $this->getRequestData($request);
 
+        // Delete properties with change type
         if ($requestData['old_type'] != $requestData['type']) {
-            $this->deletePropertyWithChangeType($requestData, $requestData['category_id']);
+            $this->deletePropertyWithChange($requestData, $requestData['category_id']);
 
             if ( $requestData['old_type'] == PROP_TYPE_LIST)
                 $this->deleteListValues($requestData['id']);
         }
 
+        // Delete properties with change category id
+        if ($requestData['old_category_id'] != $requestData['category_id'])
+            $this->deletePropertyWithChange($requestData, null, true);
 
         if (isset($requestData['prop_enums']) && $requestData['old_type'] == $requestData['type'])
             $this->updateListValues($requestData['prop_enums']);
