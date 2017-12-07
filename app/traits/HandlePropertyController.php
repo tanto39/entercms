@@ -171,11 +171,13 @@ trait HandlePropertyController
     }
 
     /**
-     * Delete property values from element with change property kind
+     * Delete property values from element with change property kind, insert
      *
      * @param $requestData
+     * @param $isChangeCategoryId - if change category id
+     * @param $categoryId
      */
-    public function deletePropertyWithChangeType($requestData, $categoryId)
+    public function deletePropertyWithChange($requestData, $categoryId, $isChangeCategoryId = false)
     {
         $arProperties = [];
         $arChildId = [];
@@ -186,10 +188,6 @@ trait HandlePropertyController
         switch ($requestData['prop_kind']) {
             case PROP_KIND_CATEGORY:
                 $selectTable = new Category();
-                if (!is_null($categoryId))
-                    $arChildId = $selectTable->where('parent_id', $categoryId)->select(['id'])->get()->toArray();
-                else
-                    $arChildId = $selectTable->select(['id'])->get()->toArray();
                 break;
         }
 
@@ -200,11 +198,20 @@ trait HandlePropertyController
             $arElements = $selectTable->select(['id', 'properties'])->get()->toArray();
 
         foreach ($arElements as $key=>$arElement) {
+
+            // Get properties
             $arProperties = unserialize($arElement['properties']);
 
-            if (empty($arProperties))
+            if (empty($arProperties) || ($isChangeCategoryId && ($categoryId == $arElement['id'])))
                 continue;
 
+            // Get child categories
+            if (!is_null($categoryId))
+                $arChildId = $selectTable->where('parent_id', $arElement['id'])->select(['id'])->get()->toArray();
+            else
+                $arChildId = $selectTable->select(['id'])->get()->toArray();
+
+            // Delete properties
             foreach ($arProperties as $propGroup=>$arProperty) {
                 if (key_exists($requestData['id'], $arProperty)) {
 
@@ -219,22 +226,18 @@ trait HandlePropertyController
                     if ($requestData['old_type'] == PROP_TYPE_FILE)
                         $this->deleteFileFromServer($arProperty[$requestData['id']]['value']);
 
-                    // Delete enums values
-                    if ($requestData['old_type'] == PROP_TYPE_LIST)
-                        $this->deleteListValues($requestData['id']);
-
                     // Delete property values from value array
                     unset($arProperties[$propGroup][$requestData['id']]);
 
                     $selectTable->where('id', $arElement['id'])->update(['properties' => serialize($arProperties)]);
                 }
             }
-        }
 
-        // Recurce for child categories
-        if (!empty($arChildId)) {
-            foreach ($arChildId as $childId)
-                $this->deletePropertyWithChangeType($requestData, $childId['id']);
+            // Recurce for child categories
+            if (!empty($arChildId)) {
+                foreach ($arChildId as $childId)
+                    $this->deletePropertyWithChange($requestData, $childId['id'], $isChangeCategoryId);
+            }
         }
     }
 

@@ -1,7 +1,7 @@
 <form method="post" action="{{route('admin.category.filter')}}">
 
-    <div style="display: flex;">
-        <div style="flex-basis: 50%; padding-right: 20px;">
+    <div class="flex">
+        <div class="flex-basis-50">
             <label for="category-select">Родительская категория</label>
             {{csrf_field()}}
             <select id="category-select" class="form-control selectpicker" data-live-search="true" name="filter[parent_id]">

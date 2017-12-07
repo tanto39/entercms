@@ -8,9 +8,10 @@
 <label for="order">Порядок</label>
 <input type="number" id="order" class="form-control" name="order" value="{{$propgroup->order or ""}}">
 
-</br>
+<div class="form-buttons">
 <input class="btn btn-primary" type="submit" name="save" value="Сохранить">
 
 @if(isset($propgroup->id))
     <input class="btn btn-danger" type="submit" name="delete" value="Удалить">
 @endif
+</div>

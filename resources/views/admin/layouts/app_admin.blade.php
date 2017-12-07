@@ -15,7 +15,7 @@
 
 </head>
 <body>
-    <div id="app">
+    <div id="app" class="admin-panel">
         <nav class="navbar navbar-default navbar-static-top">
             <div class="container">
                 <div class="navbar-header">

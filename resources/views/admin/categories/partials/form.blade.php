@@ -14,14 +14,14 @@
 <label for="order">Порядок</label>
 <input type="number" id="order" class="form-control" name="order" value="{{$category->order or ""}}">
 
-<div class="image-wrap" style="margin: 20px 0">
+<div class="image-wrap">
 <label for="preview_img">Изображение</label>
 <input type="file" multiple id="preview_img" class="form-control" name="preview_img[]">
-    <div id="image-placeholder" style="display: flex">
+    <div id="image-placeholder flex">
         @if(!empty($preview_images))
             @foreach($preview_images as $image)
                 <div class="img-item">
-                    <img style="max-width: 200px;" src="{{ url('/images/shares/previews/'.$image['MIDDLE']) }}" alt="">
+                    <img src="{{ url('/images/shares/previews/'.$image['MIDDLE']) }}" alt="">
                     <button class="btn btn-danger" name="deleteImg" value="{{$image['MIDDLE']}}">Удалить</button>
                 </div>
             @endforeach
@@ -64,11 +64,11 @@
 
 <input type="hidden" name="modify_by" value="{{$user->id or ""}}">
 
-<div style="margin:20px 0">
+<div class="form-buttons">
     <input class="btn btn-primary" type="submit" name="save" value="Сохранить">
 
     @if(isset($category->id))
-    <div style="margin:20px 0">
+    <div class="form-buttons">
         <input class="btn btn-danger" type="submit" name="copy" value="Копировать">
         <input class="btn btn-danger" type="submit" name="delete" value="Удалить">
     </div>
