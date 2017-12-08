@@ -1,4 +1,5 @@
 @if(count($propGroups) > 0)
+    <div class="properties-wrap">
     <h3>Значения свойств:</h3>
     @foreach($propGroups as $propGroupName=>$properties)
         <h4>{{$propGroupName}}</h4>
@@ -44,4 +45,5 @@
             @endif
         @endforeach
     @endforeach
+    </div>
 @endif

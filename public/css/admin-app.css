@@ -42,3 +42,8 @@ select.bs-select-hidden,select.selectpicker{display:none!important}.bootstrap-se
 .image-property-placeholder img, .image-placeholder img{
     max-width: 200px;
 }
+.properties-wrap h4 {
+    margin: 25px 0 0 0;
+    padding: 10px 0 0 0;
+    border-top: 1px solid #ccc;
+}

@@ -54,7 +54,7 @@
                 <input type="text" class="form-control" name="prop_enums_add[]" value="">
                 <button class="btn btn-primary" onclick="addInput('.add-input-wrap'); return false">Добавить</button>
         </div>
-    @elseif($property->type == PROP_TYPE_CATEGORY_LINK || $property->type == PROP_TYPE_FILE || $property->type == PROP_TYPE_IMG)
+    @elseif($property->type == PROP_TYPE_CATEGORY_LINK || $property->type == PROP_TYPE_FILE || $property->type == PROP_TYPE_IMG || $property->type == PROP_TYPE_CATEGORY_LINK || $property->type == PROP_TYPE_ITEM_LINK)
 
     @else
         <label for="default">Значение по умолчанию</label>
