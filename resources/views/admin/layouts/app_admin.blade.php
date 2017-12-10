@@ -39,7 +39,7 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Контент</a>
                             <ul class="dropdown-menu" role="menu">
                                 <li><a href="{{route('admin.category.index')}}">Категории</a></li>
-                                <li><a href="admin/posts">Материалы</a></li>
+                                <li><a href="{{route('admin.item.index')}}">Материалы</a></li>
                             </ul>
                         </li>
                         <li class="dropdown">

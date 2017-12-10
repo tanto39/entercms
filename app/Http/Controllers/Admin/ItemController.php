@@ -3,11 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Category;
+use App\Item;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
-class CategoryController extends Controller
+class ItemController extends Controller
 {
     use \App\FilterController;
     use \App\SearchController;
@@ -17,8 +18,8 @@ class CategoryController extends Controller
     use \App\HandlePropertyController;
     use \App\CategoryTrait;
 
-    public $indexRoute = 'admin.category.index';
-    public $prefix = 'Category';
+    public $indexRoute = 'admin.item.index';
+    public $prefix = 'Item';
 
     /**
      * Display a listing of the resource
@@ -28,19 +29,19 @@ class CategoryController extends Controller
      */
     public function index(Request $request)
     {
-        $categories = new Category();
+        $items = new Item();
 
         // Filter
-        $categories = $this->filterExec($request, $categories);
+        $items = $this->filterExec($request, $items);
 
         // Search
-        $categories = $this->searchByTitle($request, $categories);
+        $items = $this->searchByTitle($request, $items);
 
-        $categories = $categories->paginate(20);
+        $items = $items->paginate(20);
 
-        return view('admin.categories.index', [
-            'categories' => $categories,
-            'parents' => Category::orderby('title', 'asc')->select(['id', 'title'])->get(),
+        return view('admin.items.index', [
+            'items' => $items,
+            'categories' => Category::orderby('title', 'asc')->select(['id', 'title'])->get(),
             'searchText' => $this->searchText,
             'filter' => $this->arFilter,
             'sort' => $this->sortVal,
@@ -54,13 +55,13 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        $category = new Category();
+        $item = new Item();
 
         // Get properties
-        $this->getProperties($category,PROP_KIND_CATEGORY);
+        $this->getProperties($item,PROP_KIND_ITEM);
 
-        return view('admin.categories.create', [
-            'category' => [],
+        return view('admin.items.create', [
+            'item' => [],
             'categories' => Category::with('children')->where('parent_id', '0')->get(),
             'delimiter' => '',
             'user' => Auth::user(),
@@ -82,19 +83,19 @@ class CategoryController extends Controller
         if (isset($requestData['properties']))
             $requestData['properties'] = $this->setProperties($requestData['properties']);
 
-        $category = Category::create($requestData);
+        $item = Item::create($requestData);
 
-        $request->session()->flash('success', 'Категория добавлена');
-        return redirect()->route('admin.category.edit', $category);
+        $request->session()->flash('success', 'Материал добавлен');
+        return redirect()->route('admin.item.edit', $item);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Category  $category
+     * @param  \App\Item  $item
      * @return \Illuminate\Http\Response
      */
-    public function show(Category $category)
+    public function show(Item $item)
     {
         //
     }
@@ -102,18 +103,18 @@ class CategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Category  $category
+     * @param  \App\Item  $item
      * @return \Illuminate\Http\Response
      */
-    public function edit(Category $category)
+    public function edit(Item $item)
     {
-        $preview_images = unserialize($category->preview_img);
+        $preview_images = unserialize($item->preview_img);
 
         // Get properties
-        $this->getProperties($category,PROP_KIND_CATEGORY, $category->properties, $category->id);
+        $this->getProperties($item,PROP_KIND_ITEM, $item->properties, $item->category_id);
 
-        return view('admin.categories.edit', [
-            'category' => $category,
+        return view('admin.items.edit', [
+            'item' => $item,
             'categories' => Category::with('children')->where('parent_id', '0')->get(),
             'delimiter' => '-',
             'user' => Auth::user(),
@@ -126,16 +127,16 @@ class CategoryController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Category  $category
+     * @param  \App\Item  $item
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Category $category)
+    public function update(Request $request, Item $item)
     {
-        // Delete category
+        // Delete item
         if ($request->delete)
-            return $this->destroy($request, $category);
+            return $this->destroy($request, $item);
 
-        // Copy category
+        // Copy item
         if ($request->copy) {
             $request->preview_img = NULL;
             return  $this->store($request);
@@ -143,50 +144,50 @@ class CategoryController extends Controller
 
         // Delete preview images
         if ($request->deleteImg) {
-            $this->deleteMultiplePrevImg($request, $category, 'preview_img');
-            return redirect()->route('admin.category.edit', $category);
+            $this->deleteMultiplePrevImg($request, $item, 'preview_img');
+            return redirect()->route('admin.item.edit', $item);
         }
 
         // Delete property images
         if ($request->deletePropImg) {
-            $this->deleteMultiplePropImg($request, $category);
-            return redirect()->route('admin.category.edit', $category);
+            $this->deleteMultiplePropImg($request, $item);
+            return redirect()->route('admin.item.edit', $item);
         }
 
         // Delete property files
         if ($request->deletePropFile) {
-            $this->deletePropFile($request->deletePropFile, $category);
-            return redirect()->route('admin.category.edit', $category);
+            $this->deletePropFile($request->deletePropFile, $item);
+            return redirect()->route('admin.item.edit', $item);
         }
 
         $requestData = $request->all();
 
         // Set properties array
         if (isset($requestData['properties']))
-            $requestData['properties'] = $this->setProperties($requestData['properties'], $category, $category->id);
+            $requestData['properties'] = $this->setProperties($requestData['properties'], $item, $item->id);
 
-        $category->update($requestData);
+        $item->update($requestData);
 
-        $request->session()->flash('success', 'Категория отредактирована');
+        $request->session()->flash('success', 'Материал отредактирован');
 
         if ($request->saveFromList)
-            return redirect()->route('admin.category.index');
+            return redirect()->route('admin.item.index');
 
-        return redirect()->route('admin.category.edit', $category);
+        return redirect()->route('admin.item.edit', $item);
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Category  $category
+     * @param  \App\Item  $item
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, Category $category)
+    public function destroy(Request $request, Item $item)
     {
-        $this->recurceDestroy($category, 'parent_id');
+        $this->recurceDestroy($item, 'parent_id');
 
-        $request->session()->flash('success', 'Категория удалена');
-        return redirect()->route('admin.category.index');
+        $request->session()->flash('success', 'Материал удален');
+        return redirect()->route('admin.item.index');
     }
 }

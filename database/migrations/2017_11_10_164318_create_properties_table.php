@@ -18,20 +18,20 @@ class CreatePropertiesTable extends Migration
      */
     public function up()
     {
-        // Prop group table
-        PropGroup::createTable();
-
-        // Prop types table
-        PropType::createTable();
-
-        // Prop kinds table
-        PropKind::createTable();
-
-        // Properties table
-        Property::createTable();
-
-        // Properties enumeration table
-        PropEnum::createTable();
+//        // Prop group table
+//        PropGroup::createTable();
+//
+//        // Prop types table
+//        PropType::createTable();
+//
+//        // Prop kinds table
+//        PropKind::createTable();
+//
+//        // Properties table
+//        Property::createTable();
+//
+//        // Properties enumeration table
+//        PropEnum::createTable();
     }
 
     /**
@@ -41,10 +41,10 @@ class CreatePropertiesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('prop_enums');
-        Schema::dropIfExists('properties');
-        Schema::dropIfExists('prop_groups');
-        Schema::dropIfExists('prop_types');
-        Schema::dropIfExists('prop_kinds');
+//        Schema::dropIfExists('prop_enums');
+//        Schema::dropIfExists('properties');
+//        Schema::dropIfExists('prop_groups');
+//        Schema::dropIfExists('prop_types');
+//        Schema::dropIfExists('prop_kinds');
     }
 }

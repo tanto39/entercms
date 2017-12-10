@@ -78,20 +78,18 @@ trait HandlePropertyController
      * Get properties
      *
      * @param $selectTable
-     * @param $fieldLinkId
-     * @param $fieldParentId
      * @param $propKind
      * @param string $strProp
      * @param null $categoryId
      */
-    public function getProperties($selectTable, $propKind, $fieldLinkId = 'category_id', $fieldParentId = 'parent_id', $strProp = "", $categoryId = NULL)
+    public function getProperties($selectTable, $propKind, $strProp = "", $categoryId = NULL)
     {
         $propValues = [];
         $propGroupName = PROP_GROUP_NAME_ALL;
 
         $propValues = unserialize($strProp);
 
-        $this->getPropList($categoryId, $fieldLinkId, $selectTable, $fieldParentId, $propKind);
+        $this->getPropList($categoryId, $selectTable, $propKind);
 
         if (count($this->propList) > 0) {
             foreach ($this->propList as $key=>$property) {
@@ -118,17 +116,15 @@ trait HandlePropertyController
      * Get tree of properties for categories
      *
      * @param $categoryId
-     * @param $fieldLinkId
      * @param $selectTable
-     * @param $fieldParentId
      * @param $propKind
      */
-    public function getPropList($categoryId, $fieldLinkId, $selectTable, $fieldParentId, $propKind)
+    public function getPropList($categoryId, $selectTable, $propKind)
     {
         $categoryProps = [];
 
         $categoryProps = Property::orderby('id', 'asc')
-            ->where($fieldLinkId, $categoryId)
+            ->where("category_id", $categoryId)
             ->where('prop_kind', $propKind)
             ->get()
             ->toArray();
@@ -140,12 +136,12 @@ trait HandlePropertyController
 
         if ($categoryId) {
             // Get properties for all categories
-            $this->getPropList(NULL, $fieldLinkId, $selectTable, $fieldParentId, $propKind);
-            $parentId = $selectTable->where('id', $categoryId)->select([$fieldParentId])->get()->toArray()[0][$fieldParentId];
+            $this->getPropList(NULL, $selectTable, $propKind);
+            $parentId = Category::where('id', $categoryId)->select(['parent_id'])->get()->toArray()[0]['parent_id'];
         }
 
         if (isset($parentId))
-            $this->getPropList($parentId, $fieldLinkId, $selectTable, $fieldParentId, $propKind);
+            $this->getPropList($parentId, $selectTable, $propKind);
 
         $this->insertCount++;
     }
@@ -182,12 +178,15 @@ trait HandlePropertyController
         $arProperties = [];
         $arChildId = [];
 
-        $selectTable = new Object_();
         $filterField = "id";
 
         switch ($requestData['prop_kind']) {
             case PROP_KIND_CATEGORY:
                 $selectTable = new Category();
+                break;
+
+            case PROP_KIND_ITEM:
+                $selectTable = new Item();
                 break;
         }
 

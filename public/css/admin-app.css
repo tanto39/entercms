@@ -39,7 +39,7 @@ select.bs-select-hidden,select.selectpicker{display:none!important}.bootstrap-se
 .image-wrap{
     margin: 20px 0;
 }
-.image-property-placeholder img, .image-placeholder img{
+.image-property-placeholder img, .image-placeholder img, .img-item img{
     max-width: 200px;
 }
 .properties-wrap h4 {

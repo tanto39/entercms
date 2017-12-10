@@ -22,11 +22,13 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['adm
 
     // Resource
     Route::resource('/category', 'CategoryController', ['as'=>'admin']);
+    Route::resource('/item', 'ItemController', ['as'=>'admin']);
     Route::resource('/property', 'PropertyController', ['as'=>'admin']);
     Route::resource('/propgroup', 'PropGroupController', ['as'=>'admin']);
 
     // Sorting and filters
     Route::post('/category/filter','CategoryController@filter')->name('admin.category.filter');
+    Route::post('/item/filter','ItemController@filter')->name('admin.item.filter');
     Route::post('/propgroup/filter','PropGroupController@filter')->name('admin.propgroup.filter');
     Route::post('/property/filter','PropertyController@filter')->name('admin.property.filter');
 });
