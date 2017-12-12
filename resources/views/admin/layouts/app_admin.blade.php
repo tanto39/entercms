@@ -49,6 +49,7 @@
                                 <li><a href="{{route('admin.propgroup.index')}}">Группы свойств</a></li>
                             </ul>
                         </li>
+                        <li><a href="{{route('admin.review.index')}}">Отзывы</a></li>
                         <li><a href="admin/users">Пользователи</a></li>
                     </ul>
 
