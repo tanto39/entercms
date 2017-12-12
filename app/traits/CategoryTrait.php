@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\Item;
+
 trait CategoryTrait
 {
     /**
@@ -25,19 +27,39 @@ trait CategoryTrait
     }
 
     /**
+     * Delete item
+     *
+     * @param $selectTable
+     */
+    public function itemDestroy($selectTable)
+    {
+        $this->baseDestroy($selectTable);
+    }
+
+    /**
      * Destroy with children elements
      *
      * @param $selectTable
-     * @param $parentIdField
      */
-    public function recurceDestroy($selectTable, $parentIdField)
+    public function recurceDestroy($selectTable)
     {
-        $childs = $selectTable->where($parentIdField, $selectTable->id)->get();
+        $childs = $selectTable->where('parent_id', $selectTable->id)->get();
+
+        $items = new Item();
+        $items = $items->where('category_id', $selectTable->id)->get();
+
+        // Delete items
+        if (isset($items)) {
+            foreach ($items as $item)
+                $this->ItemDestroy($item);
+        }
+
+        // Delete category
         $this->baseDestroy($selectTable);
 
         if (isset($childs)) {
             foreach ($childs as $child)
-                $this->recurceDestroy($child, $parentIdField);
+                $this->recurceDestroy($child);
         }
     }
 }

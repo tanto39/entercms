@@ -185,7 +185,7 @@ class ItemController extends Controller
      */
     public function destroy(Request $request, Item $item)
     {
-        $this->recurceDestroy($item, 'parent_id');
+        $this->baseDestroy($item);
 
         $request->session()->flash('success', 'Материал удален');
         return redirect()->route('admin.item.index');

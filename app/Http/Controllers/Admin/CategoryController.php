@@ -184,7 +184,7 @@ class CategoryController extends Controller
      */
     public function destroy(Request $request, Category $category)
     {
-        $this->recurceDestroy($category, 'parent_id');
+        $this->recurceDestroy($category);
 
         $request->session()->flash('success', 'Категория удалена');
         return redirect()->route('admin.category.index');
