@@ -33,6 +33,15 @@ trait CategoryTrait
      */
     public function itemDestroy($selectTable)
     {
+        $arIdReviews = [];
+
+        $reviews = Review::where('item_id', $selectTable->id)->select(['id'])->get()->toArray();
+
+        foreach ($reviews as $review)
+            $arIdReviews[] = $review['id'];
+
+        Review::destroy($arIdReviews);
+
         $this->baseDestroy($selectTable);
     }
 

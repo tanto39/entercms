@@ -44,7 +44,7 @@
                     <td>{{$review->updated_at}}</td>
                     <td><input type="text" class="form-control" name="slug" value="{{$review->slug or ""}}" form="form-{{$review->id}}"></td>
                     <td>
-                        <a href="{{route('admin.propgroup.edit', $review)}}"><span style="font-size:2em">&#9998;</span></a>
+                        <a href="{{route('admin.review.edit', $review)}}"><span style="font-size:2em">&#9998;</span></a>
                     </td>
                     <td><input class="btn btn-primary" type="submit" name="saveFromList" value="Ок" form="form-{{$review->id}}"></td>
                     <td><input class="btn btn-danger" style="font-size: 2em;padding: 2px 5px; line-height: 1;" type="submit" name="delete" value="&#10008;" form="form-{{$review->id}}"></td>

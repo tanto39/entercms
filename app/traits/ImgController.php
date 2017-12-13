@@ -219,8 +219,6 @@ trait ImgController
         $arProps = [];
         $arImage = [];
 
-        // dd($selectTable);
-
         // Delete preview images
         $obImage = $selectTable->select(['id', $imgField, 'properties'])->where('id', $selectTable->id)->get();
         $arImage = unserialize($obImage->pluck($imgField)[0]);
