@@ -129,7 +129,7 @@ class ReviewController extends Controller
      */
     public function destroy(Request $request, Review $review)
     {
-        review::destroy($review->id);
+        Review::destroy($review->id);
         $request->session()->flash('success', 'Отзыв удален');
         return redirect()->route('admin.review.index');
     }

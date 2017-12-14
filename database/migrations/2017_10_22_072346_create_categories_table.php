@@ -14,7 +14,7 @@ class CreateCategoriesTable extends Migration
      */
     public function up()
     {
-        //Category::createTable();
+//        Category::createTable();
     }
 
     /**
@@ -24,6 +24,6 @@ class CreateCategoriesTable extends Migration
      */
     public function down()
     {
-        //Schema::dropIfExists('categories');
+//        Schema::dropIfExists('categories');
     }
 }

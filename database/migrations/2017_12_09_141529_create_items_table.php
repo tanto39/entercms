@@ -14,7 +14,7 @@ class CreateItemsTable extends Migration
      */
     public function up()
     {
-        // Item::createTable();
+//        Item::createTable();
     }
 
     /**
@@ -24,6 +24,6 @@ class CreateItemsTable extends Migration
      */
     public function down()
     {
-        // Schema::dropIfExists('items');
+//        Schema::dropIfExists('items');
     }
 }
