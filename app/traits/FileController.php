@@ -90,10 +90,12 @@ trait FileController
      */
     public function deleteFileWithDestroy($selectTable, $directory = FILE_LOAD_PATH)
     {
+        $arPropsGrous = [];
+
         $obImage = $selectTable->select(['id', 'properties'])->where('id', $selectTable->id)->get();
         $arPropsGrous = unserialize($obImage->pluck('properties')[0]);
 
-        if (count($arPropsGrous) > 0) {
+        if ($arPropsGrous && count($arPropsGrous) > 0) {
             foreach ($arPropsGrous as $groupName => $arProps) {
                 foreach ($arProps as $key => $arProp) {
                     if ($arProp['type'] == PROP_TYPE_FILE) {

@@ -14,7 +14,7 @@ class CreateReviewsTable extends Migration
      */
     public function up()
     {
-        Review::createTable();
+//        Review::createTable();
     }
 
     /**
@@ -24,6 +24,6 @@ class CreateReviewsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('reviews');
+//        Schema::dropIfExists('reviews');
     }
 }
