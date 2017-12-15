@@ -53,6 +53,7 @@
                     </td>
                     <td><input class="btn btn-primary" type="submit" name="saveFromList" value="Ок" form="form-{{$user->id}}"></td>
                     <td><input class="btn btn-danger" style="font-size: 2em;padding: 2px 5px; line-height: 1;" type="submit" name="delete" value="&#10008;" form="form-{{$user->id}}"></td>
+                    <input type="hidden" name="id" value="{{$user->id or ""}}" form="form-{{$user->id}}">
                 </tr>
             @empty
                 <tr>

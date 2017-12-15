@@ -12,6 +12,7 @@ class UserController extends Controller
 {
     use \App\FilterController;
     use \App\SearchController;
+    use \App\UserTrait;
     use RegistersUsers;
 
     public $indexRoute = 'admin.user.index';
@@ -132,6 +133,9 @@ class UserController extends Controller
      */
     public function destroy(Request $request, User $user)
     {
+        // Change fields created_by and modify_by for items, categories, reviews
+        $this->changeCreatedModifyBy($user->id);
+
         User::destroy($user->id);
         $request->session()->flash('success', 'Пользователь удален');
         return redirect()->route('admin.user.index');
@@ -153,7 +157,7 @@ class UserController extends Controller
         }
         else
             $requestData['password'] = bcrypt($requestData['password']);
-        
+
         return $requestData;
     }
 }
