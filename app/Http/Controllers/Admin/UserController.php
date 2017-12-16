@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -26,6 +27,9 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
+        if (Auth::user()->is_admin == 0)
+            return redirect()->route('admin.index');
+
         $users = new User();
 
         // Filter
@@ -51,6 +55,9 @@ class UserController extends Controller
      */
     public function create()
     {
+        if (Auth::user()->is_admin == 0)
+            return redirect()->route('admin.index');
+
         return view('admin.users.create', [
             'users' => User::orderby('name', 'asc')->select(['id', 'name'])->get(),
             'user' => [],
@@ -93,6 +100,9 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
+        if (Auth::user()->is_admin == 0)
+            return redirect()->route('admin.index');
+
         return view('admin.users.edit', [
             'users' => User::orderby('name', 'asc')->select(['id', 'name'])->get(),
             'user' => $user,

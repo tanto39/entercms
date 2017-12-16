@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\PropGroup;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class PropGroupController extends Controller
 {
@@ -22,6 +23,9 @@ class PropGroupController extends Controller
      */
     public function index(Request $request)
     {
+        if (Auth::user()->is_admin == 0)
+            return redirect()->route('admin.index');
+
         $propgroups = new PropGroup();
 
         // Filter
@@ -47,6 +51,9 @@ class PropGroupController extends Controller
      */
     public function create()
     {
+        if (Auth::user()->is_admin == 0)
+            return redirect()->route('admin.index');
+
         return view('admin.propgroups.create', [
             'propgroup' => [],
             'delimiter' => ''
@@ -86,6 +93,9 @@ class PropGroupController extends Controller
      */
     public function edit(PropGroup $propgroup)
     {
+        if (Auth::user()->is_admin == 0)
+            return redirect()->route('admin.index');
+
         return view('admin.propgroups.edit', [
             'propgroup' => $propgroup,
             'delimiter' => '-'

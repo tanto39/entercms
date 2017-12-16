@@ -17,6 +17,14 @@
     {{$order->full_content or ""}}
 </textarea>
 
+<input type="hidden" name="created_by"
+   @if(isset($order->id))
+       value="{{$order->created_by or ""}}"
+   @else
+       value="{{$user->id or ""}}"
+    @endif
+>
+
 <div class="form-buttons">
 <input class="btn btn-primary" type="submit" name="save" value="Сохранить">
 

@@ -20,6 +20,7 @@ class Order extends Model
         'count',
         'full_content',
         'item_id',
+        'created_by',
         'status_order',
     ];
 
@@ -39,7 +40,7 @@ class Order extends Model
             $table->increments('id');
             $table->integer('order')->nullable();
             $table->integer('price')->nullable();
-            $table->string('title');
+            $table->text('title');
             $table->text('full_content')->nullable();
             $table->integer('created_by')->nullable()->unsigned();
             $table->integer('modify_by')->nullable()->unsigned();

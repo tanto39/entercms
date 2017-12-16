@@ -5,6 +5,7 @@ namespace App;
 use App\Item;
 use App\Review;
 use App\Category;
+use Illuminate\Support\Facades\Auth;
 
 trait UserTrait
 {
