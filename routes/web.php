@@ -27,6 +27,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['adm
     Route::resource('/propgroup', 'PropGroupController', ['as'=>'admin']);
     Route::resource('/review', 'ReviewController', ['as'=>'admin']);
     Route::resource('/user', 'UserController', ['as'=>'admin']);
+    Route::resource('/order', 'OrderController', ['as'=>'admin']);
 
     // Sorting and filters
     Route::post('/category/filter','CategoryController@filter')->name('admin.category.filter');
@@ -35,6 +36,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['adm
     Route::post('/property/filter','PropertyController@filter')->name('admin.property.filter');
     Route::post('/review/filter','ReviewController@filter')->name('admin.review.filter');
     Route::post('/user/filter','UserController@filter')->name('admin.user.filter');
+    Route::post('/order/filter','OrderController@filter')->name('admin.order.filter');
 });
 
 Route::get('/', function () {

@@ -40,14 +40,14 @@
             @forelse($propgroups as $propgroup)
                 <tr>
                     <td><input type="text" class="form-control" name="title" value="{{$propgroup->title or ""}}" form="form-{{$propgroup->id}}" required></td>
-                    <td><input type="number" class="form-control" style="width: 90px;" name="order" value="{{$propgroup->order or ""}}" form="form-{{$propgroup->id}}"></td>
+                    <td><input type="number" class="form-control index-order-input" name="order" value="{{$propgroup->order or ""}}" form="form-{{$propgroup->id}}"></td>
                     <td>{{$propgroup->updated_at}}</td>
                     <td><input type="text" class="form-control" name="slug" value="{{$propgroup->slug or ""}}" form="form-{{$propgroup->id}}"></td>
                     <td>
-                        <a href="{{route('admin.propgroup.edit', $propgroup)}}"><span style="font-size:2em">&#9998;</span></a>
+                        <a href="{{route('admin.propgroup.edit', $propgroup)}}"><span class="edit-link">&#9998;</span></a>
                     </td>
                     <td><input class="btn btn-primary" type="submit" name="saveFromList" value="Ок" form="form-{{$propgroup->id}}"></td>
-                    <td><input class="btn btn-danger" style="font-size: 2em;padding: 2px 5px; line-height: 1;" type="submit" name="delete" value="&#10008;" form="form-{{$propgroup->id}}"></td>
+                    <td><input class="btn btn-danger btn-delete" type="submit" name="delete" value="&#10008;" form="form-{{$propgroup->id}}"></td>
                 </tr>
             @empty
                 <tr>
@@ -69,7 +69,3 @@
         </tfoot>
     </table>
 @endsection
-
-<script type="text/javascript">
-
-</script>

@@ -27,6 +27,7 @@ select.bs-select-hidden,select.selectpicker{display:none!important}.bootstrap-se
 /*-- flex --*/
 .flex {
     display: flex;
+    flex-wrap: wrap;
 }
 .flex-basis-50 {
     flex-basis: 50%;
@@ -46,4 +47,27 @@ select.bs-select-hidden,select.selectpicker{display:none!important}.bootstrap-se
     margin: 25px 0 0 0;
     padding: 10px 0 0 0;
     border-top: 1px solid #ccc;
+}
+.btn-delete {
+    font-size: 2em;
+    padding: 2px 5px;
+    line-height: 1;
+}
+.edit-link {
+    font-size:2em;
+}
+.select-tick {
+    width: 80px; padding: 0 10px; font-size: 2em;
+}
+.index-order-input {
+    width: 90px;
+}
+.admin-card a{
+    margin: 10px;
+    display: block;
+}
+.admin-card a:hover{
+    text-decoration: none;
+    color: #3c763d;
+    opacity: .7;
 }
