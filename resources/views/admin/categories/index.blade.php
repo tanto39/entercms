@@ -40,19 +40,19 @@
             @forelse($categories as $category)
                 <tr>
                     <td><input type="text" class="form-control" name="title" value="{{$category->title or ""}}" form="form-{{$category->id}}" required></td>
-                    <td><input type="number" class="form-control" style="width: 90px;" name="order" value="{{$category->order or ""}}" form="form-{{$category->id}}"></td>
+                    <td><input type="number" class="form-control index-order-input" name="order" value="{{$category->order or ""}}" form="form-{{$category->id}}"></td>
                     <td>{{$category->updated_at}}</td>
                     <td>
-                        <select style="width: 80px; padding: 0 10px; font-size:2em;" class="form-control" name="published" form="form-{{$category->id}}">
-                            <option value="1" @if($category->published == 1) selected="" @endif><span style="color: #008000">&#10004;</span></option>
-                            <option value="0" @if($category->published == 0) selected="" @endif><span style="color: #ff0013">&#10006;</span></option>
+                        <select class="form-control select-tick" name="published" form="form-{{$category->id}}">
+                            <option value="1" @if($category->published == 1) selected="" @endif>&#10004;</option>
+                            <option value="0" @if($category->published == 0) selected="" @endif>&#10006;</option>
                         </select>
                     </td>
                     <td>
-                        <a href="{{route('admin.category.edit', $category)}}"><span style="font-size:2em">&#9998;</span></a>
+                        <a href="{{route('admin.category.edit', $category)}}"><span class="edit-link">&#9998;</span></a>
                     </td>
                     <td><input class="btn btn-primary" type="submit" name="saveFromList" value="Ок" form="form-{{$category->id}}"></td>
-                    <td><input class="btn btn-danger" style="font-size: 2em;padding: 2px 5px; line-height: 1;" type="submit" name="delete" value="&#10008;" form="form-{{$category->id}}"></td>
+                    <td><input class="btn btn-danger btn-delete" type="submit" name="delete" value="&#10008;" form="form-{{$category->id}}"></td>
                 </tr>
             @empty
                 <tr>
