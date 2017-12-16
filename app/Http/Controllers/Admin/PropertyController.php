@@ -9,6 +9,7 @@ use App\Category;
 use App\PropKind;
 use App\PropGroup;
 use App\PropType;
+use Illuminate\Support\Facades\Auth;
 
 class PropertyController extends Controller
 {
@@ -35,6 +36,9 @@ class PropertyController extends Controller
      */
     public function index(Request $request)
     {
+        if (Auth::user()->is_admin == 0)
+            return redirect()->route('admin.index');
+
         $this->getSelectForForm();
 
         $properties = new Property();
@@ -66,6 +70,9 @@ class PropertyController extends Controller
      */
     public function create()
     {
+        if (Auth::user()->is_admin == 0)
+            return redirect()->route('admin.index');
+
         $this->getSelectForForm();
 
         return view('admin.properties.create', [
@@ -113,6 +120,9 @@ class PropertyController extends Controller
      */
     public function edit(Property $property)
     {
+        if (Auth::user()->is_admin == 0)
+            return redirect()->route('admin.index');
+
         $this->getSelectForForm();
 
         // Get properties of type list values

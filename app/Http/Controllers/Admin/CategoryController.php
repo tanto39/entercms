@@ -16,6 +16,7 @@ class CategoryController extends Controller
     use \App\FileController;
     use \App\HandlePropertyController;
     use \App\CategoryTrait;
+    use \App\UserTrait;
 
     public $indexRoute = 'admin.category.index';
     public $prefix = 'Category';
@@ -28,6 +29,9 @@ class CategoryController extends Controller
      */
     public function index(Request $request)
     {
+        if (Auth::user()->is_admin == 0)
+            return redirect()->route('admin.index');
+
         $categories = new Category();
 
         // Filter
@@ -54,6 +58,9 @@ class CategoryController extends Controller
      */
     public function create()
     {
+        if (Auth::user()->is_admin == 0)
+            return redirect()->route('admin.index');
+
         $category = new Category();
 
         // Get properties
@@ -107,6 +114,9 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
+        if (Auth::user()->is_admin == 0)
+            return redirect()->route('admin.index');
+
         $preview_images = unserialize($category->preview_img);
 
         // Get properties

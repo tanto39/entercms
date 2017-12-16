@@ -6,6 +6,7 @@ use App\Order;
 use App\StatusOrder;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
@@ -23,7 +24,15 @@ class OrderController extends Controller
      */
     public function index(Request $request)
     {
+        $isAdmin = false;
+
+        if (Auth::user()->is_admin == 1)
+            $isAdmin = true;
+
         $orders = new Order();
+
+        if (Auth::user()->is_admin == 0)
+            $orders = $orders->where('created_by', Auth::user()->id);
 
         // Filter
         $orders = $this->filterExec($request, $orders);
@@ -34,6 +43,7 @@ class OrderController extends Controller
         $orders = $orders->paginate(20);
 
         return view('admin.orders.index', [
+            'isAdmin' => $isAdmin,
             'orders' => $orders,
             'status_orders' => StatusOrder::orderby('id', 'asc')->select(['id', 'title'])->get(),
             'searchText' => $this->searchText,
@@ -49,9 +59,13 @@ class OrderController extends Controller
      */
     public function create()
     {
+        if (Auth::user()->is_admin == 0)
+            return redirect()->route('admin.index');
+
         return view('admin.orders.create', [
             'status_orders' => StatusOrder::orderby('id', 'asc')->select(['id', 'title'])->get(),
             'order' => [],
+            'user' => Auth::user(),
             'delimiter' => ''
         ]);
     }
@@ -76,9 +90,11 @@ class OrderController extends Controller
      * @param  \App\order  $order
      * @return \Illuminate\Http\Response
      */
-    public function show(order $order)
+    public function show(Order $order)
     {
-        //
+        return view('admin.orders.show', [
+            'order' => $order
+        ]);
     }
 
     /**
@@ -89,9 +105,13 @@ class OrderController extends Controller
      */
     public function edit(Order $order)
     {
+        if (Auth::user()->is_admin == 0)
+            return redirect()->route('admin.index');
+
         return view('admin.orders.edit', [
             'status_orders' => StatusOrder::orderby('id', 'asc')->select(['id', 'title'])->get(),
             'order' => $order,
+            'user' => Auth::user(),
             'delimiter' => '-'
         ]);
     }

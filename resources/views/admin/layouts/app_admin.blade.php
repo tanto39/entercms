@@ -38,15 +38,10 @@
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Контент</a>
                             <ul class="dropdown-menu" role="menu">
-                                <li><a href="{{route('admin.category.index')}}">Категории</a></li>
+                                @if(Illuminate\Support\Facades\Auth::user()->is_admin == 1)
+                                    <li><a href="{{route('admin.category.index')}}">Категории</a></li>
+                                @endif
                                 <li><a href="{{route('admin.item.index')}}">Материалы</a></li>
-                            </ul>
-                        </li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Свойства</a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li><a href="{{route('admin.property.index')}}">Свойства</a></li>
-                                <li><a href="{{route('admin.propgroup.index')}}">Группы свойств</a></li>
                             </ul>
                         </li>
                         <li class="dropdown">
@@ -55,16 +50,25 @@
                                 <li><a href="{{route('admin.order.index')}}">Заказы</a></li>
                             </ul>
                         </li>
-                        <li><a href="{{route('admin.review.index')}}">Отзывы</a></li>
-                        <li><a href="{{route('admin.user.index')}}">Пользователи</a></li>
+                        @if(Illuminate\Support\Facades\Auth::user()->is_admin == 1)
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Свойства</a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="{{route('admin.property.index')}}">Свойства</a></li>
+                                    <li><a href="{{route('admin.propgroup.index')}}">Группы свойств</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="{{route('admin.review.index')}}">Отзывы</a></li>
+                            <li><a href="{{route('admin.user.index')}}">Пользователи</a></li>
+                        @endif
                     </ul>
 
                     <!-- Right Side Of Navbar -->
                     <ul class="nav navbar-nav navbar-right">
                         <!-- Authentication Links -->
                         @guest
-                            <li><a href="{{ route('login') }}">Login</a></li>
-                            <li><a href="{{ route('register') }}">Register</a></li>
+                            <li><a href="{{ route('login') }}">Вход</a></li>
+                            <li><a href="{{ route('register') }}">Регистрация</a></li>
                         @else
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -76,7 +80,7 @@
                                         <a href="{{ route('logout') }}"
                                             onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                            Logout
+                                            Выход
                                         </a>
 
                                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">

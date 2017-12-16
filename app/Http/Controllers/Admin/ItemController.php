@@ -31,6 +31,9 @@ class ItemController extends Controller
     {
         $items = new Item();
 
+        if (Auth::user()->is_admin == 0)
+            $items = $items->where('created_by', Auth::user()->id);
+
         // Filter
         $items = $this->filterExec($request, $items);
 
@@ -108,6 +111,9 @@ class ItemController extends Controller
      */
     public function edit(Item $item)
     {
+        if (Auth::user()->is_admin == 0 && $item->created_by != Auth::user()->id)
+            return redirect()->route('admin.item.index');
+
         $preview_images = unserialize($item->preview_img);
 
         // Get properties

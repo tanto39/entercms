@@ -6,6 +6,7 @@ use App\Review;
 use App\Item;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class ReviewController extends Controller
 {
@@ -23,6 +24,9 @@ class ReviewController extends Controller
      */
     public function index(Request $request)
     {
+        if (Auth::user()->is_admin == 0)
+            return redirect()->route('admin.index');
+
         $reviews = new Review();
 
         // Filter
@@ -49,6 +53,9 @@ class ReviewController extends Controller
      */
     public function create()
     {
+        if (Auth::user()->is_admin == 0)
+            return redirect()->route('admin.index');
+
         return view('admin.reviews.create', [
             'items' => Item::orderby('title', 'asc')->select(['id', 'title'])->get(),
             'reviews' => Review::orderby('title', 'asc')->select(['id', 'title'])->get(),
@@ -90,6 +97,9 @@ class ReviewController extends Controller
      */
     public function edit(Review $review)
     {
+        if (Auth::user()->is_admin == 0)
+            return redirect()->route('admin.index');
+
         return view('admin.reviews.edit', [
             'items' => Item::orderby('title', 'asc')->select(['id', 'title'])->get(),
             'reviews' => Review::orderby('title', 'asc')->select(['id', 'title'])->get(),
