@@ -39,6 +39,12 @@
     <option value="0" @if(isset($property->id) && $property->is_insert == 0) selected="" @endif>Нет</option>
 </select>
 
+<label for="smart_filter">Показывать в умном фильтре</label>
+<select id="smart_filter" class="form-control" name="smart_filter">
+    <option value="1" @if(isset($property->id) && $property->smart_filter == 1) selected="" @endif>Да</option>
+    <option value="0" @if(isset($property->id) && $property->smart_filter == 0) selected="" @endif>Нет</option>
+</select>
+
 <label for="order">Порядок</label>
 <input type="number" id="order" class="form-control" name="order" value="{{$property->order or ""}}">
 

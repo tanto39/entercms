@@ -22,6 +22,7 @@ class Property extends Model
         'prop_kind',      // values: category, item
         'category_id',
         'group_id',
+        'smart_filter',   // values: 1, 0
         'default'
     ];
 
@@ -45,6 +46,7 @@ class Property extends Model
             $table->text('default')->nullable();
             $table->integer('type')->nullable()->unsigned(); // values: html, img, file, int, str, list, category_link, item_link
             $table->tinyInteger('is_insert')->default(1);        // values: 1, 0
+            $table->tinyInteger('smart_filter')->nullable()->default(1);        // values: 1, 0
             $table->integer('prop_kind')->nullable()->unsigned(); // values: category, item
             $table->integer('category_id')->nullable()->unsigned();
             $table->integer('group_id')->nullable()->unsigned();

@@ -32,6 +32,14 @@
             <div class="flex-basis-33">
                 <a class="alert alert-success" href="{{route('admin.user.index')}}">Пользователи</a>
             </div>
+
+            <div class="flex-basis-33">
+                <a class="alert alert-success" href="{{route('admin.menu.index')}}">Меню</a>
+            </div>
+
+            <div class="flex-basis-33">
+                <a class="alert alert-success" href="{{route('admin.menuitem.index')}}">Типы меню</a>
+            </div>
         @endif
     </div>
 @endsection
