@@ -33,5 +33,6 @@ class AdminServiceProvider extends ServiceProvider
         require_once app_path() . '/traits/SearchController.php';
         require_once app_path() . '/traits/CategoryTrait.php';
         require_once app_path() . '/traits/UserTrait.php';
+        require_once app_path() . '/traits/MenuTrait.php';
     }
 }

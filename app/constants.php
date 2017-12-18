@@ -18,3 +18,8 @@ define("PROP_TYPE_CATEGORY_LINK", 7);
 define("PROP_TYPE_ITEM_LINK", 8);
 
 define("PROP_GROUP_NAME_ALL", 'Характеристики');
+
+// Menu types
+define("MENU_TYPE_CATEGORY", 1);
+define("MENU_TYPE_ITEM", 2);
+define("MENU_TYPE_REVIEWS", 3);

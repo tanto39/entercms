@@ -58,6 +58,12 @@
                                     <li><a href="{{route('admin.propgroup.index')}}">Группы свойств</a></li>
                                 </ul>
                             </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Меню</a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="{{route('admin.menu.index')}}">Меню</a></li>
+                                    <li><a href="{{route('admin.menuitem.index')}}">Пункты меню</a></li>                                </ul>
+                            </li>
                             <li><a href="{{route('admin.review.index')}}">Отзывы</a></li>
                             <li><a href="{{route('admin.user.index')}}">Пользователи</a></li>
                         @endif
