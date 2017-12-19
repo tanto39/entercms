@@ -1,4 +1,9 @@
 <?php
+// Slugs
+define("BLOG_SLUG", 'blog');
+define("SHOP_SLUG", 'shop');
+define("REVIEWS_SLUG", 'reviews');
+
 // Images
 define("PREV_IMG_FULL_WIDTH", 1600);
 define("PREV_IMG_MIDDLE_WIDTH", 300);
@@ -23,3 +28,9 @@ define("PROP_GROUP_NAME_ALL", 'Характеристики');
 define("MENU_TYPE_CATEGORY", 1);
 define("MENU_TYPE_ITEM", 2);
 define("MENU_TYPE_REVIEWS", 3);
+
+
+// Default meta keys
+define("META_TITLE", "EnterCMS");
+define("META_KEY", "EnterCMS");
+define("META_DESC", "EnterCMS");

@@ -32,6 +32,23 @@ class Item extends Model
     ];
 
     /**
+     * Get reviews
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function reviews() {
+        return $this->hasMany('App\Review', 'item_id');
+    }
+
+    /**
+     * Get category
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function category() {
+        return $this->belongsTo('App\Category');
+    }
+
+    /**
      * Create table categories
      */
     public static function createTable()

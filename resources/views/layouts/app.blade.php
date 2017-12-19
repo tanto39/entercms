@@ -7,8 +7,10 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="keywords" content="{{$result->meta_key or META_KEY}}" />
+    <meta name="description" content="{{$result->meta_desc or META_DESC}}" />
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{$result->title or META_TITLE}}</title>
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
