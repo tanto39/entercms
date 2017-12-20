@@ -43,10 +43,15 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
     Route::post('/menuitem/filter','MenuItemController@filter')->name('admin.menuitem.filter');
 });
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'HomeController@index')->name('home.index');
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::group(['namespace' => 'Site'], function() {
+    Route::get('/' . BLOG_SLUG . '/{category_slug}/{item_slug}', 'ItemController@showBlogItem')->name('item.showBlogItem');
+
+    Route::get('/{slug}', 'ItemController@showUncategorisedItem')->name('item.showUncaterorised');
+});
+

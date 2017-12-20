@@ -3,19 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Item;
+use App\Category;
 
 class HomeController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     /**
      * Show the application dashboard.
      *
@@ -23,6 +15,12 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $mainPage = Item::with('reviews')->where('slug', '/')->get();
+
+        if(isset($mainPage[0])) {
+            return view('public/items/item', [
+                'result' => $mainPage[0]
+            ]);
+        }
     }
 }
