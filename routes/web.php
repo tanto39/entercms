@@ -50,6 +50,9 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::group(['namespace' => 'Site'], function() {
+    // Item controllers
+    Route::get('/' . BLOG_SLUG, 'CategoryController@showBlogCategories')->name('item.showBlogCategories');
+    Route::get('/' . BLOG_SLUG . '/{category_slug}', 'CategoryController@showBlogCategory')->name('item.showBlogCategory');
     Route::get('/' . BLOG_SLUG . '/{category_slug}/{item_slug}', 'ItemController@showBlogItem')->name('item.showBlogItem');
 
     Route::get('/{slug}', 'ItemController@showUncategorisedItem')->name('item.showUncaterorised');

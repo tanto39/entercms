@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Item;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
@@ -15,7 +16,8 @@ class Category extends Model
      * Fields white list
      */
     protected $fillable = [
-        'published',
+        'published', // values: 1, 0
+        'catalog_section', // values: 1, 0
         'title',
         'order',
         'preview_img',
@@ -39,6 +41,13 @@ class Category extends Model
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function items() {
+        return $this->hasMany('App\Item', 'category_id');
+    }
+
+    /**
      * Create table categories
      */
     public static function createTable()
@@ -55,6 +64,7 @@ class Category extends Model
             $table->text('slug')->nullable();
             $table->integer('parent_id')->nullable();
             $table->tinyInteger('published')->nullable();
+            $table->tinyInteger('catalog_section')->nullable()->default(0);
             $table->integer('created_by')->nullable()->unsigned();
             $table->integer('modify_by')->nullable()->unsigned();
             $table->text('properties')->nullable();

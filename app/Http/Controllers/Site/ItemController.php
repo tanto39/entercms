@@ -9,14 +9,6 @@ use App\Http\Controllers\Controller;
 
 class ItemController extends Controller
 {
-    use \App\FilterController;
-    use \App\SearchController;
-    use \App\PropEnumController;
-    use \App\ImgController;
-    use \App\FileController;
-    use \App\HandlePropertyController;
-    use \App\CategoryTrait;
-
     public $indexRoute = 'item.index';
     public $prefix = 'Item';
 
@@ -61,7 +53,7 @@ class ItemController extends Controller
             global $cat_slug;
             $query->where('slug', $cat_slug);
         }])
-        ->where('slug', $item_slug)->get();
+        ->where('slug', $item_slug)->where('is_product', 0)->get();
 
         if(isset($item[0]) && !is_null($item[0]->category)) {
             return view('public/items/item', [
