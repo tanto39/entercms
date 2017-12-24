@@ -21,30 +21,37 @@ class CategoryController extends Controller
      */
     public function showBlogCategory($category_slug)
     {
-        $category = new Category();
-        $items = new Item();
-
-        // Get item with reviews and categories
-        $category = $category->with('children')
-            ->where('slug', $category_slug)
-            ->where('catalog_section', 0)
-            ->get();
+        // Get category
+        $category = $this->getCategory($category_slug, 0);
 
         if (isset($category[0])) {
-            $items = $items->where('category_id', $category[0]->id)
-                ->where('published', 1)->where('is_product', 0)
-                ->select([
-                    'title',
-                    'preview_img',
-                    'rating',
-                    'slug',
-                    'description'
-                ]);
-
-            // TODO item filter
-            $items = $items->paginate(20);
+            $items = $this->getItems($category[0], 0);
 
             return view('public/categories/category', [
+                'result' => $category[0],
+                'items' => $items
+            ]);
+        }
+        else
+            App::abort(404);
+    }
+
+    /**
+     * Show catalog category
+     *
+     * @param $category_slug
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function showCatalogCategory($category_slug)
+    {
+        // Get category
+        $category = $this->getCategory($category_slug, 1);
+
+        // Get item with reviews and categories
+        if (isset($category[0])) {
+            $items = $this->getItems($category[0], 1);
+
+            return view('public/catalog/category', [
                 'result' => $category[0],
                 'items' => $items
             ]);
@@ -60,8 +67,42 @@ class CategoryController extends Controller
      */
     public function showBlogCategories()
     {
-        $categories = Category::where('catalog_section', 0)
-            ->where('parent_id', 0)
+        $categories = $this->getCategories(0);
+
+        return view('public/categories/categories', [
+            'result' => $categories,
+        ]);
+    }
+
+    /**
+     * Show catalog main page
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function showCatalogCategories()
+    {
+        $categories = $this->getCategories(1);
+
+        return view('public/catalog/categories', [
+            'result' => $categories,
+        ]);
+    }
+
+    /**
+     * Get categories
+     *
+     * @param $isCatalog
+     * @return mixed
+     */
+    public function getCategories($isCatalog)
+    {
+        if ($isCatalog === 1)
+            $parentId = CATALOG_ID;
+        else
+            $parentId = BLOG_ID;
+
+        $categories = Category::where('catalog_section', $isCatalog)
+            ->where('parent_id', $parentId)
             ->select([
                 'title',
                 'preview_img',
@@ -70,8 +111,52 @@ class CategoryController extends Controller
             ])
             ->get();
 
-        return view('public/categories/categories', [
-            'result' => $categories,
-        ]);
+        return $categories;
+    }
+
+    /**
+     * Get category
+     *
+     * @param $category_slug
+     * @param $isCatalog
+     * @return mixed
+     */
+    public function getCategory($category_slug, $isCatalog)
+    {
+        $category = new Category();
+
+        $category = $category->with('children')
+            ->where('slug', $category_slug)
+            ->where('catalog_section', $isCatalog)
+            ->get();
+
+        return $category;
+    }
+
+    /**
+     * Get items
+     *
+     * @param $category
+     * @param $isProduct
+     * @return mixed
+     */
+    public function getItems($category, $isProduct)
+    {
+        $items = new Item();
+
+        $items = $items->where('category_id', $category->id)
+            ->where('published', 1)->where('is_product', $isProduct)
+            ->select([
+                'title',
+                'preview_img',
+                'rating',
+                'slug',
+                'description'
+            ]);
+
+        // TODO sort and filter
+        $items = $items->paginate(20);
+
+        return $items;
     }
 }

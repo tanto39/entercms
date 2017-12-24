@@ -49,11 +49,19 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+/**
+ * Group routes for public part
+ */
 Route::group(['namespace' => 'Site'], function() {
-    // Item controllers
+    // Blog controllers
     Route::get('/' . BLOG_SLUG, 'CategoryController@showBlogCategories')->name('item.showBlogCategories');
     Route::get('/' . BLOG_SLUG . '/{category_slug}', 'CategoryController@showBlogCategory')->name('item.showBlogCategory');
     Route::get('/' . BLOG_SLUG . '/{category_slug}/{item_slug}', 'ItemController@showBlogItem')->name('item.showBlogItem');
+
+    // Catalog controllers
+    Route::get('/' . CATALOG_SLUG, 'CategoryController@showCatalogCategories')->name('item.showCatalogCategories');
+    Route::get('/' . CATALOG_SLUG . '/{category_slug}', 'CategoryController@showCatalogCategory')->name('item.showCatalogCategory');
+    Route::get('/' . CATALOG_SLUG . '/{category_slug}/{item_slug}', 'ItemController@showProduct')->name('item.showProduct');
 
     Route::get('/{slug}', 'ItemController@showUncategorisedItem')->name('item.showUncaterorised');
 });
