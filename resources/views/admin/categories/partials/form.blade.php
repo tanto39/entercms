@@ -5,6 +5,12 @@
     <option value="0" @if(isset($category->id) && $category->published == 0) selected="" @endif>Не опубликовано</option>
 </select>
 
+<label for="catalog_section">Раздел каталога</label>
+<select id="catalog_section" class="form-control" name="catalog_section">
+    <option value="0" @if(isset($category->id) && $category->catalog_section == 0) selected="" @endif>Нет</option>
+    <option value="1" @if(isset($category->id) && $category->catalog_section == 1) selected="" @endif>Да</option>
+</select>
+
 <label for="title">Заголовок</label>
 <input type="text" id="title" class="form-control" name="title" value="{{$category->title or ""}}" required>
 

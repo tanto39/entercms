@@ -1,8 +1,12 @@
 <?php
 // Slugs
 define("BLOG_SLUG", 'blog');
-define("SHOP_SLUG", 'shop');
+define("CATALOG_SLUG", 'catalog');
 define("REVIEWS_SLUG", 'reviews');
+
+// Content id
+define("CATALOG_ID", 5);
+define("BLOG_ID", 1);
 
 // Images
 define("PREV_IMG_FULL_WIDTH", 1600);
