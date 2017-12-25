@@ -34,5 +34,6 @@ class MenuType extends Model
         DB::insert('insert into menu_types (title, slug) values (?, ?)', ['Категория', 'category']);
         DB::insert('insert into menu_types (title, slug) values (?, ?)', ['Материал', 'material']);
         DB::insert('insert into menu_types (title, slug) values (?, ?)', ['Отзывы', 'reviews']);
+        DB::insert('insert into menu_types (title, slug) values (?, ?)', ['Ссылка', 'link']);
     }
 }

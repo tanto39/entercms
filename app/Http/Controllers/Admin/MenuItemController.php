@@ -17,6 +17,7 @@ class MenuItemController extends Controller
 {
     use \App\FilterController;
     use \App\SearchController;
+    use \App\MenuTrait;
 
     public $indexRoute = 'admin.menuitem.index';
     public $prefix = 'Menuitem';
@@ -64,6 +65,7 @@ class MenuItemController extends Controller
 
         return view('admin.menuitems.create', [
             'menuitem' => [],
+            'parentItems' => MenuItem::orderby('title', 'asc')->select(['id', 'title'])->get(),
             'menus' => Menu::orderby('title', 'asc')->select(['id', 'title'])->get(),
             'menutypes' => MenuType::orderby('title', 'asc')->select(['id', 'title'])->get(),
             'delimiter' => ''
@@ -115,6 +117,7 @@ class MenuItemController extends Controller
 
         return view('admin.menuitems.edit', [
             'menuitem' => $menuitem,
+            'parentItems' => MenuItem::orderby('title', 'asc')->select(['id', 'title'])->get(),
             'menus' => Menu::orderby('title', 'asc')->select(['id', 'title'])->get(),
             'menutypes' => MenuType::orderby('title', 'asc')->select(['id', 'title'])->get(),
             'linkItems' => $linkItems,
@@ -134,7 +137,9 @@ class MenuItemController extends Controller
         if ($request->delete)
             return $this->destroy($request, $menuitem);
 
-        $menuitem->update($request->all());
+        $requestData = $this->getRequestData($request);
+
+        $menuitem->update($requestData);
 
         $request->session()->flash('success', 'Пункт меню изменен');
 
@@ -156,5 +161,20 @@ class MenuItemController extends Controller
         MenuItem::destroy($menuitem->id);
         $request->session()->flash('success', 'Пункт меню удален');
         return redirect()->route('admin.menuitem.index');
+    }
+
+    /**
+     * Get request and check
+     *
+     * @param Request $request
+     * @return array
+     */
+    public function getRequestData(Request $request)
+    {
+        $requestData = $request->all();
+
+        $requestData['href'] = $this->generateHref($requestData);
+
+        return $requestData;
     }
 }
