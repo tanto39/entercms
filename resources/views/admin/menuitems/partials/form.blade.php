@@ -21,6 +21,15 @@
     @endforeach
 </select>
 
+<label for="parent_id">Родитель</label>
+{{csrf_field()}}
+<select id="parent_id" class="form-control selectpicker" data-live-search="true" name="parent_id">
+    <option value="0">Без родителя</option>
+    @foreach($parentItems as $parentItem)
+        <option value="{{$parentItem->id}}" @if(isset($menuitem->parent_id) && ($menuitem['parent_id'] == $parentItem->id)) selected="" @endif>{{$parentItem->title}}</option>
+    @endforeach
+</select>
+
 <label for="type-select">Тип пункта меню</label>
 {{csrf_field()}}
 <select id="type-select" class="form-control selectpicker" data-live-search="true" name="type">

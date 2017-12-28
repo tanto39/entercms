@@ -32,6 +32,7 @@ define("PROP_GROUP_NAME_ALL", 'Характеристики');
 define("MENU_TYPE_CATEGORY", 1);
 define("MENU_TYPE_ITEM", 2);
 define("MENU_TYPE_REVIEWS", 3);
+define("MENU_TYPE_LINK", 4);
 
 
 // Default meta keys
