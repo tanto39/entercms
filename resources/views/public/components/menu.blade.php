@@ -1,5 +1,6 @@
 <?php
     global $menu;
+    //dd($menu);
 ?>
 
 <nav class="navbar navbar-default navbar-static-top topmenu-wrap">
@@ -29,15 +30,15 @@
                             @foreach($menuBlock as $menuItemId=>$menuitem)
                                 @if(isset($menuitem['children']))
                                     <li class="dropdown">
-                                        <a href="/{{$menuitem['href']}}">{{$menuitem['title']}}</a>
+                                        <a @if($menuitem['active'] == 'Y') class="active" href="#" @else href="{{$menuitem['href']}}" @endif>{{$menuitem['title']}}</a>
                                         <ul class="dropdown-menu">
                                             @foreach($menuitem['children'] as $children)
-                                                <li><a href="/{{$children['href']}}">{{$children['title']}}</a></li>
+                                                <li><a @if($children['active'] == 'Y') class="active" href="#" @else href="{{$children['href']}}" @endif>{{$children['title']}}</a></li>
                                             @endforeach
                                         </ul>
                                     </li>
                                 @else
-                                    <li><a href="/{{$menuitem['href']}}">{{$menuitem['title']}}</a></li>
+                                    <li><a @if($menuitem['active'] == 'Y') class="active" href="#" @else href="{{$menuitem['href']}}" @endif>{{$menuitem['title']}}</a></li>
                                 @endif
                             @endforeach
                         @endif

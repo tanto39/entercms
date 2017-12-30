@@ -20,6 +20,7 @@ class MenuController extends Controller
      */
     public static function createMenuTree()
     {
+        $uri = '/' . url()->getRequest()->path();
         $menuItems = new MenuItem();
         $resultMenuItems = [];
 
@@ -29,8 +30,15 @@ class MenuController extends Controller
         ->toArray();
 
         // Grouping by menu
-        foreach ($menuItems as $key=>$menuItem)
+        foreach ($menuItems as $key=>$menuItem) {
             $resultMenuItems[$menuItem['menu']['slug']][$menuItem['id']] = $menuItem;
+
+            // Set active item
+            if ($menuItem['href'] == $uri)
+                $resultMenuItems[$menuItem['menu']['slug']][$menuItem['id']]['active'] = 'Y';
+            else
+                $resultMenuItems[$menuItem['menu']['slug']][$menuItem['id']]['active'] = 'N';
+        }
 
         // Croup by child
         foreach ($resultMenuItems as $menuTitle=>$menuBlock) {
