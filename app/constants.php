@@ -4,6 +4,10 @@ define("BLOG_SLUG", 'blog');
 define("CATALOG_SLUG", 'catalog');
 define("REVIEWS_SLUG", 'reviews');
 
+// Slugs
+define("BLOG_TITLE", 'Контент');
+define("CATALOG_TITLE", 'Каталог');
+
 // Content id
 define("CATALOG_ID", 5);
 define("BLOG_ID", 1);

@@ -1,10 +1,18 @@
 @extends('layouts/app')
 
 @section('content')
-    <main class="container">
-        <h1>{{$result->title}}</h1>
-        <article>
-            {!! $result->full_content !!}
-        </article>
-    </main>
+    <div class="container">
+
+        <div class="item-page">
+            {{-- Breadcrumbs include --}}
+            @include('public.partials.breadcrumbs')
+
+            <main>
+                <h1>{{$result->title}}</h1>
+                <article>
+                    {!! $result->full_content !!}
+                </article>
+            </main>
+        </div>
+    </div>
 @endsection
