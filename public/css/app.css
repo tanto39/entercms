@@ -122,7 +122,7 @@ article ul{
 .topmenu li:first-of-type a{
     border-left: 1px solid #405d92;
 }
-.topmenu a:hover, .topmenu li.active a{
+.topmenu a:hover, .topmenu a.active{
     background: #4a6494 !important;
 }
 
