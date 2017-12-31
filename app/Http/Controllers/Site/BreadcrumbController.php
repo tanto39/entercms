@@ -60,6 +60,10 @@ class BreadcrumbController extends Controller
                 self::setMainLink(CATALOG_SLUG, CATALOG_TITLE, 'N');
             break;
 
+            case 'item.showUncaterorised':
+                self::selectItem($uriParts[0]);
+            break;
+
         }
 
         if ($uri != '/') {

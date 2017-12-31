@@ -2,6 +2,12 @@
 <label for="title">Заголовок</label>
 <input type="text" id="title" class="form-control" name="title" value="{{$review->title or ""}}" required>
 
+<label for="published">Статус</label>
+<select id="published" class="form-control" name="published">
+    <option value="1" @if(isset($review->id) && $review->published == 1) selected="" @endif>Опубликовано</option>
+    <option value="0" @if(isset($review->id) && $review->published == 0) selected="" @endif>Не опубликовано</option>
+</select>
+
 <label for="author_name">Имя автора</label>
 <input type="text" id="author_name" class="form-control" name="author_name" value="{{$review->author_name or ""}}" required>
 
@@ -29,10 +35,8 @@
     @endforeach
 </select>
 
-<label for="full_content">Контент</label>
-<textarea id="full_content" class="form-control" name="full_content" rows="15">
-    {{$review->full_content or ""}}
-</textarea>
+<label for="content">Контент</label>
+<textarea id="content" class="form-control" name="full_content" rows="15">{{$review->full_content or ""}}</textarea>
 
 <div class="form-buttons">
 <input class="btn btn-primary" type="submit" name="save" value="Сохранить">

@@ -58,12 +58,17 @@ trait MenuTrait
         // Item
         elseif ($requestData['type'] == MENU_TYPE_ITEM && isset($requestData['link_id'])) {
             $item = Item::where('id', $requestData['link_id'])->select(['id', 'slug', 'is_product', 'category_id'])->get()->toArray()[0];
-            $category = Category::where('id', $item['category_id'])->select(['id', 'slug'])->get()->toArray()[0];
+            $category = Category::where('id', $item['category_id'])->select(['id', 'slug'])->get()->toArray();
 
-            if ($item['is_product'] == 1)
-                $href = '/' . CATALOG_SLUG . '/' . $category['slug'] . '/' . $item['slug'];
-            else
-                $href = '/' . BLOG_SLUG . '/' . $category['slug'] . '/' . $item['slug'];
+            if(!empty($category)) {
+                if ($item['is_product'] == 1)
+                    $href = '/' . CATALOG_SLUG . '/' . $category[0]['slug'] . '/' . $item['slug'];
+                else
+                    $href = '/' . BLOG_SLUG . '/' . $category[0]['slug'] . '/' . $item['slug'];
+            }
+            else {
+                $href = '/' . $item['slug'];
+            }
         }
         else
             $href = $requestData['href'];

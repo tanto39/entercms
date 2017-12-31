@@ -90,10 +90,15 @@ class ItemController extends Controller
         $cat_slug = $category_slug;
 
         // Get item with reviews and categories
-        $item = Item::with(['reviews', 'category' => function($query) {
-            global $cat_slug;
-            $query->where('slug', $cat_slug);
-        }])
+        $item = Item::with([
+            'reviews' => function($query) {
+                $query->where('published', 1);
+            },
+            'category' => function($query) {
+                global $cat_slug;
+                $query->where('slug', $cat_slug);
+            }
+        ])
         ->where('slug', $item_slug)->where('is_product', $isProduct)->get();
 
         return $item;

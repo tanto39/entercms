@@ -30,7 +30,7 @@
             <th>Название</th>
             <th>Порядок</th>
             <th>Изменено</th>
-            <th>Символьный код</th>
+            <th>Активность</th>
             <th>Редактировать</th>
             <th>Применить</th>
             <th>Удалить</th>
@@ -42,7 +42,12 @@
                     <td><input type="text" class="form-control" name="title" value="{{$review->title or ""}}" form="form-{{$review->id}}" required></td>
                     <td><input type="number" class="form-control index-order-input" name="order" value="{{$review->order or ""}}" form="form-{{$review->id}}"></td>
                     <td>{{$review->updated_at}}</td>
-                    <td><input type="text" class="form-control" name="slug" value="{{$review->slug or ""}}" form="form-{{$review->id}}"></td>
+                    <td>
+                        <select class="form-control select-tick" name="published" form="form-{{$review->id}}">
+                            <option value="1" @if($review->published == 1) selected="" @endif>&#10004;</option>
+                            <option value="0" @if($review->published == 0) selected="" @endif>&#10006;</option>
+                        </select>
+                    </td>
                     <td>
                         <a href="{{route('admin.review.edit', $review)}}"><span class="edit-link">&#9998;</span></a>
                     </td>
