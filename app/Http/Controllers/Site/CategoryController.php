@@ -10,6 +10,9 @@ use App\Http\Controllers\Controller;
 
 class CategoryController extends Controller
 {
+    use \App\ImgController;
+    use \App\HandlePropertyController;
+
     public $indexRoute = 'category.index';
     public $prefix = 'Category';
 
@@ -24,12 +27,20 @@ class CategoryController extends Controller
         // Get category
         $category = $this->getCategory($category_slug, 0);
 
-        if (isset($category[0])) {
-            $items = $this->getItems($category[0], 0);
+        if (isset($category)) {
+
+            $category = $this->handleCategoryArray($category);
+
+            // Items
+            $items = $this->getItems($category, 1);
+            $itemsLink = $items->links();
+
+            $items = $this->handleItemsArray($items);
 
             return view('public/categories/category', [
-                'result' => $category[0],
-                'items' => $items
+                'result' => $category,
+                'items' => $items,
+                'itemsLink' => $itemsLink
             ]);
         }
         else
@@ -48,12 +59,21 @@ class CategoryController extends Controller
         $category = $this->getCategory($category_slug, 1);
 
         // Get item with reviews and categories
-        if (isset($category[0])) {
-            $items = $this->getItems($category[0], 1);
+        if (isset($category)) {
 
+            $category = $this->handleCategoryArray($category);
+
+            // Items
+            $items = $this->getItems($category, 1);
+            $itemsLink = $items->links();
+
+            $items = $this->handleItemsArray($items);
+
+            // View
             return view('public/catalog/category', [
-                'result' => $category[0],
-                'items' => $items
+                'result' => $category,
+                'items' => $items,
+                'itemsLink' => $itemsLink
             ]);
         }
         else
@@ -68,6 +88,7 @@ class CategoryController extends Controller
     public function showBlogCategories()
     {
         $categories = $this->getCategories(0);
+        $categories = $this->handleCategoriesArray($categories);
 
         return view('public/categories/categories', [
             'result' => $categories,
@@ -82,6 +103,7 @@ class CategoryController extends Controller
     public function showCatalogCategories()
     {
         $categories = $this->getCategories(1);
+        $categories = $this->handleCategoriesArray($categories);
 
         return view('public/catalog/categories', [
             'result' => $categories,
@@ -109,7 +131,8 @@ class CategoryController extends Controller
                 'slug',
                 'description'
             ])
-            ->get();
+            ->get()->toArray();
+
 
         return $categories;
     }
@@ -128,7 +151,7 @@ class CategoryController extends Controller
         $category = $category->with('children')
             ->where('slug', $category_slug)
             ->where('catalog_section', $isCatalog)
-            ->get();
+            ->get()->toArray()[0];
 
         return $category;
     }
@@ -144,19 +167,77 @@ class CategoryController extends Controller
     {
         $items = new Item();
 
-        $items = $items->where('category_id', $category->id)
+        $items = $items->where('category_id', $category['id'])
             ->where('published', 1)->where('is_product', $isProduct)
             ->select([
                 'title',
                 'preview_img',
                 'rating',
                 'slug',
-                'description'
+                'description',
+                'properties'
             ]);
 
         // TODO sort and filter
         $items = $items->paginate(20);
 
         return $items;
+    }
+
+    /**
+     * Handle category images and properties
+     *
+     * @param $category
+     * @return mixed
+     */
+    public function handleCategoryArray($category)
+    {
+        if(isset($category['preview_img']))
+            $category['preview_img'] = $this->createPublicImgPath(unserialize($category['preview_img']));
+
+        if(isset($category['properties']))
+            $category['properties'] = $this->handlePropertyForPublic($category['properties']);
+
+            return $category;
+    }
+
+    /**
+     * Handle items images and properties
+     *
+     * @param $items
+     * @return mixed
+     */
+    public function handleItemsArray($items)
+    {
+        $items = $items->toArray()['data'];
+
+        foreach ($items as $key=>$item) {
+            if(isset($item['preview_img']))
+                $items[$key]['preview_img'] = $this->createPublicImgPath(unserialize($item['preview_img']));
+
+            if(isset($category['properties']))
+                $items[$key]['properties'] = $this->handlePropertyForPublic($item['properties']);
+        }
+
+        return $items;
+    }
+
+    /**
+     * Handle items images and properties
+     *
+     * @param $categories
+     * @return mixed
+     */
+    public function handleCategoriesArray($categories)
+    {
+        foreach ($categories as $key=>$category) {
+            if(isset($category['preview_img']))
+                $categories[$key]['preview_img'] = $this->createPublicImgPath(unserialize($category['preview_img']));
+
+            if(isset($category['properties']))
+                $categories[$key]['properties'] = $this->handlePropertyForPublic($category['properties']);
+        }
+
+        return $categories;
     }
 }

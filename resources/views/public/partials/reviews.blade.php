@@ -1,12 +1,12 @@
 <div class="reviews">
     <h4>Отзывы</h4>
-    @if(!empty($result->reviews))
-        @foreach($result->reviews as $review)
+    @if(!empty($result['reviews']))
+        @foreach($result['reviews'] as $review)
             <div class="review-item">
-                <div class="review-autor">{{$review->author_name}}</div>
-                <div class="review-content"><p>{{$review->full_content}}</p></div>
-                <div class="review-rating"><p>Оценка: {{$review->rating}}</p></div>
-                <div class="review-date"><dd>{{$review->created_at}}</dd></div>
+                <div class="review-autor">{{$review['author_name']}}</div>
+                <div class="review-content"><p>{{$review['full_content']}}</p></div>
+                <div class="review-rating"><p>Оценка: {{$review['rating']}}</p></div>
+                <div class="review-date"><dd>{{$review['created_at']}}</dd></div>
             </div>
         @endforeach
     @endif
@@ -29,7 +29,7 @@
         <label for="full_content">Отзыв</label>
         <textarea id="full_content" class="form-control" name="full_content" rows="5"></textarea>
 
-        <input type="hidden" name="item_id" value="{{$result->id or ''}}" required>
+        <input type="hidden" name="item_id" value="{{$result['id'] or ''}}" required>
 
         <div class="form-buttons">
             <input class="btn btn-primary" type="submit" name="save" value="Отправить">

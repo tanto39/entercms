@@ -9,9 +9,11 @@ use App\Http\Controllers\Controller;
 
 class ItemController extends Controller
 {
+    use \App\ImgController;
+    use \App\HandlePropertyController;
+
     public $indexRoute = 'item.index';
     public $prefix = 'Item';
-
 
     /**
      * Display uncategorised item.
@@ -23,11 +25,17 @@ class ItemController extends Controller
     {
         $item = [];
 
-        $item = Item::with('reviews')->where('slug', $slug)->where('category_id', 0)->get();
+        $item = Item::with('reviews')->where('slug', $slug)->where('category_id', 0)->get()->toArray()[0];
 
-        if(isset($item[0])) {
+        if(isset($item['preview_img']))
+            $item['preview_img'] = $this->createPublicImgPath(unserialize($item['preview_img']));
+
+        if(isset($item['properties']))
+            $item['properties'] = $this->handlePropertyForPublic($item['properties']);
+
+        if(isset($item)) {
             return view('public/items/item', [
-                'result' => $item[0]
+                'result' => $item
             ]);
         }
         else
@@ -45,9 +53,9 @@ class ItemController extends Controller
     {
         $item = $this->getItem($category_slug, $item_slug, 0);
 
-        if(isset($item[0]) && !is_null($item[0]->category)) {
+        if(isset($item) && !is_null($item['category'])) {
             return view('public/items/item', [
-                'result' => $item[0]
+                'result' => $item
             ]);
         }
         else
@@ -65,9 +73,9 @@ class ItemController extends Controller
     {
         $item = $this->getItem($category_slug, $item_slug, 1);
 
-        if(isset($item[0]) && !is_null($item[0]->category)) {
+        if(isset($item) && !is_null($item['category'])) {
             return view('public/products/item', [
-                'result' => $item[0]
+                'result' => $item
             ]);
         }
         else
@@ -99,7 +107,13 @@ class ItemController extends Controller
                 $query->where('slug', $cat_slug);
             }
         ])
-        ->where('slug', $item_slug)->where('is_product', $isProduct)->get();
+        ->where('slug', $item_slug)->where('is_product', $isProduct)->get()->toArray()[0];
+
+        if(isset($item['preview_img']))
+            $item['preview_img'] = $this->createPublicImgPath(unserialize($item['preview_img']));
+
+        if(isset($item['properties']))
+            $item['properties'] = $this->handlePropertyForPublic($item['properties']);
 
         return $item;
     }

@@ -240,4 +240,27 @@ trait HandlePropertyController
         }
     }
 
+    /**
+     * Handle properties for public
+     *
+     * @param $strProperties
+     * @return mixed
+     */
+    public function handlePropertyForPublic($strProperties)
+    {
+        $arPropGroup = unserialize($strProperties);
+
+        if (!empty($arPropGroup)) {
+            foreach ($arPropGroup as $groupName=>$propGroup) {
+                foreach ($propGroup as $propId=>$property) {
+                    if ($property['type'] == PROP_TYPE_IMG) {
+                        $arPropGroup[$groupName][$propId]['value'] = $this->createPublicImgPath($property['value']);
+                    }
+                }
+            }
+        }
+
+        return $arPropGroup;
+    }
+
 }

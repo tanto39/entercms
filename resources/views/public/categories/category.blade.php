@@ -9,6 +9,11 @@
 
             <main>
                 <h1>{{$result->title}}</h1>
+
+                @if(!empty($result['preview_img']))
+                    <img src="{{$result['preview_img'][0]['MIDDLE']}}" alt="{{$result['title']}}"/>
+                @endif
+
                 <article>
                     {!! $result->full_content !!}
                 </article>

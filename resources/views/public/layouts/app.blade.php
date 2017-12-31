@@ -12,13 +12,16 @@ $menu = \App\Http\Controllers\Site\MenuController::createMenuTree();
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="keywords" content="{{$result->meta_key or META_KEY}}" />
-    <meta name="description" content="{{$result->meta_desc or META_DESC}}" />
+    <meta name="keywords" content="{{$result['meta_key'] or META_KEY}}" />
+    <meta name="description" content="{{$result['meta_desc'] or META_DESC}}" />
 
-    <title>{{$result->title or META_TITLE}}</title>
+    <title>{{$result['title'] or META_TITLE}}</title>
+
+    <!-- Scripts -->
+    <script defer src="{{ asset('js/app.js') }}"></script>
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 </head>
 <body>
     <div id="app">
@@ -34,7 +37,5 @@ $menu = \App\Http\Controllers\Site\MenuController::createMenuTree();
         @yield('content')
     </div>
 
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}"></script>
 </body>
 </html>
