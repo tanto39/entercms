@@ -16,6 +16,7 @@ class Review extends Model
     protected $fillable = [
         'title',
         'order',
+        'published', // values: 1, 0
         'slug',
         'rating',
         'full_content',
@@ -39,6 +40,7 @@ class Review extends Model
         Schema::create('reviews', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('order')->nullable();
+            $table->tinyInteger('published')->nullable()->default(0);
             $table->integer('rating')->nullable();
             $table->string('title');
             $table->string('author_name')->nullable();

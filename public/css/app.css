@@ -102,7 +102,7 @@ article ul{
     transition: all 0.3s;
 }
 
-.main{
+.item-page{
     -webkit-box-shadow: 0px 0px 20px 0px rgba(50, 50, 50, 0.75);
     -moz-box-shadow:    0px 0px 20px 0px rgba(50, 50, 50, 0.75);
     box-shadow:         0px 0px 20px 0px rgba(50, 50, 50, 0.75);
@@ -146,6 +146,43 @@ article ul{
 .main ul{list-style: circle; padding: 20px 40px;}
 .main .center-block{
     margin: 20px auto;
+}
+.item-page {
+    padding: 10px 40px;
+}
+.form-buttons {
+    margin: 20px 0;
+}
+
+/*------reviews--------*/
+.reviews .review-item p {margin: 0; font-size: 1.1em;}
+.reviews {
+    margin: 20px 0;
+}
+.reviews, .review-item {
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+}
+.review-item {
+    margin: 3px 0;
+}
+.review-content {
+
+}
+.review-rating {
+    margin-top: 5px;
+}
+.review-autor {
+    font-size: 1.2em;
+    color: #313577;
+}
+.review-form {
+    margin: 10px 0 0 0;
+    padding: 10px;
+}
+.rating-wrap {
+    margin-top: 7px;
 }
 
 /*-------footer--------*/

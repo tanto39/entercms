@@ -1,7 +1,7 @@
-@extends('layouts/app')
+@extends('public/layouts/app')
 
 @section('content')
-    <div class="container">
+    <div class="container main">
 
         <div class="item-page">
             {{-- Breadcrumbs include --}}

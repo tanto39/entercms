@@ -1,7 +1,7 @@
-@extends('layouts/app')
+@extends('public/layouts/app')
 
 @section('content')
-    <div class="container">
+    <div class="container main">
 
         <div class="item-page">
             {{-- Breadcrumbs include --}}
@@ -13,6 +13,10 @@
                     {!! $result->full_content !!}
                 </article>
             </main>
+
+            {{-- Reviews include --}}
+            @include('public.partials.reviews')
+
         </div>
     </div>
 @endsection

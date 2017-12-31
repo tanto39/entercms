@@ -27,6 +27,9 @@ $menu = \App\Http\Controllers\Site\MenuController::createMenuTree();
             @slot('menuSlug') main @endslot
         @endcomponent
 
+        <!-- Include massage -->
+        @include('public.partials.msg')
+
         <!-- Include content -->
         @yield('content')
     </div>

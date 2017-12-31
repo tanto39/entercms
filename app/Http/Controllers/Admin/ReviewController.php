@@ -12,6 +12,7 @@ class ReviewController extends Controller
 {
     use \App\FilterController;
     use \App\SearchController;
+    use \App\ReviewTrait;
 
     public $indexRoute = 'admin.review.index';
     public $prefix = 'Review';
@@ -74,6 +75,8 @@ class ReviewController extends Controller
     {
         $review = Review::create($request->all());
 
+        $this->changeItemRating($request->item_id);
+
         $request->session()->flash('success', 'Отзыв добавлен');
         return redirect()->route('admin.review.edit', $review);
     }
@@ -122,6 +125,8 @@ class ReviewController extends Controller
 
         $review->update($request->all());
 
+        $this->changeItemRating($request->item_id);
+
         $request->session()->flash('success', 'Отзыв отредактирован');
 
         if ($request->saveFromList)
@@ -140,6 +145,9 @@ class ReviewController extends Controller
     public function destroy(Request $request, Review $review)
     {
         Review::destroy($review->id);
+
+        $this->changeItemRating($review->item_id);
+
         $request->session()->flash('success', 'Отзыв удален');
         return redirect()->route('admin.review.index');
     }

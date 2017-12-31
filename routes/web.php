@@ -63,6 +63,10 @@ Route::group(['namespace' => 'Site'], function() {
     Route::get('/' . CATALOG_SLUG . '/{category_slug}', 'CategoryController@showCatalogCategory')->name('item.showCatalogCategory');
     Route::get('/' . CATALOG_SLUG . '/{category_slug}/{item_slug}', 'ItemController@showProduct')->name('item.showProduct');
 
+    // Reviews controllers
+    Route::post('/review','ReviewController@store')->name('item.review.store');
+
+
     Route::get('/{slug}', 'ItemController@showUncategorisedItem')->name('item.showUncaterorised');
 });
 
