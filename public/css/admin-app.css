@@ -37,9 +37,6 @@ select.bs-select-hidden,select.selectpicker{display:none!important}.bootstrap-se
     flex-basis: 33%;
     padding-right: 20px;
 }
-.image-wrap{
-    margin: 20px 0;
-}
 .image-property-placeholder img, .image-placeholder img, .img-item img{
     max-width: 200px;
 }

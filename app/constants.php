@@ -13,7 +13,7 @@ define("CATALOG_ID", 5);
 define("BLOG_ID", 1);
 
 // Images
-define("PREV_IMG_FULL_WIDTH", 1600);
+define("PREV_IMG_FULL_WIDTH", 1200);
 define("PREV_IMG_MIDDLE_WIDTH", 300);
 define("PREV_IMG_SMALL_WIDTH", 100);
 define("PREV_IMG_FULL_PATH", 'images/shares/previews/');
