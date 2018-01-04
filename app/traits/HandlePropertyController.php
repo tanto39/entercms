@@ -253,14 +253,60 @@ trait HandlePropertyController
         if (!empty($arPropGroup)) {
             foreach ($arPropGroup as $groupName=>$propGroup) {
                 foreach ($propGroup as $propId=>$property) {
+
                     if ($property['type'] == PROP_TYPE_IMG) {
                         $arPropGroup[$groupName][$propId]['value'] = $this->createPublicImgPath($property['value']);
+                    }
+                    elseif ($property['type'] == PROP_TYPE_LIST) {
+                        // Enumeration property
+                        $arPropGroup[$groupName][$propId]['arList'] = $this->getListValue($property["id"], $property['value']);
+                    }
+                    elseif ($property['type'] == PROP_TYPE_ITEM_LINK) {
+                        $arPropGroup[$groupName][$propId]['arItem'] = $this->getLinkItems($property['value']);
                     }
                 }
             }
         }
 
         return $arPropGroup;
+    }
+
+    /**
+     * Get link items for public
+     *
+     * @param $arItemId
+     * @return array
+     */
+    public function getLinkItems($arItemId)
+    {
+        $arItems = [];
+
+        $arItems = Item::with('category')
+        ->orderby('order', 'asc')->orderby('updated_at', 'desc');
+
+        foreach ($arItemId as $itemId) {
+            $arItems = $arItems->orWhere('id', $itemId);
+        }
+
+        $arItems = $arItems->select(['id', 'title', 'preview_img', 'properties', 'slug', 'is_product', 'category_id'])->get()->toArray();
+
+        foreach ($arItems as $key=>$item) {
+            if (isset($item['preview_img']))
+                $arItems[$key]['preview_img'] = $this->createPublicImgPath(unserialize($item['preview_img']));
+
+            if (isset($item['properties']))
+                $arItems[$key]['properties'] = unserialize($item['properties']);
+
+            // Set href
+            if ($item['category_id'] != 0) {
+                if ($item['is_product'] == 1)
+                    $arItems[$key]['slug'] = '/' . CATALOG_SLUG . '/' . $item['category']['slug'] . '/' . $item['slug'];
+                elseif ($item['is_product'] == 0)
+                    $arItems[$key]['slug'] = '/' . BLOG_SLUG . '/' . $item['category']['slug'] . '/' . $item['slug'];
+            }
+        }
+
+        return $arItems;
     }
 
 }

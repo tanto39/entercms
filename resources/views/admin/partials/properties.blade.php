@@ -6,15 +6,37 @@
         @foreach($properties as $propId=>$property)
             <label for="prop-{{$propId}}">{{$property['title']}}</label>
             @if($property['type'] === PROP_TYPE_LIST && !empty($property['arList']))
-                <select id="prop-{{$propId}}" class="form-control selectpicker" data-live-search="true" name="properties[{{$propId}}]">
+                <select id="prop-{{$propId}}" multiple class="form-control selectpicker" data-live-search="true" name="properties[{{$propId}}][]">
                     @foreach($property['arList'] as $listVal)
-                        <option value="{{$listVal['id']}}" @if(isset($property['value']) && $property['value'] == $listVal['id']) selected="" @endif>{{$listVal['title']}}</option>
+                        <option value="{{$listVal['id']}}"
+                            @isset($property['value'])
+                                @foreach($property['value'] as $selectedList)
+                                    @if($selectedList == $listVal['id'])
+                                        selected=""
+                                    @endif
+                                @endforeach
+                            @endisset>{{$listVal['title']}}
+                        </option>
                     @endforeach
                 </select>
             @elseif($property['type'] === PROP_TYPE_CATEGORY_LINK && !empty($categories))
                 <select id="prop_category_link" class="form-control selectpicker" data-live-search="true" name="properties[{{$propId}}]">
                     <option value="0">Без привязки</option>
                     @include('admin.properties.partials.categories', ['categories' => $categories])
+                </select>
+            @elseif($property['type'] === PROP_TYPE_ITEM_LINK && !empty($items))
+                <select id="prop_item_link" multiple class="form-control selectpicker" data-live-search="true" name="properties[{{$propId}}][]">
+                    <option value="0">Без привязки</option>
+                    @foreach($items as $itemElement)
+                        <option value="{{$itemElement['id']}}"
+                            @if(isset($property['value']))
+                                @foreach($property['value'] as $selectedItem)
+                                    @if($selectedItem == $itemElement['id'])
+                                        selected=""
+                                    @endif
+                                @endforeach
+                            @endif>{{$itemElement['title']}}</option>
+                    @endforeach
                 </select>
             @elseif($property['type'] === PROP_TYPE_IMG)
                 <div class="image-wrap">

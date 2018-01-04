@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 class ItemController extends Controller
 {
     use \App\ImgController;
+    use \App\PropEnumController;
     use \App\HandlePropertyController;
 
     public $indexRoute = 'item.index';

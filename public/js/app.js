@@ -63,6 +63,29 @@ $(document).ready(function () {
             }
         );
     });
+
+    /**
+     * Property images
+     */
+    var arPropImages = [];
+    $('.property-image-small-item').each(function(){
+        arPropImages[arPropImages.length] = {
+            href: $(this).data('full-src')
+        }
+    });
+
+    $(".property-image-small-item").on("click", function (e) {
+        e.preventDefault();
+        blueimp.Gallery(
+            arPropImages,
+            {
+                container: '#blueimp-gallery-carousel',
+                index: $('.property-image-small-item.active').index(),
+                carousel: true,
+                transitionSpeed: 800
+            }
+        );
+    });
 });
 
 /**

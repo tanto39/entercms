@@ -158,6 +158,51 @@ article ul{
     margin: 20px 0;
 }
 
+/*------properties-----*/
+.table-properties {
+    width: 90%;
+}
+.table-properties thead th {
+    font-size: 1.2em;
+    background: #eaeaea;
+    border-bottom: none !important;
+    color: #41464c;
+}
+.table-property-proptitle {
+    border-right: 1px solid #eae8e8;
+    width: 70%;
+}
+
+/*-------photogalllery properties-----*/
+.property-image-small-item {
+    min-height: 130px;
+    min-width: 130px;
+    margin: 3px;
+    background: #ccc;
+}
+
+/*-------item link properties -------*/
+.property-item-link {
+    align-items: stretch;
+}
+.property-item-link-block {
+    font-size: 1.3em;
+    flex-basis: 30%;
+    width: 30%;
+    background: #d9dbe6;
+    margin: 4px;
+    padding: 10px;
+    text-align: center;
+    color: #696e8a;
+}
+.property-item-link-block:hover {
+    text-decoration: none;
+    background: #cdd6e6;
+}
+.property-item-link-img {
+    max-width: 100%;
+}
+
 /*------reviews--------*/
 .reviews .review-item p {margin: 0; font-size: 1.1em;}
 .reviews {
@@ -241,7 +286,7 @@ article ul{
 .detail-image-big {
     height: 48vh;
 }
-.detail-image-small-block {
+.detail-image-small-block, .property-image {
     align-items: stretch;
 }
 .detail-image-small-item, .detail-image-big {
@@ -261,7 +306,7 @@ article ul{
 }
 .blueimp-gallery>.indicator>li:after{display: none;}
 
-.detail-image-small-item-img, .detail-image-big-img{
+.detail-image-small-item-img, .detail-image-big-img, .property-image-small-item-img{
     max-width: 100%;
     max-height: 100%;
     display: block;

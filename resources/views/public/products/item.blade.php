@@ -1,4 +1,7 @@
 @extends('public/layouts/app')
+<?php
+//dd($result['properties']);
+?>
 @section('content')
     <div class="container main">
 
@@ -9,7 +12,8 @@
                 <h1>{{$result['title']}}</h1>
                 <div class="row">
                     <div class="col-md-8">
-                        dsfsdfdsf
+                        {{-- Properties include --}}
+                        @include('public.partials.properties')
                     </div>
                     {{--Slider--}}
                     @if(!empty($result['preview_img']))
