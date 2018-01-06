@@ -66,7 +66,10 @@ Route::group(['namespace' => 'Site'], function() {
     // Reviews controllers
     Route::post('/review','ReviewController@store')->name('item.review.store');
 
+    // Orders and mail controllers
+    Route::post('/sendorder','OrderController@store')->name('item.order.store');
 
+    // Uncategorised items
     Route::get('/{slug}', 'ItemController@showUncategorisedItem')->name('item.showUncaterorised');
 });
 

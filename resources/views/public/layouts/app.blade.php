@@ -24,18 +24,45 @@ $menu = \App\Http\Controllers\Site\MenuController::createMenuTree();
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 </head>
 <body>
-    <div id="app">
-        <!-- Include menu -->
-        @component('public.components.menu')
-            @slot('menuSlug') main @endslot
-        @endcomponent
+    <!-- Include menu -->
+    @component('public.components.menu')
+        @slot('menuSlug') main @endslot
+    @endcomponent
 
-        <!-- Include massage -->
-        @include('public.partials.msg')
+    <!-- Include massage -->
+    @include('public.partials.msg')
 
-        <!-- Include content -->
-        @yield('content')
+    <!-- Include content -->
+    @yield('content')
+
+    <footer class="footer" id="footer">
+        <div class="container">
+            <div class="row contact" itemscope itemtype="http://schema.org/LocalBusiness" >
+                <div class="col-sm-4 footer-block">
+                    <div class="fn org" itemprop="name"><span class="category">ООО </span>Типовой сайт</div>
+                    <div class="tel" itemprop="telephone">+7 (4712) 2-22-50</div>
+                    <div>Адрес: <span itemprop="address">г. Курск, ул. Литовская, 95/2</span></div>
+                    <div class="email" itemprop="email">info@tipovoi-sait.ru</div>
+                    <div><a href="/">tipovoi.ru</a></div>
+                </div>
+                <div class="col-sm-4 footer-block"></div>
+                <div class="col-sm-4 footer-block">
+                    <div>Время работы: <span class="workhours" itemprop="openingHours">Все дни недели 10:00 - 22:00</span></div>
+                    <div class="metrica"><img src="/images/metrika.png"></div>
+                    <div class="enterkursk">Сайт разработан <a target="_blank" href="https://enterkursk.ru">EnterKursk.ru</a></div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!--кнопки соцсетей-->
+    <div class="socbuttons">
+        <script src="//yastatic.net/es5-shims/0.0.2/es5-shims.min.js"></script>
+        <script src="//yastatic.net/share2/share.js"></script>
+        <div class="ya-share2" data-services="vkontakte,facebook,odnoklassniki,moimir,gplus,twitter"></div>
     </div>
+
+    <div class="scroll"></div>
 
 </body>
 </html>

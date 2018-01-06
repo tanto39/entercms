@@ -11,6 +11,7 @@ use App\Http\Controllers\Controller;
 class CategoryController extends Controller
 {
     use \App\ImgController;
+    use \App\PropEnumController;
     use \App\HandlePropertyController;
 
     public $indexRoute = 'category.index';
@@ -32,7 +33,7 @@ class CategoryController extends Controller
             $category = $this->handleCategoryArray($category);
 
             // Items
-            $items = $this->getItems($category, 1);
+            $items = $this->getItems($category, 0);
             $itemsLink = $items->links();
 
             $items = $this->handleItemsArray($items);
@@ -215,7 +216,7 @@ class CategoryController extends Controller
             if(isset($item['preview_img']))
                 $items[$key]['preview_img'] = $this->createPublicImgPath(unserialize($item['preview_img']));
 
-            if(isset($category['properties']))
+            if(isset($item['properties']))
                 $items[$key]['properties'] = $this->handlePropertyForPublic($item['properties']);
         }
 

@@ -1,4 +1,4 @@
-@if(isset($result['properties']))
+@if(!empty($result['properties']))
     @foreach($result['properties'] as $groupName=>$propGroup)
         <table class="table table-striped table-properties">
             <thead>
@@ -11,8 +11,8 @@
                     <tr>
                         @if($property['type'] == PROP_TYPE_IMG)
                             <td colspan="2">
-                                <h5>{{$property['title']}}</h5>
                                 @if(!empty($property['value']))
+                                <h5>{{$property['title']}}</h5>
                                     <div class="property-image flex">
                                         @foreach($property['value'] as $key=>$photo)
                                             <a class="property-image-small-item flex @if($key == 0) active @endif" href="{{$photo['MIDDLE']}}" data-original-src="{{$photo['MIDDLE']}}" data-full-src="{{$photo['FULL']}}">
@@ -39,7 +39,21 @@
                                 @endif
                             </td>
                         @elseif($property['type'] == PROP_TYPE_CATEGORY_LINK)
-
+                            <td colspan="2">
+                                <h5>{{$property['title']}}</h5>
+                                @if(!empty($property['arItem']))
+                                    <div class="property-item-link flex">
+                                        @foreach($property['arItem'] as $key=>$linkItem)
+                                            <a class="property-item-link-block" href="{{$linkItem['slug']}}">
+                                                <div class="property-item-link-title">{{$linkItem['title']}}</div>
+                                                @if(isset($linkItem['preview_img'][0]))
+                                                    <img class="property-item-link-img" src="{{$linkItem['preview_img'][0]['MIDDLE']}}" alt="{{$property['title']}}"/>
+                                                @endif
+                                            </a>
+                                        @endforeach
+                                    </div>
+                                @endif
+                            </td>
                         @else
                             <td class="table-property-proptitle">{{$property['title']}}</td>
                             <td>

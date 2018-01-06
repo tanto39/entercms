@@ -10,9 +10,10 @@
             <main>
                 <h1>{{$result['title']}}</h1>
 
-                @if(!empty($result['preview_img']))
-                    <img src="{{$result['preview_img'][0]['MIDDLE']}}" alt="{{$result['title']}}"/>
-                @endif
+                {{--Include Slider--}}
+                <div class="detail-image center-block">
+                    @include('public.partials.previewSlider')
+                </div>
 
                 <article>
                     {!! $result['full_content'] !!}
@@ -23,5 +24,14 @@
             @include('public.partials.reviews')
 
         </div>
+    </div>
+
+    <div id="blueimp-gallery-carousel" class="blueimp-gallery blueimp-gallery-carousel">
+        <div class="slides"></div>
+        <a class="prev">‹</a>
+        <a class="next">›</a>
+        <a class="close" style="top: 40px; color: #fff;">×</a>
+        <a class="play-pause"></a>
+        <ol class="indicator"></ol>
     </div>
 @endsection

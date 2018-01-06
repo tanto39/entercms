@@ -78,16 +78,17 @@ trait PropEnumController
      *
      * @param $propId
      * @param $arEnumId
-     * @return string
+     * @return mixed
      */
     public function getListValue($propId, $arEnumId)
     {
-        $propValue = '';
+        $propValue = [];
 
-        $propValues = PropEnum::where('prop_id', $propId);
+        $propValues = new PropEnum();
 
-        foreach ($arEnumId as $key=>$enumId)
+        foreach ($arEnumId as $key=>$enumId) {
             $propValues = $propValues->orWhere('id', $enumId);
+        }
 
         $propValues = $propValues->select(['id', 'title', 'slug'])->get()->toArray();
 

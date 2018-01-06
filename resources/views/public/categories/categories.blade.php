@@ -8,16 +8,21 @@
             @include('public.partials.breadcrumbs')
             <main class="blog-categories">
                 <h1>Категории</h1>
-
-                @foreach($result as $category)
-                    <div class="blog-category">
-                        <h3><a href="{{route('item.showBlogCategory', ['category_slug' => $category['slug']])}}">{{$category['title']}}</a></h3>
-
-                        @if(!empty($category['preview_img']))
-                            <img src="{{$category['preview_img'][0]['MIDDLE']}}" alt="{{$category['title']}}"/>
-                        @endif
-                    </div>
-                @endforeach
+                <div class="flex category-list">
+                    @foreach($result as $category)
+                        <a class="list-item" href="{{route('item.showBlogCategory', ['category_slug' => $category['slug']])}}">
+                            <div class="list-item-title">
+                                {{$category['title']}}
+                            </div>
+                            @if(isset($category['preview_img'][0]))
+                                <img class="list-item-img" src="{{$category['preview_img'][0]['MIDDLE']}}" alt="{{$category['title']}}" title="{{$category['title']}}"/>
+                            @else
+                                <div class="no-image-list"></div>
+                            @endif
+                            <span class="order-button">Перейти в раздел</span>
+                        </a>
+                    @endforeach
+                </div>
             </main>
         </div>
     </div>

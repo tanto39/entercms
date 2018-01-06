@@ -2,6 +2,15 @@
 <label for="title">Заголовок</label>
 <input type="text" id="title" class="form-control" name="title" value="{{$order->title or ""}}" required>
 
+<label for="name">Имя покупателя</label>
+<input type="text" id="name" class="form-control" name="name" value="{{$order->name or ""}}">
+
+<label for="email">Email покупателя</label>
+<input type="text" id="email" class="form-control" name="email" value="{{$order->email or ""}}">
+
+<label for="phone">Телефон покупателя</label>
+<input type="text" id="phone" class="form-control" name="phone" value="{{$order->phone or ""}}">
+
 <label for="price">Сумма заказа</label>
 <input type="number" id="price" class="form-control" name="price" value="{{$order->price or ""}}">
 

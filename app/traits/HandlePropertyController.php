@@ -85,7 +85,6 @@ trait HandlePropertyController
     public function getProperties($selectTable, $propKind, $strProp = "", $categoryId = NULL)
     {
         $propValues = [];
-        $propGroupName = PROP_GROUP_NAME_ALL;
 
         $propValues = unserialize($strProp);
 
@@ -95,6 +94,8 @@ trait HandlePropertyController
             foreach ($this->propList as $key=>$property) {
                 if (!is_null($property['group_id']))
                     $propGroupName = PropGroup::where('id', $property['group_id'])->get()->toArray()[0]['title'];
+                else
+                    $propGroupName = PROP_GROUP_NAME_ALL;
 
                 $this->arProps[$propGroupName][$property["id"]] = $property;
 
@@ -107,8 +108,6 @@ trait HandlePropertyController
                 if (!empty($propValues[$propGroupName][$property["id"]]) && isset($propValues[$propGroupName][$property["id"]]['value']))
                     $this->arProps[$propGroupName][$property["id"]]['value'] = $propValues[$propGroupName][$property["id"]]['value'];
             }
-
-
         }
     }
 
@@ -258,11 +257,13 @@ trait HandlePropertyController
                         $arPropGroup[$groupName][$propId]['value'] = $this->createPublicImgPath($property['value']);
                     }
                     elseif ($property['type'] == PROP_TYPE_LIST) {
-                        // Enumeration property
                         $arPropGroup[$groupName][$propId]['arList'] = $this->getListValue($property["id"], $property['value']);
                     }
                     elseif ($property['type'] == PROP_TYPE_ITEM_LINK) {
                         $arPropGroup[$groupName][$propId]['arItem'] = $this->getLinkItems($property['value']);
+                    }
+                    elseif ($property['type'] == PROP_TYPE_CATEGORY_LINK) {
+                        $arPropGroup[$groupName][$propId]['arItem'] = $this->getLinkCategories($property['value']);
                     }
                 }
             }
@@ -282,11 +283,10 @@ trait HandlePropertyController
         $arItems = [];
 
         $arItems = Item::with('category')
-        ->orderby('order', 'asc')->orderby('updated_at', 'desc');
+            ->orderby('order', 'asc')->orderby('updated_at', 'desc');
 
-        foreach ($arItemId as $itemId) {
+        foreach ($arItemId as $itemId)
             $arItems = $arItems->orWhere('id', $itemId);
-        }
 
         $arItems = $arItems->select(['id', 'title', 'preview_img', 'properties', 'slug', 'is_product', 'category_id'])->get()->toArray();
 
@@ -309,4 +309,39 @@ trait HandlePropertyController
         return $arItems;
     }
 
+    /**
+     * Get link categories
+     *
+     * @param $arCategoryId
+     * @return mixed
+     */
+    public function getLinkCategories($arCategoryId)
+    {
+        $arCategories = [];
+
+        $arCategories = Category::orderby('order', 'asc')->orderby('updated_at', 'desc');
+
+        foreach ($arCategoryId as $categoryId)
+            $arCategories = $arCategories->orWhere('id', $categoryId);
+
+        $arCategories = $arCategories->select(['id', 'title', 'preview_img', 'properties', 'slug', 'catalog_section', 'parent_id'])->get()->toArray();
+
+        foreach ($arCategories as $key=>$category) {
+            if (isset($category['preview_img']))
+                $arCategories[$key]['preview_img'] = $this->createPublicImgPath(unserialize($category['preview_img']));
+
+            if (isset($category['properties']))
+                $arCategories[$key]['properties'] = unserialize($category['properties']);
+
+            // Set href
+            if ($category['parent_id'] != 0) {
+                if ($category['catalog_section'] == 1)
+                    $arCategories[$key]['slug'] = '/' . CATALOG_SLUG . '/' . $category['slug'];
+                elseif ($category['catalog_section'] == 0)
+                    $arCategories[$key]['slug'] = '/' . BLOG_SLUG . '/' . $category['slug'];
+            }
+        }
+
+        return $arCategories;
+    }
 }
