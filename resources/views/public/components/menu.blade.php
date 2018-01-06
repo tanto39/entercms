@@ -3,7 +3,7 @@
     //dd($menu);
 ?>
 
-<nav class="navbar navbar-default navbar-static-top topmenu-wrap">
+<nav class="topmenu-wrap">
     <div class="container topmenu">
         <div class="navbar-header">
 

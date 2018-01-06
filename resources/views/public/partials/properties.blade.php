@@ -12,7 +12,7 @@
                         @if($property['type'] == PROP_TYPE_IMG)
                             <td colspan="2">
                                 @if(!empty($property['value']))
-                                <h5>{{$property['title']}}</h5>
+                                <p>{{$property['title']}}</p>
                                     <div class="property-image flex">
                                         @foreach($property['value'] as $key=>$photo)
                                             <a class="property-image-small-item flex @if($key == 0) active @endif" href="{{$photo['MIDDLE']}}" data-original-src="{{$photo['MIDDLE']}}" data-full-src="{{$photo['FULL']}}">
@@ -24,7 +24,7 @@
                             </td>
                         @elseif($property['type'] == PROP_TYPE_ITEM_LINK)
                             <td colspan="2">
-                                <h5>{{$property['title']}}</h5>
+                                <p>{{$property['title']}}</p>
                                 @if(!empty($property['arItem']))
                                     <div class="property-item-link flex">
                                         @foreach($property['arItem'] as $key=>$linkItem)
@@ -40,7 +40,7 @@
                             </td>
                         @elseif($property['type'] == PROP_TYPE_CATEGORY_LINK)
                             <td colspan="2">
-                                <h5>{{$property['title']}}</h5>
+                                <p>{{$property['title']}}</p>
                                 @if(!empty($property['arItem']))
                                     <div class="property-item-link flex">
                                         @foreach($property['arItem'] as $key=>$linkItem)

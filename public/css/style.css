@@ -71,6 +71,10 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, 
     font-style: normal;
     font-weight: normal;
 }
+
+.wrapper {
+    font: 16px RobotoRegular, Arial, Sans-serif;
+}
 a:focus{outline: none !important;}
 
 .test{border: 1px solid;}
@@ -81,6 +85,8 @@ article ul{
 }
 
 h1, h2 {text-align: center;}
+
+.footer, .header, main{font-size: 16px;}
 
 /* flex */
 .top-block-title, .flex{
@@ -94,14 +100,14 @@ h1, h2 {text-align: center;}
     align-items: center;
     flex-wrap: wrap;
 }
-
+.topmenu-wrap {margin-bottom: 15px;}
 .topmenu .dropdown:hover > .dropdown-menu {
     display: block;
 }
 .topmenu-wrap, .footer, .topmenu .dropdown-menu {
     background: #2a3c5d;
 }
-.topmenu a, .product-list-item:hover{
+.topmenu a, .list-item:hover{
     -moz-transition: all 0.3s;
     -webkit-transition: all 0.3s;
     -o-transition: all 0.3s;
@@ -109,7 +115,7 @@ h1, h2 {text-align: center;}
     transition: all 0.3s;
 }
 
-.item-page, .product-list-item:hover{
+.item-page, .list-item:hover{
     -webkit-box-shadow: 0px 0px 20px 0px rgba(50, 50, 50, 0.75);
     -moz-box-shadow:    0px 0px 20px 0px rgba(50, 50, 50, 0.75);
     box-shadow:         0px 0px 20px 0px rgba(50, 50, 50, 0.75);
@@ -141,10 +147,15 @@ h1, h2 {text-align: center;}
     -o-background-size: cover;
     -moz-background-size: cover;
     padding: 40px 0 20px 0;
+    font-size: 2em;
+}
+.header, .header a{color: #fff;}
+a.logo {text-transform: uppercase; font-size: 1.1em;}
+.header-mail i {
+    padding-right: 10px;
 }
 
 /*--------main--------*/
-.wrapper{padding-bottom: 20px;}
 .main {padding: 0;}
 .main p{
     margin: 10px 0 0 0;
@@ -156,6 +167,7 @@ h1, h2 {text-align: center;}
 }
 .item-page {
     padding: 10px 40px;
+    overflow: hidden;
 }
 .form-buttons {
     margin: 20px 0;
@@ -226,15 +238,18 @@ h1, h2 {text-align: center;}
 }
 .list-item-img {
     max-width: 100%;
+    max-height: 100%;
 }
 .list-item-title {
     color: #235e69;
     font-size: 1.7em;
 }
-.no-image-list {
-    height: 30vh;
-    background: #cccccc;
+.wrap-image-list {
+    height: 200px;
+    justify-content: center;
+    background: #dde6ef;
 }
+.category-list .wrap-image-list {height: 250px;}
 .price {
     font-size: 1.6em;
     margin: 10px 0;
@@ -247,7 +262,7 @@ h1, h2 {text-align: center;}
     border-radius: 10px;
 }
 .order-button:hover {
-    background: #5c8ac5;
+    background: #6d849a;
 }
 .top-product-block {
     justify-content: space-between;
@@ -263,7 +278,7 @@ h1, h2 {text-align: center;}
     width: 50%;
 }
 .top-product-block .order-button {
-    flex-basis: 30%;
+    flex-basis: 32%;
     width: 30%;
     font-size: 1.7em;
 }
@@ -371,6 +386,16 @@ h1, h2 {text-align: center;}
 }
 
 /*-------форма обратной связи-------*/
+.callback {
+    padding: 5px 20px;
+    font-size: 0.8em;
+    background: #18366d;
+    color: #ffffff;
+    border-radius: 17px;
+}
+.callback:hover {
+    background: #29436d;
+}
 .form-zakaz textarea{width: 100%}
 .form-zakaz input, .form-zakaz textarea {
     margin: 5px 0;
@@ -382,7 +407,7 @@ h1, h2 {text-align: center;}
     height: 20px;
 }
 .form-zakaz label {
-    margin: 5px 0 0 0;
+    margin: 10px 0 0 0;
 }
 .message-form{display: none;}
 .form-zakaz-price {width:100px;}
@@ -407,7 +432,7 @@ h1, h2 {text-align: center;}
     margin-bottom: 30px;
 }
 .detail-image-big {
-    height: 48vh;
+    height: 350px;
 }
 .detail-image-small-block, .property-image {
     align-items: stretch;
@@ -461,6 +486,10 @@ h1, h2 {text-align: center;}
         flex-basis: 80%;
         width: 80%;
     }
+    .list-item {
+        flex-basis: 100%;
+        width: 100%;
+    }
 }
 
 @media all and (max-width: 768px) {
@@ -474,9 +503,6 @@ h1, h2 {text-align: center;}
     .socbuttons .ya-share2__container_size_m .ya-share2__icon {
         height: 28px;
         width: 28px;
-    }
-    .no-image-list {
-        height: 20vh;
     }
     .product-list .price, .list-item-title{
         font-size: 1.2em;

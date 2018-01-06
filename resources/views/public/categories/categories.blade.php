@@ -14,11 +14,11 @@
                             <div class="list-item-title">
                                 {{$category['title']}}
                             </div>
-                            @if(isset($category['preview_img'][0]))
-                                <img class="list-item-img" src="{{$category['preview_img'][0]['MIDDLE']}}" alt="{{$category['title']}}" title="{{$category['title']}}"/>
-                            @else
-                                <div class="no-image-list"></div>
-                            @endif
+                            <div class="wrap-image-list flex">
+                                @if(isset($category['preview_img'][0]))
+                                    <img class="list-item-img" src="{{$category['preview_img'][0]['MIDDLE']}}" alt="{{$category['title']}}" title="{{$category['title']}}"/>
+                                @endif
+                            </div>
                             <span class="order-button">Перейти в раздел</span>
                         </a>
                     @endforeach

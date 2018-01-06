@@ -3,7 +3,7 @@
 @section('content')
     <div class="container main">
 
-        <div class="row item-page">
+        <div class="item-page">
             {{-- Breadcrumbs include --}}
             @include('public.partials.breadcrumbs')
 
@@ -31,11 +31,11 @@
                                 <div class="list-item-title">
                                     {{$item['title']}}
                                 </div>
-                                @if(isset($item['preview_img'][0]))
-                                    <img class="list-item-img" src="{{$item['preview_img'][0]['MIDDLE']}}" alt="{{$item['title']}}" title="{{$item['title']}}"/>
-                                @else
-                                    <div class="no-image-list"></div>
-                                @endif
+                                <div class="wrap-image-list flex">
+                                    @if(isset($item['preview_img'][0]))
+                                        <img class="list-item-img" src="{{$item['preview_img'][0]['MIDDLE']}}" alt="{{$item['title']}}" title="{{$item['title']}}"/>
+                                    @endif
+                                </div>
                                 <div class="price">Цена:
                                     <span>
                                         @if(isset($item['properties'][PROP_GROUP_NAME_ALL][PROP_PRICE_ID]['value']))

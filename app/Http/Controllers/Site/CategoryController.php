@@ -128,10 +128,12 @@ class CategoryController extends Controller
             ->where('parent_id', $parentId)
             ->select([
                 'title',
+                'order',
                 'preview_img',
                 'slug',
                 'description'
             ])
+            ->orderby('order', 'asc')->orderby('updated_at', 'desc')
             ->get()->toArray();
 
 
@@ -173,11 +175,13 @@ class CategoryController extends Controller
             ->select([
                 'title',
                 'preview_img',
+                'order',
                 'rating',
                 'slug',
                 'description',
                 'properties'
-            ]);
+            ])
+            ->orderby('order', 'asc')->orderby('updated_at', 'desc');
 
         // TODO sort and filter
         $items = $items->paginate(20);
