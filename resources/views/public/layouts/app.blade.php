@@ -42,8 +42,8 @@ $uri = $uri = preg_replace("/\?.*/i",'', $_SERVER['REQUEST_URI']);
                 </div>
 
                 <div class="header-center col-sm-4">
-                    <div class="header-phone"><i class="glyphicon glyphicon-earphone"></i><span>+7 950 871-54-19</span></div>
-                    <a class="header-mail" href="mailto:info@tipovoi.ru"><i class="glyphicon glyphicon-envelope"></i><span>info@tipovoi.ru</span></a>
+                    <div class="header-phone flex"><i class="glyphicon glyphicon-earphone"></i><span>+7 950 871-54-19</span></div>
+                    <a class="header-mail flex" href="mailto:info@tipovoi.ru"><i class="glyphicon glyphicon-envelope"></i><span>info@tipovoi.ru</span></a>
                 </div>
                 <div class="header-right col-sm-3">
                     <button class="callback" data-target="#modal-callback" data-toggle="modal">Обратный звонок</button>
@@ -90,7 +90,7 @@ $uri = $uri = preg_replace("/\?.*/i",'', $_SERVER['REQUEST_URI']);
         <div class="ya-share2" data-services="vkontakte,facebook,odnoklassniki,moimir,gplus,twitter"></div>
     </div>
 
-    <div class="scroll"></div>
+    <div class="scroll hidden-xs"><i class="glyphicon glyphicon glyphicon-chevron-up" aria-hidden="true"></i></div>
 
     <!-- Callback form -->
     <div id="modal-callback" class="modal fade" tabindex="-1">

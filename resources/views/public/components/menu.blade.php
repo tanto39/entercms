@@ -4,7 +4,7 @@
 ?>
 
 <nav class="topmenu-wrap">
-    <div class="container topmenu">
+    <div class="navbar navbar-default container topmenu">
         <div class="navbar-header">
 
             <!-- Collapsed Hamburger -->
