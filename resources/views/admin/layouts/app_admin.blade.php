@@ -117,6 +117,7 @@
     <script src="{{URL::to('js/tinymce/tinymce.min.js')}}"></script>
     <script>
         var editor_config = {
+            extended_valid_elements : "img[*],style[*],list[*],script[*],iframe[*],frame[*]",
             path_absolute : "{{ URL::to('/') }}/",
             selector : "#full_content",
             plugins: [

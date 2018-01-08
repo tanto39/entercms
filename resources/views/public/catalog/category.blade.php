@@ -3,7 +3,7 @@
 @section('content')
     <div class="container main">
 
-        <div class="item-page">
+        <div class="item-page category-page">
             {{-- Breadcrumbs include --}}
             @include('public.partials.breadcrumbs')
 
@@ -11,11 +11,13 @@
                 <h1>{{$result['title']}}</h1>
 
                 {{--Include Slider--}}
-                <div class="detail-image center-block">
+                <div class="col-md-4 detail-image">
                     @include('public.partials.previewSlider')
                 </div>
 
-                <div class="full-content">{!! $result['full_content'] !!}</div>
+                <article class="col-md-8">
+                    {!! $result['full_content'] !!}
+                </article>
 
                 {{-- Properties include --}}
                 @include('public.partials.properties')

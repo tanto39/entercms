@@ -2,7 +2,7 @@
 global $menu;
 $menu = \App\Http\Controllers\Site\MenuController::createMenuTree();
 
-$uri = $uri = preg_replace("/\?.*/i",'', $_SERVER['REQUEST_URI']);
+$uri = preg_replace("/\?.*/i",'', $_SERVER['REQUEST_URI']);
 ?>
 
 <!DOCTYPE html>
@@ -52,11 +52,22 @@ $uri = $uri = preg_replace("/\?.*/i",'', $_SERVER['REQUEST_URI']);
         </div>
     </header><!-- .header-->
 
-    <!-- Include menu -->
-    @component('public.components.menu')
-        @slot('menuSlug') main @endslot
-    @endcomponent
+    <nav class="topmenu-wrap">
+        <div class="navbar navbar-default container topmenu">
 
+            <!-- Include menu -->
+            @component('public.components.menu')
+                @slot('menuSlug') main @endslot
+            @endcomponent
+
+            <!-- Include search -->
+            @component('public.components.search')
+            @endcomponent
+
+            <!-- Authentication Links -->
+            {{--@include('public.partials.loginlinks')--}}
+        </div>
+    </nav>
     <!-- Include massage -->
     @include('public.partials.msg')
 
@@ -108,7 +119,7 @@ $uri = $uri = preg_replace("/\?.*/i",'', $_SERVER['REQUEST_URI']);
                             <textarea name="mess" class="form-massage" cols="23" rows="8"></textarea>
                             <div class="form-input form-pd"><label>Даю согласие на обработку <a href="#" target="_blank" rel="noopener noreferrer">персональных данных</a>:</label><input class="checkbox-inline" type="checkbox" required="" name="pd" /></div>
                             <label>Защита от спама: введите сумму 2+2:</label><input class="form-control" id="form-capcha" type="number" required name="capcha"/>
-                            <input class="btn form-submit" type="submit" name="submit" value="Отправить сообщение" />
+                            <input class="btn form-submit order-button" type="submit" name="submit" value="Отправить сообщение" />
                         </form>
                         <div class='message-form'><p>Загрузка...</p></div>
                     </div>

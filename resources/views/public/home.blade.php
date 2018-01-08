@@ -1,25 +1,25 @@
 @extends('public/layouts.app')
 
 @section('content')
-<section class="section landing-section landing-section-color">
+<aside class="section landing-section landing-section-color">
     <div class="container adv-wrap text-center">
         <div class="col-sm-4 adv-item">
-            <div class="adv-img"></div>
+            <div class="adv-img adv-img-1"></div>
             <p class="adv-title">Доступные цены</p>
             <p class="adv-desc">Лучшие в Курске цены</p>
         </div>
         <div class="col-sm-4 adv-item">
-            <div class="adv-img"></div>
+            <div class="adv-img adv-img-2"></div>
             <p class="adv-title">Высокое качество</p>
             <p class="adv-desc">Только официальные поставщики</p>
         </div>
         <div class="col-sm-4 adv-item">
-            <div class="adv-img"></div>
+            <div class="adv-img adv-img-3"></div>
             <p class="adv-title">Многолетний опыт</p>
             <p class="adv-desc">Мы дорожим своим авторитетом</p>
         </div>
     </div>
-</section>
+</aside>
 <article class="landing-section">
     <div class="container">
         <h1>{{$result['title']}}</h1>

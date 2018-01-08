@@ -25,8 +25,19 @@ class ItemController extends Controller
     public function showUncategorisedItem($slug)
     {
         $item = [];
+        $showReviews = "N";
 
-        $item = Item::with('reviews')->where('slug', $slug)->where('category_id', 0)->get()->toArray();
+        $uri = url()->getRequest()->path();
+
+        $item = new Item();
+
+        // Show reviews
+        if ($uri == "reviews") {
+            $item = $item->with('reviews');
+            $showReviews = "Y";
+        }
+
+        $item = $item->where('slug', $slug)->where('category_id', 0)->get()->toArray();
 
         if(isset($item[0])) {
             $item = $item[0];
@@ -41,7 +52,8 @@ class ItemController extends Controller
             $item['properties'] = $this->handlePropertyForPublic($item['properties']);
 
         return view('public/items/item', [
-            'result' => $item
+            'result' => $item,
+            'showReviews' => $showReviews
         ]);
     }
 
@@ -54,10 +66,12 @@ class ItemController extends Controller
      */
     public function showBlogItem($category_slug, $item_slug)
     {
+        $showReviews = "Y";
         $item = $this->getItem($category_slug, $item_slug, 0);
 
         return view('public/items/item', [
-            'result' => $item
+            'result' => $item,
+            'showReviews' => $showReviews
         ]);
 
     }

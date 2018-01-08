@@ -11,7 +11,7 @@ table, caption, tbody, tfoot, thead, tr, th, td,
 article, aside, canvas, details, embed,
 figure, figcaption, footer, header, hgroup,
 menu, nav, output, ruby, section, summary,
-time, mark, audio, video, input, button {
+time, mark, audio, video, input, button{
     margin: 0;
     padding: 0;
     border: 0;
@@ -20,6 +20,9 @@ time, mark, audio, video, input, button {
     vertical-align: baseline;
     outline: none;
     line-height: 1.8;
+}
+button:hover, button:focus {
+    outline: none;
 }
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure,
@@ -114,7 +117,6 @@ h1, h2 {text-align: center;}
     -ms-transition: all 0.3s;
     transition: all 0.3s;
 }
-
 .item-page, .list-item:hover{
     -webkit-box-shadow: 0px 0px 20px 0px rgba(50, 50, 50, 0.75);
     -moz-box-shadow:    0px 0px 20px 0px rgba(50, 50, 50, 0.75);
@@ -138,6 +140,29 @@ h1, h2 {text-align: center;}
 .topmenu a:hover, .topmenu a.active{
     background: #4a6494 !important;
 }
+.topmenu .collapse{position: relative; float: left;}
+
+/*------ search -------*/
+.search-form{
+    float: right;
+    padding-top: 8px;
+    width: 30%;
+}
+.search-form form{
+    position: relative;
+}
+.search-form input{
+    width: 100% !important;
+}
+.search-form button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: #dad9d9;
+    padding: 2px 8px;
+    font-size: 20px;
+    color: #385c9e;
+}
 
 /*-----header------*/
 .header{
@@ -151,6 +176,7 @@ h1, h2 {text-align: center;}
 }
 .header, .header a{color: #fff;}
 a.logo {text-transform: uppercase; font-size: 1.1em;}
+.header-mail:hover{text-decoration: none;}
 .header-mail i {
     padding-right: 10px;
 }
@@ -233,8 +259,11 @@ a.logo {text-transform: uppercase; font-size: 1.1em;}
     width: 280px;
     margin: 0 auto;
     border-radius: 140px;
-    background: #ccc;
+    background: url(../images/adv-sprite.jpg) top left no-repeat;
 }
+.adv-img-2 {background-position: -260px 0;}
+.adv-img-3 {background-position: -520px 0;}
+
 p.adv-title {
     font-size: 1.5em;
     margin: 10px 0 0 0;
@@ -363,6 +392,7 @@ p.adv-desc {
     margin-top: 20px;
 }
 .full-content {margin: 20px 0;}
+.category-page .table-properties {width: 100%;}
 
 /*----- blog category -----*/
 .item-blog {
@@ -566,6 +596,8 @@ p.adv-desc {
     .landing-section img, .item-page img {
         width: 90%;
     }
+    img.list-item-img {width: auto;}
+    .blog-item-img-link {width: 100%; float: none;}
 }
 
 @media all and (max-width: 768px) {
@@ -580,9 +612,12 @@ p.adv-desc {
         height: 28px;
         width: 28px;
     }
-    .product-list .price, .list-item-title{
-        font-size: 1.2em;
+    .product-list .price, .list-item-title{font-size: 1.2em;}
+    .search-form {
+        width: 100%;
+        margin: 10px 0;
     }
+    .topmenu .collapse, .search-form {float: none;}
 }
 
 @media all and (max-width: 1200px) {
@@ -598,4 +633,7 @@ p.adv-desc {
     }
     .header{font-size: 1.4em;}
     .adv-img {width: 240px; height: 240px;}
+    .adv-img-1 {background-position: -20px -20px;}
+    .adv-img-2 {background-position: -280px -20px;}
+    .adv-img-3 {background-position: -540px -20px;}
 }

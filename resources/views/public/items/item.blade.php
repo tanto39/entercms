@@ -20,9 +20,10 @@
                 </article>
             </main>
 
-            {{-- Reviews include --}}
-            @include('public.partials.reviews')
-
+            @if($showReviews == "Y")
+                {{-- Reviews include --}}
+                @include('public.partials.reviews')
+            @endif
         </div>
     </div>
 

@@ -3,7 +3,7 @@
 @section('content')
     <div class="container main">
 
-        <div class="item-page">
+        <div class="item-page category-page">
             {{-- Breadcrumbs include --}}
             @include('public.partials.breadcrumbs')
 

@@ -51,6 +51,9 @@ Auth::routes();
  * Group routes for public part
  */
 Route::group(['namespace' => 'Site'], function() {
+    // Search
+    Route::get('/search','SearchController@index')->name('item.search');
+
     // Blog controllers
     Route::get('/' . BLOG_SLUG, 'CategoryController@showBlogCategories')->name('item.showBlogCategories');
     Route::get('/' . BLOG_SLUG . '/{category_slug}', 'CategoryController@showBlogCategory')->name('item.showBlogCategory');
