@@ -173,7 +173,8 @@ class MenuItemController extends Controller
     {
         $requestData = $request->all();
 
-        $requestData['href'] = $this->generateHref($requestData);
+        if (isset($requestData['type']))
+            $requestData['href'] = $this->generateHref($requestData);
 
         return $requestData;
     }

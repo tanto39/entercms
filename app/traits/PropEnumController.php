@@ -72,4 +72,26 @@ trait PropEnumController
             PropEnum::destroy($arListId);
         }
     }
+
+    /**
+     * Get list title for public
+     *
+     * @param $propId
+     * @param $arEnumId
+     * @return mixed
+     */
+    public function getListValue($propId, $arEnumId)
+    {
+        $propValue = [];
+
+        $propValues = new PropEnum();
+
+        foreach ($arEnumId as $key=>$enumId) {
+            $propValues = $propValues->orWhere('id', $enumId);
+        }
+
+        $propValues = $propValues->select(['id', 'title', 'slug'])->get()->toArray();
+
+        return $propValues;
+    }
 }

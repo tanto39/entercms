@@ -20,7 +20,13 @@ class MenuController extends Controller
      */
     public static function createMenuTree()
     {
-        $uri = '/' . url()->getRequest()->path();
+        $requestUri = url()->getRequest()->path();
+
+        if ($requestUri == '/')
+            $uri = $requestUri;
+        else
+            $uri = '/' . $requestUri;
+
         $menuItems = new MenuItem();
         $resultMenuItems = [];
 

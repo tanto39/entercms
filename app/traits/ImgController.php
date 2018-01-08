@@ -241,4 +241,21 @@ trait ImgController
             }
         }
     }
+
+    /**
+     * Create puublic image path
+     *
+     * @param $arImage
+     * @return mixed
+     */
+    public function createPublicImgPath($arImage)
+    {
+        foreach ($arImage as $key=>$image) {
+            $arImage[$key]['FULL'] = '/' . PREV_IMG_FULL_PATH . $image['FULL'];
+            $arImage[$key]['MIDDLE'] = '/' . PREV_IMG_FULL_PATH . $image['MIDDLE'];
+            $arImage[$key]['SMALL'] = '/' . PREV_IMG_FULL_PATH . $image['SMALL'];
+        }
+
+        return $arImage;
+    }
 }

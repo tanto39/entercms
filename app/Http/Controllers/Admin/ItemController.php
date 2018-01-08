@@ -66,6 +66,7 @@ class ItemController extends Controller
         return view('admin.items.create', [
             'item' => [],
             'categories' => Category::with('children')->where('parent_id', '0')->get(),
+            'items' => Item::select(['id', 'title'])->get()->toArray(),
             'delimiter' => '',
             'user' => Auth::user(),
             'propGroups' => $this->arProps
@@ -122,6 +123,7 @@ class ItemController extends Controller
         return view('admin.items.edit', [
             'item' => $item,
             'categories' => Category::with('children')->where('parent_id', '0')->get(),
+            'items' => Item::select(['id', 'title'])->get()->toArray(),
             'delimiter' => '-',
             'user' => Auth::user(),
             'preview_images' => $preview_images,

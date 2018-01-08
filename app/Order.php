@@ -16,6 +16,9 @@ class Order extends Model
     protected $fillable = [
         'title',
         'order',
+        'name',
+        'phone',
+        'email',
         'price',
         'count',
         'full_content',
@@ -40,7 +43,10 @@ class Order extends Model
             $table->increments('id');
             $table->integer('order')->nullable();
             $table->integer('price')->nullable();
-            $table->text('title');
+            $table->text('title')->nullable();
+            $table->text('name')->nullable();
+            $table->text('email')->nullable();
+            $table->text('phone')->nullable();
             $table->text('full_content')->nullable();
             $table->integer('created_by')->nullable()->unsigned();
             $table->integer('modify_by')->nullable()->unsigned();

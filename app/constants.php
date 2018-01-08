@@ -1,4 +1,7 @@
 <?php
+// Site settings
+define("ADMIN_EMAIL", 'tanto39@mail.ru');
+
 // Slugs
 define("BLOG_SLUG", 'blog');
 define("CATALOG_SLUG", 'catalog');
@@ -13,7 +16,7 @@ define("CATALOG_ID", 5);
 define("BLOG_ID", 1);
 
 // Images
-define("PREV_IMG_FULL_WIDTH", 1600);
+define("PREV_IMG_FULL_WIDTH", 1200);
 define("PREV_IMG_MIDDLE_WIDTH", 300);
 define("PREV_IMG_SMALL_WIDTH", 100);
 define("PREV_IMG_FULL_PATH", 'images/shares/previews/');
@@ -31,6 +34,7 @@ define("PROP_TYPE_CATEGORY_LINK", 7);
 define("PROP_TYPE_ITEM_LINK", 8);
 
 define("PROP_GROUP_NAME_ALL", 'Характеристики');
+define("PROP_PRICE_ID", 12);
 
 // Menu types
 define("MENU_TYPE_CATEGORY", 1);

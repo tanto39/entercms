@@ -45,7 +45,7 @@ class Item extends Model
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function category() {
-        return $this->belongsTo('App\Category');
+        return $this->belongsTo('App\Category', 'category_id');
     }
 
     /**

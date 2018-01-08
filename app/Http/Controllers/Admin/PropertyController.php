@@ -191,6 +191,9 @@ class PropertyController extends Controller
         if ($property->type == PROP_TYPE_LIST)
             $this->deleteListValues($property->id);
 
+        $requestData = $request->all();
+        $this->deletePropertyWithChange($requestData, null);
+
         Property::destroy($property->id);
         $request->session()->flash('success', 'Свойство удалено');
         return redirect()->route('admin.property.index');

@@ -6,8 +6,12 @@
             @endif
         @endisset
 
-        @if(isset($property['type']) && isset($property['value']) && ($property['type'] == PROP_TYPE_CATEGORY_LINK) && ($property['value'] == $category_list->id))
-            selected=""
+        @if(isset($property['type']) && isset($property['value']) && ($property['type'] == PROP_TYPE_CATEGORY_LINK))
+            @foreach($property['value'] as $selectedICategory)
+                @if($selectedICategory == $category_list->id)
+                    selected=""
+                @endif
+            @endforeach
         @endif
     >
     {!! $delimiter or "" !!}{{$category_list->title or ""}}

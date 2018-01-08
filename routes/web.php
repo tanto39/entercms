@@ -47,12 +47,13 @@ Route::get('/', 'HomeController@index')->name('home.index');
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
-
 /**
  * Group routes for public part
  */
 Route::group(['namespace' => 'Site'], function() {
+    // Search
+    Route::get('/search','SearchController@index')->name('item.search');
+
     // Blog controllers
     Route::get('/' . BLOG_SLUG, 'CategoryController@showBlogCategories')->name('item.showBlogCategories');
     Route::get('/' . BLOG_SLUG . '/{category_slug}', 'CategoryController@showBlogCategory')->name('item.showBlogCategory');
@@ -66,7 +67,10 @@ Route::group(['namespace' => 'Site'], function() {
     // Reviews controllers
     Route::post('/review','ReviewController@store')->name('item.review.store');
 
+    // Orders and mail controllers
+    Route::post('/sendorder','OrderController@store')->name('item.order.store');
 
+    // Uncategorised items
     Route::get('/{slug}', 'ItemController@showUncategorisedItem')->name('item.showUncaterorised');
 });
 
