@@ -8,22 +8,17 @@
         <div class="item-page product-detail">
             {{-- Breadcrumbs include --}}
             @include('public.partials.breadcrumbs')
-            <main>
-                <h1>{{$result['title']}}</h1>
+            <main itemscope itemtype="http://schema.org/Product">
+                <h1 itemprop="name">{{$result['title']}}</h1>
                 <div class="row">
 
                     <div class="col-md-8">
 
                         <div class="top-product-block flex">
-                            <div class="price">Цена:
-                                <span>
-                                    @if(isset($result['properties'][PROP_GROUP_NAME_ALL][PROP_PRICE_ID]['value']))
-                                        {{$result['properties'][PROP_GROUP_NAME_ALL][PROP_PRICE_ID]['value']}}
-                                    @else
-                                        0
-                                    @endif
-                                    руб.
-                                </span>
+                            <div class="price" itemprop="offers" itemscope itemtype="http://schema.org/Offer">Цена:
+                                <span itemprop="price">@if(isset($result['properties'][PROP_GROUP_NAME_ALL][PROP_PRICE_ID]['value'])){{$result['properties'][PROP_GROUP_NAME_ALL][PROP_PRICE_ID]['value']}}@else 0 @endif</span>
+                                <span>руб.</span>
+                                <meta itemprop="priceCurrency" content="RUB">
                             </div>
                             <button class="order-button callback_content" data-target="#modal-zakaz" data-toggle="modal">
                                 <i class="glyphicon glyphicon-shopping-cart"></i>
@@ -41,7 +36,7 @@
                     </div>
                 </div>
 
-                <div class="full_content">{!! $result['full_content'] !!}</div>
+                <div class="full_content" itemprop="description">{!! $result['full_content'] !!}</div>
             </main>
 
             {{-- Reviews include --}}

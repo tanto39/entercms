@@ -219,7 +219,7 @@ a.logo {text-transform: uppercase; font-size: 1.1em;}
     margin: 20px auto 0;
     font-size: 2em;
     border-radius: 35px;
-    padding: 0 30px;
+    padding: 10px 30px 15px;
 }
 .landing-section-color {
     background: #c7c8f7;
@@ -393,6 +393,16 @@ p.adv-desc {
 }
 .full-content {margin: 20px 0;}
 .category-page .table-properties {width: 100%;}
+
+.category-child{
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 30px;
+}
+.category-child-list .list-item {
+    flex-basis: 25%;
+    background: #dde6ef;
+}
 
 /*----- blog category -----*/
 .item-blog {

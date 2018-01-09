@@ -7,15 +7,15 @@
             {{-- Breadcrumbs include --}}
             @include('public.partials.breadcrumbs')
 
-            <main>
-                <h1>{{$result['title']}}</h1>
+            <main itemscope="" itemtype="https://schema.org/Article">
+                <h1 itemprop="headline">{{$result['title']}}</h1>
 
                 {{--Include Slider--}}
                 <div class="detail-image center-block">
                     @include('public.partials.previewSlider')
                 </div>
 
-                <article>
+                <article itemprop="articleBody">
                     {!! $result['full_content'] !!}
                 </article>
             </main>
