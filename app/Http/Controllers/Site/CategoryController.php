@@ -31,6 +31,10 @@ class CategoryController extends Controller
 
         $category = $this->handleCategoryArray($category);
 
+        if (!empty($category['children']))
+            foreach ($category['children'] as $key=>$child)
+                $category['children'][$key] = $this->handleCategoryArray($child);
+
         // Items
         $items = $this->getItems($category, 0);
         $itemsLink = $items->links();
@@ -58,6 +62,10 @@ class CategoryController extends Controller
         // Get item with reviews and categories
 
         $category = $this->handleCategoryArray($category);
+
+        if (!empty($category['children']))
+            foreach ($category['children'] as $key=>$child)
+                $category['children'][$key] = $this->handleCategoryArray($child);
 
         // Items
         $items = $this->getItems($category, 1);

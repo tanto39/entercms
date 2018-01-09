@@ -1,7 +1,7 @@
 @if(!empty($result['preview_img']))
     <div class="detail-image-big-wrap">
         <figure class="detail-image-big flex">
-            <img class="detail-image-big-img" alt="{{$result['title']}}" src="{{$result['preview_img'][0]['MIDDLE']}}">
+            <img @if(isset($result['is_product']) && $result['is_product'] == 1)itemprop="image"@endif class="detail-image-big-img" alt="{{$result['title']}}" src="{{$result['preview_img'][0]['MIDDLE']}}">
         </figure>
     </div>
 

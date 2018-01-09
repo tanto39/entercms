@@ -20,17 +20,17 @@
         </div>
     </div>
 </aside>
-<article class="landing-section">
-    <div class="container">
-        <h1>{{$result['title']}}</h1>
+<main class="landing-section" itemscope="" itemtype="https://schema.org/Article">
+    <article class="container" itemprop="articleBody">
+        <h1 itemprop="headline">{{$result['title']}}</h1>
         @if(!empty($result['preview_img']))
             <img class="image-left" src="{{$result['preview_img'][0]['MIDDLE']}}" alt="{{$result['title']}}" title="{{$result['title']}}" />
         @endif
         {!! $result['full_content'] !!}
-    </div>
+    </article>
     <div class="clearfix"></div>
     <button class="callback" data-target="#modal-callback" data-toggle="modal">Обратный звонок</button>
-</article>
+</main>
 <section class="section landing-section landing-section-color">
     <div class="container catalog-categories">
         <h2>Каталог товаров</h2>

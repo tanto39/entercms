@@ -22,9 +22,30 @@
                 {{-- Properties include --}}
                 @include('public.partials.properties')
 
+                @if(!empty($result['children']))
+                    <div class="category-child">
+                        <h2>Подразделы</h2>
+                        <div class="flex category-child-list category-list">
+                            @foreach($result['children'] as $children)
+                                <a class="list-item" href="{{route('item.showCatalogCategory', ['category_slug' => $children['slug']])}}">
+                                    <div class="list-item-title">
+                                        {{$children['title']}}
+                                    </div>
+                                    <div class="wrap-image-list flex">
+                                        @if(isset($children['preview_img'][0]))
+                                            <img class="list-item-img" src="{{$children['preview_img'][0]['MIDDLE']}}" alt="{{$children['title']}}" title="{{$children['title']}}"/>
+                                        @endif
+                                    </div>
+                                    <span class="order-button">Перейти в раздел</span>
+                                </a>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
+
             </main>
 
-            @isset($items)
+            @if(!empty($items))
                 <div class="col-md-12">
                     <h2>Товары</h2>
                     <div class="product-list flex">
@@ -53,7 +74,7 @@
                         @endforeach
                     </div>
                 </div>
-            @endisset
+            @endif
 
             <div class="col-md-12 pagination-wrap">
                 <ul class="pagination">
