@@ -5,6 +5,12 @@ Disallow: /*mail.php
 Disallow: /*index.php*
 Disallow: /*index.html*
 Allow: /sitemap.xml
+Allow: /*.js
+Allow: /*.css
+Allow: /*.gif
+Allow: /*.jpg
+Allow: /*.png
+Allow: /*.svg
 Sitemap: https://site.ru/sitemap.xml
 Host: https://site.ru
 #User-agent: *
