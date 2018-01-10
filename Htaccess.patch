@@ -1,0 +1,22 @@
+Index: public/.htaccess
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- public/.htaccess	(date 1515528209000)
++++ public/.htaccess	(revision )
+@@ -12,11 +12,11 @@
+     RewriteRule ^(.*)$ / [R=301,L]
+ 
+     RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /index\.php\ HTTP/
+-    RewriteRule ^index\.php$ https://enterkursk.ru/ [R=301,L]
++    RewriteRule ^index\.php$ https://site.ru/ [R=301,L]
+ 
+     AddDefaultCharset UTF-8
+-    RewriteCond %{HTTP_HOST} ^www\.enterkursk\.ru$ [NC]
+-    RewriteRule ^(.*)$ https://enterkursk.ru/$1 [R=301,L]
++    RewriteCond %{HTTP_HOST} ^www\.site\.ru$ [NC]
++    RewriteRule ^(.*)$ https://site.ru/$1 [R=301,L]
+ 
+     # Redirect Trailing Slashes If Not A Folder...
+     RewriteCond %{REQUEST_FILENAME} !-d
