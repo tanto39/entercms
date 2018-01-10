@@ -16,7 +16,7 @@
 
     AddDefaultCharset UTF-8
     RewriteCond %{HTTP_HOST} ^www\.site\.ru$ [NC]
-    RewriteRule ^(.*)$ https://site1.ru/$1 [R=301,L]
+    RewriteRule ^(.*)$ https://site.ru/$1 [R=301,L]
 
     # Redirect Trailing Slashes If Not A Folder...
     RewriteCond %{REQUEST_FILENAME} !-d

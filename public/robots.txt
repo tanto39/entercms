@@ -1,2 +1,11 @@
 User-agent: *
-Disallow:
+Disallow: /vendor/
+Disallow: /*.php&
+Disallow: /*mail.php
+Disallow: /*index.php*
+Disallow: /*index.html*
+Allow: /sitemap.xml
+Sitemap: https://site.ru/sitemap.xml
+Host: https://site.ru
+#User-agent: *
+#Disallow: /
