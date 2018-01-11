@@ -107,6 +107,11 @@
             @yield('content')
         </div>
 
+        <div class="footer">
+            <div class="container">
+                <p>Система управления контентом разработана EnterKursk.ru</p>
+            </div>
+        </div>
     </div>
 
     <!-- Scripts -->

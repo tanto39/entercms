@@ -68,3 +68,9 @@ select.bs-select-hidden,select.selectpicker{display:none!important}.bootstrap-se
     color: #3c763d;
     opacity: .7;
 }
+.footer {
+    background: #fff;
+    border-top: 1px solid #ccc;
+    margin-top: 40px;
+    padding: 40px 0;
+}

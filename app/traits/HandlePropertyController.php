@@ -182,59 +182,107 @@ trait HandlePropertyController
         switch ($requestData['prop_kind']) {
             case PROP_KIND_CATEGORY:
                 $selectTable = new Category();
+
+                // Get property array from DB
+                if (!is_null($categoryId))
+                    $arElements = $selectTable->where($filterField, $categoryId)->select(['id', 'properties'])->get()->toArray();
+                else
+                    $arElements = $selectTable->select(['id', 'properties'])->get()->toArray();
+
+                foreach ($arElements as $key=>$arElement) {
+
+                    // Get properties
+                    $arProperties = unserialize($arElement['properties']);
+
+                    if (empty($arProperties) || ($isChangeCategoryId && ($categoryId == $arElement['id'])))
+                        continue;
+
+                    // Get child categories
+                    if (!is_null($categoryId))
+                        $arChildId = $selectTable->where('parent_id', $arElement['id'])->select(['id'])->get()->toArray();
+                    else
+                        $arChildId = $selectTable->select(['id'])->get()->toArray();
+
+                    // Delete properties
+                    $this->deleteArProperties($arProperties, $requestData, $selectTable, $arElement);
+
+                    // Recurce for child categories
+                    if (!empty($arChildId)) {
+                        foreach ($arChildId as $childId)
+                            $this->deletePropertyWithChange($requestData, $childId['id'], $isChangeCategoryId);
+                    }
+                }
+
                 break;
 
             case PROP_KIND_ITEM:
                 $selectTable = new Item();
+                $categoryTable = new Category();
+                $filterField = "category_id";
+
+                // Get property array from DB
+                if (!is_null($categoryId))
+                    $arElements = $selectTable->where($filterField, $categoryId)->select(['id', 'properties'])->get()->toArray();
+                else
+                    $arElements = $selectTable->select(['id', 'properties'])->get()->toArray();
+
+                // Get child categories
+                if (!is_null($categoryId))
+                    $arChildId = $categoryTable->where('parent_id', $categoryId)->select(['id'])->get()->toArray();
+                else
+                    $arChildId = $selectTable->select(['id'])->get()->toArray();
+
+                foreach ($arElements as $key=>$arElement) {
+
+                    // Get properties
+                    $arProperties = unserialize($arElement['properties']);
+
+                    if (empty($arProperties) || ($isChangeCategoryId && ($categoryId == $arElement['id'])))
+                        continue;
+
+                    // Delete properties
+                    $this->deleteArProperties($arProperties, $requestData, $selectTable, $arElement);
+                }
+
+                // Recurce for child categories
+                if (!empty($arChildId)) {
+                    foreach ($arChildId as $childId)
+                        $this->deletePropertyWithChange($requestData, $childId['id'], $isChangeCategoryId);
+                }
+
                 break;
         }
 
-        // Get property array from DB
-        if (!is_null($categoryId))
-            $arElements = $selectTable->where($filterField, $categoryId)->select(['id', 'properties'])->get()->toArray();
-        else
-            $arElements = $selectTable->select(['id', 'properties'])->get()->toArray();
+    }
 
-        foreach ($arElements as $key=>$arElement) {
+    /**
+     * Delete properties array
+     *
+     * @param $arProperties
+     * @param $requestData
+     * @param $selectTable
+     * @param $arElement
+     */
+    public function deleteArProperties($arProperties, $requestData, $selectTable, $arElement)
+    {
+        foreach ($arProperties as $propGroup=>$arProperty) {
+            if (key_exists($requestData['id'], $arProperty)) {
 
-            // Get properties
-            $arProperties = unserialize($arElement['properties']);
-
-            if (empty($arProperties) || ($isChangeCategoryId && ($categoryId == $arElement['id'])))
-                continue;
-
-            // Get child categories
-            if (!is_null($categoryId))
-                $arChildId = $selectTable->where('parent_id', $arElement['id'])->select(['id'])->get()->toArray();
-            else
-                $arChildId = $selectTable->select(['id'])->get()->toArray();
-
-            // Delete properties
-            foreach ($arProperties as $propGroup=>$arProperty) {
-                if (key_exists($requestData['id'], $arProperty)) {
-
-                    // Delete images
-                    if ($requestData['old_type'] == PROP_TYPE_IMG) {
-                        foreach ($arProperty[$requestData['id']]['value'] as $keyImg=>$arImg) {
-                            $this->deleteMultipleImg($arProperty[$requestData['id']]['value'], $arImg['MIDDLE']);
-                        }
+                // Delete images
+                if ($requestData['old_type'] == PROP_TYPE_IMG) {
+                    foreach ($arProperty[$requestData['id']]['value'] as $keyImg=>$arImg) {
+                        $this->deleteMultipleImg($arProperty[$requestData['id']]['value'], $arImg['MIDDLE']);
                     }
-
-                    // Delete files
-                    if ($requestData['old_type'] == PROP_TYPE_FILE)
-                        $this->deleteFileFromServer($arProperty[$requestData['id']]['value']);
-
-                    // Delete property values from value array
-                    unset($arProperties[$propGroup][$requestData['id']]);
-
-                    $selectTable->where('id', $arElement['id'])->update(['properties' => serialize($arProperties)]);
                 }
-            }
 
-            // Recurce for child categories
-            if (!empty($arChildId)) {
-                foreach ($arChildId as $childId)
-                    $this->deletePropertyWithChange($requestData, $childId['id'], $isChangeCategoryId);
+                // Delete files
+                if ($requestData['old_type'] == PROP_TYPE_FILE)
+                    $this->deleteFileFromServer($arProperty[$requestData['id']]['value']);
+
+                // Delete property values from value array
+                unset($arProperties[$propGroup][$requestData['id']]);
+
+                $selectTable->where('id', $arElement['id'])->update(['properties' => serialize($arProperties)]);
             }
         }
     }
@@ -251,6 +299,10 @@ trait HandlePropertyController
 
         if (!empty($arPropGroup)) {
             foreach ($arPropGroup as $groupName=>$propGroup) {
+
+                if (empty($propGroup))
+                    unset($arPropGroup[$groupName]);
+
                 foreach ($propGroup as $propId=>$property) {
 
                     if ($property['type'] == PROP_TYPE_IMG) {

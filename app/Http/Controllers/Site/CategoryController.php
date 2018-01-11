@@ -88,11 +88,16 @@ class CategoryController extends Controller
      */
     public function showBlogCategories()
     {
-        $categories = $this->getCategories(0);
-        $categories = $this->handleCategoriesArray($categories);
+        // Get category
+        $category = $this->getCategory(BLOG_SLUG, 0);
+        $category = $this->handleCategoryArray($category);
+
+        if (!empty($category['children']))
+            foreach ($category['children'] as $key=>$child)
+                $category['children'][$key] = $this->handleCategoryArray($child);
 
         return view('public/categories/categories', [
-            'result' => $categories,
+            'result' => $category,
         ]);
     }
 
@@ -103,11 +108,16 @@ class CategoryController extends Controller
      */
     public function showCatalogCategories()
     {
-        $categories = $this->getCategories(1);
-        $categories = $this->handleCategoriesArray($categories);
+        // Get category
+        $category = $this->getCategory(CATALOG_SLUG, 1);
+        $category = $this->handleCategoryArray($category);
+
+        if (!empty($category['children']))
+            foreach ($category['children'] as $key=>$child)
+                $category['children'][$key] = $this->handleCategoryArray($child);
 
         return view('public/catalog/categories', [
-            'result' => $categories,
+            'result' => $category
         ]);
     }
 

@@ -48,6 +48,11 @@
                     </td>
                     <td><input class="btn btn-primary" type="submit" name="saveFromList" value="Ок" form="form-{{$property->id}}"></td>
                     <td><input class="btn btn-danger btn-delete" type="submit" name="delete" value="&#10008;" form="form-{{$property->id}}"></td>
+                    <input type="hidden" name="prop_kind" value="{{$property->prop_kind or ""}}" form="form-{{$property->id}}">
+                    <input type="hidden" name="category_id" value="{{$property->category_id or ""}}" form="form-{{$property->id}}">
+                    <input type="hidden" name="id" value="{{$property->id or ""}}" form="form-{{$property->id}}">
+                    <input type="hidden" name="old_type" value="{{$property->type or ""}}" form="form-{{$property->id}}">
+                    <input type="hidden" name="type" value="{{$property->type or ""}}" form="form-{{$property->id}}">
                 </tr>
             @empty
                 <tr>

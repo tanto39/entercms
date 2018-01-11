@@ -12,7 +12,7 @@
                 <h1 itemprop="name">{{$result['title']}}</h1>
                 <div class="row">
 
-                    <div class="col-md-8">
+                    <div class="@if(isset($result['preview_img'][0])) col-md-8 @else col-md-12 @endif">
 
                         <div class="top-product-block flex">
                             <div class="price" itemprop="offers" itemscope itemtype="http://schema.org/Offer">Цена:
@@ -31,11 +31,12 @@
                     </div>
 
                     {{--Include Slider--}}
-                    <div class="col-md-4 detail-image">
-                        @include('public.partials.previewSlider')
-                    </div>
-                </div>
-
+                    @isset($result['preview_img'][0])
+                        <div class="col-md-4 detail-image">
+                            @include('public.partials.previewSlider')
+                        </div>
+                    @endisset
+                <div class="clearfix"></div>
                 <div class="full_content" itemprop="description">{!! $result['full_content'] !!}</div>
             </main>
 

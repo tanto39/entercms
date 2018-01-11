@@ -1,4 +1,5 @@
 User-agent: *
+Disallow: /admin/
 Disallow: /vendor/
 Disallow: /*.php&
 Disallow: /*mail.php

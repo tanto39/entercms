@@ -73,35 +73,6 @@ trait CategoryTrait
     }
 
     /**
-     * Get categories
-     *
-     * @param $isCatalog
-     * @return mixed
-     */
-    public function getCategories($isCatalog)
-    {
-        if ($isCatalog === 1)
-            $parentId = CATALOG_ID;
-        else
-            $parentId = BLOG_ID;
-
-        $categories = Category::where('catalog_section', $isCatalog)
-            ->where('parent_id', $parentId)
-            ->select([
-                'title',
-                'order',
-                'preview_img',
-                'slug',
-                'description'
-            ])
-            ->orderby('order', 'asc')->orderby('updated_at', 'desc')
-            ->get()->toArray();
-
-
-        return $categories;
-    }
-
-    /**
      * Get category
      *
      * @param $category_slug
@@ -144,7 +115,7 @@ trait CategoryTrait
                 'rating',
                 'slug',
                 'description',
-                'properties'
+                'properties',
             ])
             ->orderby('order', 'asc')->orderby('updated_at', 'desc');
 
