@@ -11,11 +11,13 @@
                 <h1>{{$result['title']}}</h1>
 
                 {{--Include Slider--}}
-                <div class="col-md-4 detail-image">
-                    @include('public.partials.previewSlider')
-                </div>
+                @isset($result['preview_img'][0])
+                    <div class="col-md-4 detail-image">
+                        @include('public.partials.previewSlider')
+                    </div>
+                @endisset
 
-                <article class="col-md-8">
+                <article class="@if(isset($result['preview_img'][0])) col-sm-8 @else col-md-12 @endif">
                     {!! $result['full_content'] !!}
                 </article>
 
@@ -45,6 +47,7 @@
 
             </main>
 
+            <div class="clearfix"></div>
             @if(!empty($items))
                 <div class="col-md-12">
                     <h2>Товары</h2>

@@ -38,7 +38,7 @@ $uri = preg_replace("/\?.*/i",'', $_SERVER['REQUEST_URI']);
                     <a class="logo" href="#">Название компании</a>
                     <?php endif;?>
 
-                    <div class="address">г. Курск, ул. Литовская, 95/2</div>
+                    <div class="address">г. Курск, ул. Литовская, 8</div>
                 </div>
 
                 <div class="header-center col-sm-4">
@@ -80,7 +80,7 @@ $uri = preg_replace("/\?.*/i",'', $_SERVER['REQUEST_URI']);
                 <div class="col-sm-4 footer-block">
                     <div class="fn org" itemprop="name"><span class="category">ООО </span>Типовой сайт</div>
                     <div class="tel" itemprop="telephone">+7 (4712) 2-22-50</div>
-                    <div>Адрес: <span itemprop="address">г. Курск, ул. Литовская, 95/2</span></div>
+                    <div>Адрес: <span itemprop="address">г. Курск, ул. Литовская, 8</span></div>
                     <div class="email" itemprop="email">info@tipovoi-sait.ru</div>
                     <div><a href="/">tipovoi.ru</a></div>
                 </div>

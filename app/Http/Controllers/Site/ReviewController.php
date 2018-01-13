@@ -19,6 +19,12 @@ class ReviewController extends Controller
     public function store(Request $request)
     {
         $requestData = $request->all();
+
+        if ($requestData['capcha'] != 4) {
+            $request->session()->flash('success', 'Неверна введена сумма чисел. 2 + 2 = 4');
+            return redirect()->back();
+        }
+
         $requestData['title'] = $requestData['author_name'] . '-' . date('Y-m-d');
         $review = Review::create($requestData);
 

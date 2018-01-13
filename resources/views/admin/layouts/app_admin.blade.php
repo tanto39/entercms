@@ -66,6 +66,7 @@
                             </li>
                             <li><a href="{{route('admin.review.index')}}">Отзывы</a></li>
                             <li><a href="{{route('admin.user.index')}}">Пользователи</a></li>
+                            <li><a href="{{route('admin.sitemap.index')}}">Карта сайта</a></li>
                         @endif
                     </ul>
 
@@ -107,6 +108,11 @@
             @yield('content')
         </div>
 
+        <div class="footer">
+            <div class="container">
+                <p>Система управления контентом разработана EnterKursk.ru</p>
+            </div>
+        </div>
     </div>
 
     <!-- Scripts -->

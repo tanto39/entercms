@@ -1,6 +1,7 @@
 <?php
 // Site settings
 define("ADMIN_EMAIL", 'tanto39@mail.ru');
+define("HOST_PATH", 'http://entercms/');
 
 // Slugs
 define("BLOG_SLUG", 'blog');
@@ -34,7 +35,7 @@ define("PROP_TYPE_CATEGORY_LINK", 7);
 define("PROP_TYPE_ITEM_LINK", 8);
 
 define("PROP_GROUP_NAME_ALL", 'Характеристики');
-define("PROP_PRICE_ID", 12);
+define("PROP_PRICE_ID", 14);
 
 // Menu types
 define("MENU_TYPE_CATEGORY", 1);

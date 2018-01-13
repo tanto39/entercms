@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Property;
 use App\PropGroup;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -9,8 +10,12 @@ use Illuminate\Support\Facades\Auth;
 
 class PropGroupController extends Controller
 {
+    use \App\ImgController;
+    use \App\FileController;
     use \App\FilterController;
     use \App\SearchController;
+    use \App\PropEnumController;
+    use \App\HandlePropertyController;
 
     public $indexRoute = 'admin.propgroup.index';
     public $prefix = 'PropGroup';
@@ -133,6 +138,22 @@ class PropGroupController extends Controller
      */
     public function destroy(Request $request, PropGroup $propgroup)
     {
+        // Delete props
+        $arProps = Property::where('group_id', $propgroup->id)->get()->toArray();
+
+        if (!empty($arProps)) {
+            foreach ($arProps as $key=>$arProp) {
+                if ($arProp['type'] == PROP_TYPE_LIST)
+                    $this->deleteListValues($arProp['id']);
+
+                $arProp['old_type'] = $arProp['type'];
+                $this->deletePropertyWithChange($arProp, null);
+
+                Property::destroy($arProp['id']);
+            }
+        }
+
+        // Delete group
         PropGroup::destroy($propgroup->id);
         $request->session()->flash('success', 'Группа удалена');
         return redirect()->route('admin.propgroup.index');

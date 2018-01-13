@@ -33,7 +33,9 @@ class ItemController extends Controller
 
         // Show reviews
         if ($uri == "reviews") {
-            $item = $item->with('reviews');
+            $item = $item->with(['reviews' => function($query) {
+                $query->where('published', 1);
+            }]);
             $showReviews = "Y";
         }
 

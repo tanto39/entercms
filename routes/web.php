@@ -41,6 +41,10 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
     Route::post('/order/filter','OrderController@filter')->name('admin.order.filter');
     Route::post('/menu/filter','MenuController@filter')->name('admin.menu.filter');
     Route::post('/menuitem/filter','MenuItemController@filter')->name('admin.menuitem.filter');
+
+    // Sitemap
+    Route::get('/sitemap','SitemapController@index')->name('admin.sitemap.index');
+    Route::post('/sitemap/generate','SitemapController@generate')->name('admin.sitemap.generate');
 });
 
 Route::get('/', 'HomeController@index')->name('home.index');

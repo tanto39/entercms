@@ -193,7 +193,7 @@ a.logo {text-transform: uppercase; font-size: 1.1em;}
 }
 .item-page {
     margin-top: 15px;
-    padding: 10px 40px;
+    padding: 10px 60px;
     overflow: hidden;
 }
 .form-buttons {
@@ -249,9 +249,6 @@ a.logo {text-transform: uppercase; font-size: 1.1em;}
 /*------ adv ------*/
 .adv-wrap {
     padding-top: 35px;
-}
-.adv-item {
-
 }
 .adv-img {
     border: 10px solid #587bbb;
@@ -383,6 +380,11 @@ p.adv-desc {
     padding: 0 0 0 10px;
 }
 
+/*-------categories------*/
+.categories-description {
+    margin: 20px 0 40px;
+}
+
 /*------ catalog section -------*/
 .category-list, .product-list {
     align-items: stretch;
@@ -457,8 +459,9 @@ p.adv-desc {
     margin: 10px 0 0 0;
     padding: 10px;
 }
-.rating-wrap {
-    margin-top: 7px;
+.review-form label{
+    margin-top: 8px;
+    margin-bottom: 0;
 }
 .rating input {cursor: pointer;}
 
@@ -509,7 +512,7 @@ p.adv-desc {
     margin: 5px 0;
     border: 1px solid #2b586b;
 }
-.form-zakaz .form-pd input{
+.form-pd input{
     margin: 5px;
     width: 20px;
     height: 20px;
@@ -628,6 +631,9 @@ p.adv-desc {
         margin: 10px 0;
     }
     .topmenu .collapse, .search-form {float: none;}
+    .item-page {
+        padding: 10px 15px;
+    }
 }
 
 @media all and (max-width: 1200px) {

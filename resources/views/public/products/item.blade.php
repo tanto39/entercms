@@ -12,7 +12,7 @@
                 <h1 itemprop="name">{{$result['title']}}</h1>
                 <div class="row">
 
-                    <div class="col-md-8">
+                    <div class="@if(isset($result['preview_img'][0])) col-md-8 @else col-md-12 @endif">
 
                         <div class="top-product-block flex">
                             <div class="price" itemprop="offers" itemscope itemtype="http://schema.org/Offer">Цена:
@@ -31,11 +31,12 @@
                     </div>
 
                     {{--Include Slider--}}
-                    <div class="col-md-4 detail-image">
-                        @include('public.partials.previewSlider')
-                    </div>
-                </div>
-
+                    @isset($result['preview_img'][0])
+                        <div class="col-md-4 detail-image">
+                            @include('public.partials.previewSlider')
+                        </div>
+                    @endisset
+                <div class="clearfix"></div>
                 <div class="full_content" itemprop="description">{!! $result['full_content'] !!}</div>
             </main>
 
@@ -66,7 +67,7 @@
                             <div class="form-zakaz-product">@if(isset($result['properties'][PROP_GROUP_NAME_ALL][PROP_PRICE_ID]['value'])){{$result['properties'][PROP_GROUP_NAME_ALL][PROP_PRICE_ID]['value']}}@else 0 @endif</div>
                             <input type="hidden" name="price" value="@if(isset($result['properties'][PROP_GROUP_NAME_ALL][PROP_PRICE_ID]['value'])){{$result['properties'][PROP_GROUP_NAME_ALL][PROP_PRICE_ID]['value']}}@else 0 @endif"/>
                             <div class="form-input form-pd"><label>Даю согласие на обработку <a href="#" target="_blank" rel="noopener noreferrer">персональных данных</a>:</label><input class="checkbox-inline" type="checkbox" required="" name="pd" /></div>
-                            <label>Защита от спама: введите сумму 2+2:</label><input class="form-control" id="form-capcha" type="number" required name="capcha"/>
+                            <label>Защита от спама: введите сумму 2+2:</label><input class="form-control form-capcha" type="number" required name="capcha"/>
                             <input class="btn form-submit order-button" type="submit" name="submit" value="Сделать заказ" />
                         </form>
                         <div class='message-form alert alert-success'><p>Загрузка...</p></div>
