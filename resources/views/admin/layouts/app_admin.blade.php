@@ -66,6 +66,7 @@
                             </li>
                             <li><a href="{{route('admin.review.index')}}">Отзывы</a></li>
                             <li><a href="{{route('admin.user.index')}}">Пользователи</a></li>
+                            <li><a href="{{route('admin.sitemap.index')}}">Карта сайта</a></li>
                         @endif
                     </ul>
 

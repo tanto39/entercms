@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+	<url><loc>http://entercms/</loc><lastmod>2018-01-07 19:35:20</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
+	<url><loc>http://entercms/blog</loc><lastmod>2018-01-11 19:14:47</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url>
+	<url><loc>http://entercms/blog/vtoraya</loc><lastmod>2018-01-11 18:25:45</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url>
+	<url><loc>http://entercms/blog/vlozh-v-pervoy</loc><lastmod>2018-01-11 18:10:33</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url>
+	<url><loc>http://entercms/catalog</loc><lastmod>2018-01-11 19:14:07</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url>
+	<url><loc>http://entercms/catalog/razdel-1</loc><lastmod>2018-01-11 19:48:28</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url>
+	<url><loc>http://entercms/catalog/razdel-2</loc><lastmod>2018-01-11 19:48:55</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url>
+	<url><loc>http://entercms/catalog/razdel-3</loc><lastmod>2018-01-11 19:49:12</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url>
+	<url><loc>http://entercms/blog/vtoraya/test-vtoraya</loc><lastmod>2018-01-11 18:53:01</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
+	<url><loc>http://entercms/contacts</loc><lastmod>2018-01-11 18:52:56</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
+	<url><loc>http://entercms/blog/vtoraya/statya</loc><lastmod>2018-01-11 18:07:32</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
+	<url><loc>http://entercms/reviews</loc><lastmod>2018-01-13 08:35:10</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
+	<url><loc>http://entercms/catalog/razdel-1/tovar-1</loc><lastmod>2018-01-13 17:56:30</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
+	<url><loc>http://entercms/catalog/razdel-1/tovar-2</loc><lastmod>2018-01-11 19:56:54</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
+	<url><loc>http://entercms/catalog/razdel-1/tovar-3</loc><lastmod>2018-01-11 19:57:57</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
+</urlset>

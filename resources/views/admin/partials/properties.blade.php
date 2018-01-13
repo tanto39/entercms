@@ -46,7 +46,7 @@
                             @foreach($property['value'] as $image)
                                 <div class="img-item">
                                     <img src="{{ url('/' . PREV_IMG_FULL_PATH . $image['MIDDLE']) }}" alt="">
-                                    <button class="btn btn-danger" name="deletePropImg" value="{{$image['MIDDLE']}}">Удалить</button>
+                                    <button class="btn btn-danger btn-delete" name="deletePropImg" value="{{$image['MIDDLE']}}">&#10008;</button>
                                 </div>
                             @endforeach
                         @endif

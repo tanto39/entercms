@@ -1,6 +1,7 @@
 <?php
 // Site settings
 define("ADMIN_EMAIL", 'tanto39@mail.ru');
+define("HOST_PATH", 'http://entercms/');
 
 // Slugs
 define("BLOG_SLUG", 'blog');

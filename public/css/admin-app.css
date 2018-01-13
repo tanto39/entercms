@@ -38,7 +38,7 @@ select.bs-select-hidden,select.selectpicker{display:none!important}.bootstrap-se
     padding-right: 20px;
 }
 .image-property-placeholder img, .image-placeholder img, .img-item img{
-    max-width: 200px;
+    max-width: 300px;
 }
 .properties-wrap h4 {
     margin: 25px 0 0 0;
@@ -73,4 +73,14 @@ select.bs-select-hidden,select.selectpicker{display:none!important}.bootstrap-se
     border-top: 1px solid #ccc;
     margin-top: 40px;
     padding: 40px 0;
+}
+.img-item {
+    position: relative;
+    border: 1px solid #ccc;
+    margin: 2px;
+}
+.img-item button {
+    position: absolute;
+    top: 5px;
+    right: 5px;
 }

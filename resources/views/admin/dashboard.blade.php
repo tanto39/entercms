@@ -40,6 +40,10 @@
             <div class="flex-basis-33">
                 <a class="alert alert-success" href="{{route('admin.menuitem.index')}}">Типы меню</a>
             </div>
+
+            <div class="flex-basis-33">
+                <a class="alert alert-success" href="{{route('admin.sitemap.index')}}">Карта сайта</a>
+            </div>
         @endif
     </div>
 @endsection

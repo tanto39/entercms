@@ -29,6 +29,10 @@
         <label for="full_content">Отзыв</label>
         <textarea id="full_content" class="form-control" name="full_content" rows="5"></textarea>
 
+        <label>Защита от спама: введите сумму 2+2:</label><input class="form-control form-capcha" type="number" required name="capcha"/>
+        <div class="form-input form-pd"><label>Даю согласие на обработку <a href="#" target="_blank" rel="noopener noreferrer">персональных данных</a>:</label><input class="checkbox-inline" type="checkbox" required="" name="pd" /></div>
+
+
         <input type="hidden" name="item_id" value="{{$result['id'] or ''}}" required>
 
         <div class="form-buttons">

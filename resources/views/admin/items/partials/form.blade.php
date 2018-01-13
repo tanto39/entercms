@@ -22,20 +22,8 @@
 <label for="rating">Рейтинг</label>
 <input type="number" id="rating" class="form-control" name="rating" value="{{$item->rating or ""}}">
 
-<div class="image-wrap">
-<label for="preview_img">Изображение</label>
-<input type="file" multiple id="preview_img" class="form-control" name="preview_img[]">
-    <div id="image-placeholder" class="flex">
-        @if(!empty($preview_images))
-            @foreach($preview_images as $image)
-                <div class="img-item">
-                    <img src="{{ url('/images/shares/previews/'.$image['MIDDLE']) }}" alt="">
-                    <button class="btn btn-danger" name="deleteImg" value="{{$image['MIDDLE']}}">Удалить</button>
-                </div>
-            @endforeach
-        @endif
-    </div>
-</div>
+{{--Preview images--}}
+@include('admin.partials.previmg')
 
 <label for="category_id">Категория</label>
 <select id="category_id" class="form-control selectpicker" data-live-search="true" name="category_id">

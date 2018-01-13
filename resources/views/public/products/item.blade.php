@@ -67,7 +67,7 @@
                             <div class="form-zakaz-product">@if(isset($result['properties'][PROP_GROUP_NAME_ALL][PROP_PRICE_ID]['value'])){{$result['properties'][PROP_GROUP_NAME_ALL][PROP_PRICE_ID]['value']}}@else 0 @endif</div>
                             <input type="hidden" name="price" value="@if(isset($result['properties'][PROP_GROUP_NAME_ALL][PROP_PRICE_ID]['value'])){{$result['properties'][PROP_GROUP_NAME_ALL][PROP_PRICE_ID]['value']}}@else 0 @endif"/>
                             <div class="form-input form-pd"><label>Даю согласие на обработку <a href="#" target="_blank" rel="noopener noreferrer">персональных данных</a>:</label><input class="checkbox-inline" type="checkbox" required="" name="pd" /></div>
-                            <label>Защита от спама: введите сумму 2+2:</label><input class="form-control" id="form-capcha" type="number" required name="capcha"/>
+                            <label>Защита от спама: введите сумму 2+2:</label><input class="form-control form-capcha" type="number" required name="capcha"/>
                             <input class="btn form-submit order-button" type="submit" name="submit" value="Сделать заказ" />
                         </form>
                         <div class='message-form alert alert-success'><p>Загрузка...</p></div>
