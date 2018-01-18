@@ -108,4 +108,194 @@ trait FilterController
         $this->sortVal = $request->cookie('sort' . $this->prefix);
     }
 
+    /**
+     * Smart filter execution
+     *
+     * @param Request $request
+     * @param $selectTable
+     * @return mixed
+     */
+    public function smartFilterExec(Request $request, $selectTable)
+    {
+        $arProperty = $request->get('property');
+
+        $regex = '';
+
+        if (isset($arProperty)) {
+            foreach ($arProperty as $propId=>$selectValue) {
+                // Number properties
+                if (isset($selectValue['from']) || isset($selectValue['to'])) {
+                    if (is_null($selectValue['from']))
+                        $selectValue['from'] = 0;
+                    if (is_null($selectValue['to']))
+                        $selectValue['to'] = 100000;
+
+                    // Set regex for number
+                    $arFrom = str_split((string)$selectValue['from']);
+                    $arTo = str_split((string)$selectValue['to']);
+
+                    $countNumberFrom = count($arFrom);
+                    $countNumberTo = count($arTo);
+
+                    $regexNumDiap = '"';
+
+                    // First number diapason
+                    foreach ($arFrom as $key=>$number)
+                        $regexNumDiap .= '['.$number.'-9]';
+
+                    $regexNumDiap .= '"';
+
+                    for ($i = 1; $i < $countNumberFrom; $i++) {
+
+                        for ($j = 0; $j < $countNumberFrom; $j++) {
+                            if ($j == 0) {
+                                $regexNumDiap .= '|"['.$arFrom[0].'-9]';
+                            }
+                            else {
+                                if ($j == $i) {
+                                    $regexNumDiap .= '['.($arFrom[$j]+1).'-9]';
+                                }
+                                elseif ($j < $i) {
+                                    $regexNumDiap .= '['.$arFrom[$j].'-9]';
+                                }
+                                else {
+                                    $regexNumDiap .= '[0-9]';
+                                }
+                            }
+                        }
+
+                        $regexNumDiap .= '"';
+                    }
+
+                    // Middle number diapasons
+                    if ($countNumberTo > ($countNumberFrom + 1)) {
+
+                        $countMiddleDiap = $countNumberTo - $countNumberFrom - 1;
+
+                        for ($i = 0; $i < $countMiddleDiap; $i++) {
+                            $regexNumDiap .= '|"[1-9]';
+
+                            for ($j = 0; $j < ($countNumberFrom + $i); $j++) {
+                                $regexNumDiap .= '[0-9]';
+                            }
+
+                            $regexNumDiap .= '"';
+                        }
+
+                        if ($arTo[0] != 1)
+                            $regexNumDiap .= '|"[0-' . ($arTo[0] - 1) . ']';
+                        else
+                            $regexNumDiap .= '|"';
+
+                        $arTo1 = $arTo;
+                        array_pop($arTo1);
+
+                        foreach ($arTo1 as $key=>$number) {
+                            $regexNumDiap .= '[0-9]';
+                        }
+
+                        $regexNumDiap .= '"';
+                    }
+
+                    // End number diapasons
+                    if ($arTo[0] != 1) {
+                        for ($i = 1; $i < $arTo[0]; $i++) {
+                            $regexNumDiap .= '|"['.$i.']';
+                            for ($j = 1; $j < $countNumberTo; $j++) {
+                                $regexNumDiap .= '[0-9]';
+                            }
+                            $regexNumDiap .= '"';
+                        }
+                    }
+
+                    for ($i = 1; $i < $countNumberTo; $i++) {
+
+                        for ($j = 0; $j < $countNumberTo; $j++) {
+                            if ($j == 0) {
+                                $regexNumDiap .= '|"[0-'.$arTo[0].']';
+                            }
+                            else {
+                                if ($j == $i) {
+                                    if ($arTo[$j] != 0)
+                                        $regexNumDiap .= '[0-'.($arTo[$j]-1).']';
+                                    else
+                                        $regexNumDiap .= '[0]';
+                                }
+                                elseif ($j < $i) {
+                                    $regexNumDiap .= '[0-'.$arTo[$j].']';
+                                }
+                                else {
+                                    if (($arTo[$j] == 0 && ($arTo[$i] == 0)) || ($arTo[$j-1] == 0 && ($arTo[$i] == 0)))
+                                        $regexNumDiap .= '[0]';
+                                    else
+                                        $regexNumDiap .= '[0-9]';
+                                }
+                            }
+                        }
+
+                        $regexNumDiap .= '"';
+                    }
+
+                    /**
+                     * https://regex101.com/r/XXOqPc/7
+                     *
+                     * if set 203-25030 regex is "i:14;a:[^}]*("[2-9][0-9][3-9]"|"[2-9][1-9][0-9]"|"[2-9][0-9][4-9]"|"[1-9][0-9][0-9][0-9]"|"[0-1][0-9][0-9][0-9][0-9]"|"[1][0-9][0-9][0-9][0-9]"|"[0-2][0-4][0-9][0-9][0-9]"|"[0-2][0-5][0][0][0]"|"[0-2][0-5][0-0][0-2][0-9]"|"[0-2][0-5][0-0][0-3][0]");} ◀"
+                     */
+                    $regex = 'i:'.$propId.';a:[^}]*('.$regexNumDiap.');}';
+
+                    $selectTable = $selectTable->where('properties', 'REGEXP', $regex);
+                }
+                // List properties
+                elseif (isset($selectValue['arListValues'])) {
+                    foreach ($selectValue['arListValues'] as $key=>$listValue)
+                        $selectTable = $selectTable->where('properties', 'REGEXP', $regex);
+                }
+                // Other properties
+                else {
+                    $selectTable = $selectTable->where('properties', 'REGEXP', $regex);
+                }
+            }
+        }
+
+        return $selectTable;
+    }
+
+    /**
+     * Select properties for smart filter
+     *
+     * @return mixed
+     */
+    public function getFilterProperties($request)
+    {
+        $arPropertyGet = $request->get('property');
+
+        $properties = Property::where('smart_filter', 1)->where('prop_kind', PROP_KIND_ITEM)
+            ->orderby('order', 'asc')
+            ->select(['id', 'order', 'title', 'slug', 'type'])->get()->toArray();
+
+        foreach ($properties as $key=>$property) {
+            // List properties
+            if ($property['type'] == PROP_TYPE_LIST) {
+                $this->getListValues($property["id"]);
+
+                $properties[$key]['arValues'] = $this->propEnums;
+
+                // Set selected values
+                foreach ($properties[$key]['arValues'] as $keyProp=>$arListValue) {
+                    if (isset($arPropertyGet[$property["id"]]) && in_array($arListValue['id'], $arPropertyGet[$property["id"]]['arListValues']))
+                        $properties[$key]['arValues'][$keyProp]['selected'] = 'Y';
+                    else
+                        $properties[$key]['arValues'][$keyProp]['selected'] = 'N';
+                }
+            }
+            // Number properties
+            elseif ($property['type'] == PROP_TYPE_NUM) {
+                $properties[$key]['values']['from'] = $arPropertyGet[$property["id"]]['from'];
+                $properties[$key]['values']['to'] = $arPropertyGet[$property["id"]]['to'];
+            }
+        }
+
+        return $properties;
+    }
+
 }

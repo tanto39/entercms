@@ -3,11 +3,14 @@
 @section('content')
     <div class="container main">
 
-        <div class="item-page category-page">
+        <div class="col-sm-3">
+            @include('public.partials.smartfilter')
+        </div>
+        <div class="item-page category-page col-sm-9">
             {{-- Breadcrumbs include --}}
             @include('public.partials.breadcrumbs')
 
-            <main class="col-md-12">
+            <main class="row">
                 <h1>{{$result['title']}}</h1>
 
                 {{--Include Slider--}}
@@ -49,33 +52,31 @@
 
             <div class="clearfix"></div>
             @if(!empty($items))
-                <div class="col-md-12">
-                    <h2>Товары</h2>
-                    <div class="product-list flex">
-                        @foreach($items as $item)
-                            <a class="list-item" href="{{route('item.showProduct', ['category_slug' => $result['slug'], 'item_slug' => $item['slug']])}}">
-                                <div class="list-item-title">
-                                    {{$item['title']}}
-                                </div>
-                                <div class="wrap-image-list flex">
-                                    @if(isset($item['preview_img'][0]))
-                                        <img class="list-item-img" src="{{$item['preview_img'][0]['MIDDLE']}}" alt="{{$item['title']}}" title="{{$item['title']}}"/>
+                <h2>Товары</h2>
+                <div class="product-list flex">
+                    @foreach($items as $item)
+                        <a class="list-item" href="{{route('item.showProduct', ['category_slug' => $result['slug'], 'item_slug' => $item['slug']])}}">
+                            <div class="list-item-title">
+                                {{$item['title']}}
+                            </div>
+                            <div class="wrap-image-list flex">
+                                @if(isset($item['preview_img'][0]))
+                                    <img class="list-item-img" src="{{$item['preview_img'][0]['MIDDLE']}}" alt="{{$item['title']}}" title="{{$item['title']}}"/>
+                                @endif
+                            </div>
+                            <div class="price">Цена:
+                                <span>
+                                    @if(isset($item['properties'][PROP_GROUP_NAME_ALL][PROP_PRICE_ID]['value']))
+                                        {{$item['properties'][PROP_GROUP_NAME_ALL][PROP_PRICE_ID]['value']}}
+                                    @else
+                                        0
                                     @endif
-                                </div>
-                                <div class="price">Цена:
-                                    <span>
-                                        @if(isset($item['properties'][PROP_GROUP_NAME_ALL][PROP_PRICE_ID]['value']))
-                                            {{$item['properties'][PROP_GROUP_NAME_ALL][PROP_PRICE_ID]['value']}}
-                                        @else
-                                            0
-                                        @endif
-                                            руб.
-                                    </span>
-                                </div>
-                                <span class="order-button">Подробнее</span>
-                            </a>
-                        @endforeach
-                    </div>
+                                        руб.
+                                </span>
+                            </div>
+                            <span class="order-button">Подробнее</span>
+                        </a>
+                    @endforeach
                 </div>
             @endif
 

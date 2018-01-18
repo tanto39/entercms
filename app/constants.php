@@ -28,6 +28,7 @@ define("PROP_KIND_CATEGORY", 1);
 define("PROP_KIND_ITEM", 2);
 
 // Types of properties
+define("PROP_TYPE_NUM", 1);
 define("PROP_TYPE_IMG", 3);
 define("PROP_TYPE_FILE", 4);
 define("PROP_TYPE_LIST", 6);
