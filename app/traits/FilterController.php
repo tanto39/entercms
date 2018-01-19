@@ -247,8 +247,13 @@ trait FilterController
                 }
                 // List properties
                 elseif (isset($selectValue['arListValues'])) {
-                    foreach ($selectValue['arListValues'] as $key=>$listValue)
+                    foreach ($selectValue['arListValues'] as $key=>$listValue) {
+                        $count = strlen($listValue);
+                        $regexList = 'i:'.$key.';s:'.$count.':"'.$listValue.'"';
+
+                        $regex = 'i:'.$propId.';a:[^}]*('.$regexList.')[^}]*}';
                         $selectTable = $selectTable->where('properties', 'REGEXP', $regex);
+                    }
                 }
                 // Other properties
                 else {
@@ -256,6 +261,11 @@ trait FilterController
                 }
             }
         }
+
+        $requestUri = url()->getRequest()->getRequestUri();
+
+        $selectTable = $selectTable->paginate(20);
+        $selectTable->setPath($requestUri);
 
         return $selectTable;
     }

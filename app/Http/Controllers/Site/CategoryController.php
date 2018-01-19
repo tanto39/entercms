@@ -57,6 +57,14 @@ class CategoryController extends Controller
      */
     public function showCatalogCategory($category_slug, Request $request)
     {
+        // Redirect if unset smart filter
+        $unsetFilter = $request->get('unsetfilter');
+
+        if (isset($unsetFilter)) {
+            $requestUri = url()->getRequest()->path();
+            return redirect($requestUri);
+        }
+
         // Get category
         $category = $this->getCategory($category_slug, 1);
 

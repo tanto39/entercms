@@ -18,7 +18,7 @@
                 @foreach($property['arValues'] as $valKey=>$listValue)
                     <div class="smart-filter-item-list flex">
                         <label for="property_{{$property['id']}}">{{$listValue['title']}}</label>
-                        <input type="checkbox" id="property_{{$property['id']}}" name="property[{{$property['id']}}][arListValues][{{$valKey}}]" value="{{$listValue['id']}}" @if($listValue['selected'] == 'Y') checked @endif/>
+                        <input type="checkbox" id="property_{{$property['id']}}" name="property[{{$property['id']}}][arListValues][]" value="{{$listValue['id']}}" @if($listValue['selected'] == 'Y') checked @endif/>
                     </div>
                 @endforeach
             @endif

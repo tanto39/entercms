@@ -547,6 +547,9 @@ p.adv-desc {
 .detail-image-big {
     height: 350px;
 }
+.category-page .detail-image-big {
+    height: 270px;
+}
 .detail-image-small-block, .property-image {
     align-items: stretch;
 }

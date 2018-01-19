@@ -124,8 +124,6 @@ trait CategoryTrait
         $items = $this->filterExec($request, $items);
         $items = $this->smartFilterExec($request, $items);
 
-        $items = $items->paginate(20);
-
         return $items;
     }
 
