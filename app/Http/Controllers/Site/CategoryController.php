@@ -14,6 +14,7 @@ class CategoryController extends Controller
     use \App\PropEnumController;
     use \App\HandlePropertyController;
     use \App\CategoryTrait;
+    use \App\FilterController;
 
     public $indexRoute = 'category.index';
     public $prefix = 'Category';
@@ -24,7 +25,7 @@ class CategoryController extends Controller
      * @param $category_slug
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function showBlogCategory($category_slug)
+    public function showBlogCategory($category_slug, Request $request)
     {
         // Get category
         $category = $this->getCategory($category_slug, 0);
@@ -36,7 +37,7 @@ class CategoryController extends Controller
                 $category['children'][$key] = $this->handleCategoryArray($child);
 
         // Items
-        $items = $this->getItems($category, 0);
+        $items = $this->getItems($category, 0, $request);
         $itemsLink = $items->links();
 
         $items = $this->handleItemsArray($items);
@@ -54,8 +55,16 @@ class CategoryController extends Controller
      * @param $category_slug
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function showCatalogCategory($category_slug)
+    public function showCatalogCategory($category_slug, Request $request)
     {
+        // Redirect if unset smart filter
+        $unsetFilter = $request->get('unsetfilter');
+
+        if (isset($unsetFilter)) {
+            $requestUri = url()->getRequest()->path();
+            return redirect($requestUri);
+        }
+
         // Get category
         $category = $this->getCategory($category_slug, 1);
 
@@ -67,8 +76,11 @@ class CategoryController extends Controller
             foreach ($category['children'] as $key=>$child)
                 $category['children'][$key] = $this->handleCategoryArray($child);
 
+        // Filter properties
+        $properties = $this->getFilterProperties($request);
+
         // Items
-        $items = $this->getItems($category, 1);
+        $items = $this->getItems($category, 1, $request);
         $itemsLink = $items->links();
 
         $items = $this->handleItemsArray($items);
@@ -77,6 +89,7 @@ class CategoryController extends Controller
         return view('public/catalog/category', [
             'result' => $category,
             'items' => $items,
+            'properties' => $properties,
             'itemsLink' => $itemsLink
         ]);
 

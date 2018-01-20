@@ -117,7 +117,7 @@ h1, h2 {text-align: center;}
     -ms-transition: all 0.3s;
     transition: all 0.3s;
 }
-.item-page, .list-item:hover{
+.item-page, .list-item:hover, .smart-filter{
     -webkit-box-shadow: 0px 0px 20px 0px rgba(50, 50, 50, 0.75);
     -moz-box-shadow:    0px 0px 20px 0px rgba(50, 50, 50, 0.75);
     box-shadow:         0px 0px 20px 0px rgba(50, 50, 50, 0.75);
@@ -193,6 +193,7 @@ a.logo {text-transform: uppercase; font-size: 1.1em;}
 }
 .item-page {
     margin-top: 15px;
+    margin-bottom: 15px;
     padding: 10px 60px;
     overflow: hidden;
 }
@@ -318,12 +319,12 @@ p.adv-desc {
 
 /*--- product list -----*/
 .list-item {
-    flex-basis: 30%;
-    margin: 5px;
-    padding: 15px;
-    border: 1px solid #ccc;
+    flex-basis: 32%;
+    margin: 2px;
+    padding: 10px;
+    border: 1px solid #b6c5e0;
     text-align: center;
-    background: #ededf7;
+    background: #e4e4ef;
 }
 .list-item:hover, .list-item:focus {
     text-decoration: none !important;
@@ -339,7 +340,7 @@ p.adv-desc {
 .wrap-image-list {
     height: 200px;
     justify-content: center;
-    background: #dde6ef;
+    background: #fff;
 }
 .category-list .wrap-image-list {height: 250px;}
 .price {
@@ -395,7 +396,9 @@ p.adv-desc {
 }
 .full-content {margin: 20px 0;}
 .category-page .table-properties {width: 100%;}
-
+.category-page {
+    padding: 10px 30px;
+}
 .category-child{
     border-top: 1px solid #ccc;
     border-bottom: 1px solid #ccc;
@@ -544,6 +547,9 @@ p.adv-desc {
 .detail-image-big {
     height: 350px;
 }
+.category-page .detail-image-big {
+    height: 270px;
+}
 .detail-image-small-block, .property-image {
     align-items: stretch;
 }
@@ -584,6 +590,54 @@ p.adv-desc {
 #blueimp-gallery-carousel img {
     max-height: 80%;
     margin-top: 3%;
+}
+
+/*-----Smart filter----*/
+.smart-filter {
+    padding: 10px;
+    margin: 15px 0;
+    background: #c8e2e0;
+    text-align: center;
+}
+.smart-filter .form-buttons, .smart-filter-wrap_num {
+    justify-content: space-around;
+}
+.smart-filter h3 {
+    margin: 10px 0;
+    color: #413e5d;
+    font-size: 1.4em;
+}
+.smart-filter-prop-title{
+    font-size: 1.2em;
+    display: block;
+    background: #b6c5e0;
+}
+.smart-filter-item {
+    padding: 5px 0;
+    border-top: 1px dotted #6d8088;
+}
+.smart-filter-wrap_num {
+
+}
+.smart-filter-item_num {
+    flex-basis: 45%;
+    margin: 0 2px;
+}
+.smart-filter label,  .smart-filter input{
+    margin: 0;
+    cursor: pointer;
+}
+.smart-filter-item-list {
+    justify-content: space-between;
+    width: 80%;
+    margin: 0 auto;
+}
+.smart-filter-item-list input{
+    width: 15px;
+    height: 15px;
+}
+.smart-filter-item-text {
+    margin: 5px auto;
 }
 
 /*----adaptation----*/

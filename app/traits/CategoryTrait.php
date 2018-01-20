@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Item;
+use App\Property;
 
 trait CategoryTrait
 {
@@ -102,7 +103,7 @@ trait CategoryTrait
      * @param $isProduct
      * @return mixed
      */
-    public function getItems($category, $isProduct)
+    public function getItems($category, $isProduct, $request)
     {
         $items = new Item();
 
@@ -119,8 +120,9 @@ trait CategoryTrait
             ])
             ->orderby('order', 'asc')->orderby('updated_at', 'desc');
 
-        // TODO sort and filter
-        $items = $items->paginate(20);
+        // Filter
+        $items = $this->filterExec($request, $items);
+        $items = $this->smartFilterExec($request, $items);
 
         return $items;
     }
