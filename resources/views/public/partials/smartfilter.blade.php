@@ -7,7 +7,7 @@
                 <div class="flex smart-filter-wrap_num">
                     <div class="smart-filter-item_num">
                         <span>От:</span>
-                        <input type="number" class="form-control" name="property[{{$property['id']}}][from]" value="{{$property['values']['from'] or 0}}">
+                        <input type="number" class="form-control" name="property[{{$property['id']}}][from]" value="{{$property['values']['from'] or ""}}">
                     </div>
                     <div class="smart-filter-item_num">
                         <span>До:</span>
