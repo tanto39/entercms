@@ -136,7 +136,7 @@ $(document).ready(function () {
     });
 
     //ссылка на  соглашение
-    $(".form-pd a").attr("href", "pd.docx");
+    $(".form-pd a").attr("href", "/pd.docx");
 
 });
 
