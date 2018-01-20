@@ -636,6 +636,9 @@ p.adv-desc {
     width: 15px;
     height: 15px;
 }
+.smart-filter-item-text {
+    margin: 5px auto;
+}
 
 /*----adaptation----*/
 @media all and (max-width: 576px) {

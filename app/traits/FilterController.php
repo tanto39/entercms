@@ -242,7 +242,6 @@ trait FilterController
                      * if set 203-25030 regex is "i:14;a:[^}]*("[2-9][0-9][3-9]"|"[2-9][1-9][0-9]"|"[2-9][0-9][4-9]"|"[1-9][0-9][0-9][0-9]"|"[0-1][0-9][0-9][0-9][0-9]"|"[1][0-9][0-9][0-9][0-9]"|"[0-2][0-4][0-9][0-9][0-9]"|"[0-2][0-5][0][0][0]"|"[0-2][0-5][0-0][0-2][0-9]"|"[0-2][0-5][0-0][0-3][0]");} ◀"
                      */
                     $regex = 'i:'.$propId.';a:[^}]*('.$regexNumDiap.');}';
-
                     $selectTable = $selectTable->where('properties', 'REGEXP', $regex);
                 }
                 // List properties
@@ -256,7 +255,8 @@ trait FilterController
                     }
                 }
                 // Other properties
-                else {
+                elseif (isset($selectValue['text'])) {
+                    $regex = 'i:'.$propId.';a:[^}]*("'.$selectValue['text'].'");}';
                     $selectTable = $selectTable->where('properties', 'REGEXP', $regex);
                 }
             }
@@ -302,6 +302,9 @@ trait FilterController
             elseif ($property['type'] == PROP_TYPE_NUM) {
                 $properties[$key]['values']['from'] = $arPropertyGet[$property["id"]]['from'];
                 $properties[$key]['values']['to'] = $arPropertyGet[$property["id"]]['to'];
+            }
+            else {
+                $properties[$key]['text'] = $arPropertyGet[$property["id"]]['text'];
             }
         }
 

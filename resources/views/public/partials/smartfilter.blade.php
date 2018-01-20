@@ -21,6 +21,10 @@
                         <input type="checkbox" id="property_{{$property['id']}}" name="property[{{$property['id']}}][arListValues][]" value="{{$listValue['id']}}" @if($listValue['selected'] == 'Y') checked @endif/>
                     </div>
                 @endforeach
+            @else
+                <div class="smart-filter-item-text">
+                    <input class="form-control" type="text" id="property_{{$property['id']}}" name="property[{{$property['id']}}][text]" value="{{$property['text']}}"/>
+                </div>
             @endif
         </div>
     @endforeach
