@@ -10,7 +10,7 @@
             @include('public.partials.breadcrumbs')
             <main itemscope itemtype="http://schema.org/Product">
                 <h1 itemprop="name">{{$result['title']}}</h1>
-                <div class="row">
+                <article class="row">
 
                     <div class="@if(isset($result['preview_img'][0])) col-md-8 @else col-md-12 @endif">
 
@@ -36,8 +36,10 @@
                             @include('public.partials.previewSlider')
                         </div>
                     @endisset
-                <div class="clearfix"></div>
-                <div class="full_content" itemprop="description">{!! $result['full_content'] !!}</div>
+                    <div class="clearfix"></div>
+                    <div class="full_content" itemprop="description"><h2>Описание {{$result['title']}}</h2>{!! $result['full_content'] !!}</div>
+
+                </article>
             </main>
 
             {{-- Reviews include --}}

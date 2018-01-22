@@ -6,7 +6,7 @@ $uri = preg_replace("/\?.*/i",'', $_SERVER['REQUEST_URI']);
 ?>
 
 <!DOCTYPE html>
-<html lang="{{ app()->getLocale() }}">
+<html lang="ru">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">

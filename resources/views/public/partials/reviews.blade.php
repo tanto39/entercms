@@ -1,5 +1,5 @@
 <div class="reviews">
-    <h4>Отзывы</h4>
+    <h3>Отзывы о {{$result['title']}}</h3>
     @if(!empty($result['reviews']))
         @foreach($result['reviews'] as $review)
             <div class="review-item">

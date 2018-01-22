@@ -20,7 +20,8 @@
                     </div>
                 @endisset
 
-                <article class="@if(isset($result['preview_img'][0])) col-sm-8 @else col-md-12 @endif">
+                <article class="category-content @if(isset($result['preview_img'][0])) col-sm-8 @else col-md-12 @endif">
+                    <h2>Купить {{$result['title']}} в Курске</h2>
                     {!! $result['full_content'] !!}
                 </article>
 
