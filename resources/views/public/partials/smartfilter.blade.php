@@ -17,8 +17,8 @@
             @elseif($property['type'] == PROP_TYPE_LIST)
                 @foreach($property['arValues'] as $valKey=>$listValue)
                     <div class="smart-filter-item-list flex">
-                        <label for="property_{{$property['id']}}">{{$listValue['title']}}</label>
-                        <input type="checkbox" id="property_{{$property['id']}}" name="property[{{$property['id']}}][arListValues][]" value="{{$listValue['id']}}" @if($listValue['selected'] == 'Y') checked @endif/>
+                        <label for="property_list_{{$listValue['id']}}">{{$listValue['title']}}</label>
+                        <input type="checkbox" id="property_list_{{$listValue['id']}}" name="property[{{$property['id']}}][arListValues][]" value="{{$listValue['id']}}" @if($listValue['selected'] == 'Y') checked @endif/>
                     </div>
                 @endforeach
             @else
