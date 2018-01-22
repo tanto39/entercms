@@ -87,7 +87,7 @@ $uri = preg_replace("/\?.*/i",'', $_SERVER['REQUEST_URI']);
                 <div class="col-sm-4 footer-block"></div>
                 <div class="col-sm-4 footer-block">
                     <div>Время работы: <span class="workhours" itemprop="openingHours">Все дни недели 10:00 - 22:00</span></div>
-                    <div class="metrica"><img src="/images/metrika.png"></div>
+                    <div class="metrica"><img alt="" title="" src="/images/metrika.png"></div>
                     <div class="enterkursk">Сайт разработан <a target="_blank" href="https://enterkursk.ru">EnterKursk.ru</a></div>
                 </div>
             </div>
