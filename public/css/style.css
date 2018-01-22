@@ -94,6 +94,7 @@ h1, h2 {text-align: center;}
     padding: 0 0 15px 0;
     margin: 0 15px 15px 15px;
 }
+.catalog-categories h1 {margin: 0 0 15px 0;}
 .footer, .header, main{font-size: 16px;}
 
 /* flex */
