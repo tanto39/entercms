@@ -4,11 +4,40 @@ namespace App\Http\Controllers\Site;
 
 use App;
 use App\Order;
+use App\Item;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Cookie\CookieJar;
 
 class OrderController extends Controller
 {
+
+    public function showBasket(Request $request)
+    {
+//        $item = Item::with('category')->where('id', $request->productId)
+//            ->select('id', 'title', )
+    }
+
+    /**
+     * Add product to basket
+     *
+     * @param CookieJar $cookieJar
+     * @param Request $request
+     */
+    public function addToBasket(CookieJar $cookieJar, Request $request)
+    {
+        $arToBasket = [];
+
+        $arToBasket = $request->cookie('basket');
+
+        $arToBasket[$request->productId] = [
+            'id' => $request->productId,
+            'quantity' => $request->quantity
+        ];
+
+        $cookieJar->queue(cookie('basket', $arToBasket, 1000000));
+    }
+
     /**
      * Create order
      *

@@ -47,6 +47,10 @@ $uri = preg_replace("/\?.*/i",'', $_SERVER['REQUEST_URI']);
                 </div>
                 <div class="header-right col-sm-3">
                     <button class="callback" data-target="#modal-callback" data-toggle="modal">Обратный звонок</button>
+                    <a class="basket-button" href="{{route('item.basket')}}">
+                        <i class="glyphicon glyphicon-shopping-cart"></i>
+                        <span>Корзина</span>
+                    </a>
                 </div>
             </div>
         </div>

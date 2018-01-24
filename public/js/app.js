@@ -157,12 +157,58 @@ function addInput(wrapSelector) {
  * Site public scripts
  */
 var enterShop = {
+    /**
+     * Change picture in product slider
+     * @param src
+     * @param img_container
+     * @param element
+     * @param event
+     */
     changePicture: function (src, img_container, element, event) {
         event.preventDefault();
         img_container.attr('src', src);
         $(".detail-image-small-block").find('.detail-image-small-item').removeClass('active');
         element.addClass('active');
     },
+
+    /**
+     * Add product to basket
+     * @param productId
+     * @param quantity
+     */
+    addToBasket: function (productId, quantity) {
+        if (!quantity) {
+            quantity = 1;
+        }
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        $.ajax({
+            type: "POST",
+            url: "/addtobasket",
+            data: {productId:productId,quantity:quantity},
+            success: function(data) {
+                $('.order-button-wrap').html('<button class="order-button add-basket-active callback_content" onclick="enterShop.showBasket()">' +
+                    '<i class="glyphicon glyphicon-shopping-cart"></i>' +
+                    '<span>В корзине</span>');
+            }
+        });
+    },
+
+    /**
+     * Show basket
+     */
+    showBasket: function () {
+        location.href = '/basket';
+    },
+
+    setQuantityInBasket: function (quantity) {
+
+    }
 }
 
 

@@ -20,10 +20,14 @@
                                 <span>руб.</span>
                                 <meta itemprop="priceCurrency" content="RUB">
                             </div>
-                            <button class="order-button callback_content" data-target="#modal-zakaz" data-toggle="modal">
-                                <i class="glyphicon glyphicon-shopping-cart"></i>
-                                <span>Заказать</span>
-                            </button>
+                            <div class="order-box flex">
+                                <div class="quantity-wrap">
+                                    <input class="form-control" type="number" value="1"/>
+                                </div>
+                                <div class="order-button-wrap">
+                                    <button class="order-button callback_content" onclick="enterShop.addToBasket({{$result['id']}}, $('.quantity-wrap input').val())"><i class="glyphicon glyphicon-shopping-cart"></i><span>В корзину</span></button>
+                                </div>
+                            </div>
                         </div>
 
                         {{-- Properties include --}}
