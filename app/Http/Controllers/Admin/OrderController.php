@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Item;
 use App\Order;
 use App\StatusOrder;
 use Illuminate\Http\Request;
@@ -12,6 +13,12 @@ class OrderController extends Controller
 {
     use \App\FilterController;
     use \App\SearchController;
+
+    use \App\ImgController;
+    use \App\PropEnumController;
+    use \App\HandlePropertyController;
+    use \App\CategoryTrait;
+    use \App\OrderTrait;
 
     public $indexRoute = 'admin.order.index';
     public $prefix = 'Order';
@@ -62,9 +69,13 @@ class OrderController extends Controller
         if (Auth::user()->is_admin == 0)
             return redirect()->route('admin.index');
 
+        $products = Item::where('is_product', 1)->select(['id', 'title'])->get()->toArray();
+
         return view('admin.orders.create', [
             'status_orders' => StatusOrder::orderby('id', 'asc')->select(['id', 'title'])->get(),
             'order' => [],
+            'productList' => [],
+            'products' => $products,
             'user' => Auth::user(),
             'delimiter' => ''
         ]);
@@ -78,7 +89,14 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        $order = Order::create($request->all());
+        $requestData = $request->all();
+
+        if ($requestData['add_product'] != 0) {
+            $requestData['quantity'][(int)$requestData['add_product']] = 1;
+            $requestData['full_content'] = $this->setQuantityAdmin($requestData['quantity']);
+        }
+
+        $order = Order::create($requestData);
 
         $request->session()->flash('success', 'Заказ добавлен');
         return redirect()->route('admin.order.edit', $order);
@@ -108,9 +126,17 @@ class OrderController extends Controller
         if (Auth::user()->is_admin == 0)
             return redirect()->route('admin.index');
 
+        $arToBasket = unserialize($order->full_content);
+
+        $productList = $this->getProductList($arToBasket);
+
+        $products = Item::where('is_product', 1)->select(['id', 'title'])->get()->toArray();
+
         return view('admin.orders.edit', [
             'status_orders' => StatusOrder::orderby('id', 'asc')->select(['id', 'title'])->get(),
             'order' => $order,
+            'productList' => $productList,
+            'products' => $products,
             'user' => Auth::user(),
             'delimiter' => '-'
         ]);
@@ -125,10 +151,23 @@ class OrderController extends Controller
      */
     public function update(Request $request, Order $order)
     {
+        $requestData = $request->all();
+
         if ($request->delete)
             return $this->destroy($request, $order);
 
-        $order->update($request->all());
+        if (isset($requestData['deleteProduct']) && $requestData['quantity']) {
+            foreach ($requestData['deleteProduct'] as $itemId=>$value)
+                unset($requestData['quantity'][$itemId]);
+        }
+
+        if ($requestData['add_product'] != 0)
+            $requestData['quantity'][(int)$requestData['add_product']] = 1;
+
+        if ($requestData['quantity'])
+            $requestData['full_content'] = $this->setQuantityAdmin($requestData['quantity']);
+
+        $order->update($requestData);
 
         $request->session()->flash('success', 'Заказ отредактирован');
 

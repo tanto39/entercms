@@ -61,6 +61,7 @@ Route::group(['namespace' => 'Site'], function() {
     // Basket
     Route::get('/basket','OrderController@showBasket')->name('item.basket');
     Route::post('/addtobasket','OrderController@addToBasket')->name('item.addtobasket');
+    Route::post('/deletebasketitem','OrderController@deleteBasketItem')->name('item.deletebasketitem');
 
     // Blog controllers
     Route::get('/' . BLOG_SLUG, 'CategoryController@showBlogCategories')->name('item.showBlogCategories');

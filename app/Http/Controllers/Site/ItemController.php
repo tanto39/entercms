@@ -6,6 +6,7 @@ use App;
 use App\Item;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Cookie\CookieJar;
 
 class ItemController extends Controller
 {
@@ -85,12 +86,22 @@ class ItemController extends Controller
      * @param string $item_slug
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function showProduct($category_slug, $item_slug)
+    public function showProduct($category_slug, $item_slug, CookieJar $cookieJar, Request $request)
     {
         $item = $this->getItem($category_slug, $item_slug, 1);
 
+        $arToBasket = $request->cookie('basket');
+
+        $inBasket = 'N';
+
+        foreach ($arToBasket as $keyId=>$arBasket) {
+            if ($item['id'] == $keyId)
+                $inBasket = 'Y';
+        }
+
         return view('public/products/item', [
-            'result' => $item
+            'result' => $item,
+            'inBasket' => $inBasket
         ]);
 
     }

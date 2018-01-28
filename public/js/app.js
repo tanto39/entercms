@@ -101,23 +101,6 @@ $(document).ready(function () {
         $('html,body').animate({scrollTop: 0}, 1000);
     });
 
-    //ajax заказ
-    $(".form-zakaz form").submit(function(e) {
-        e.preventDefault();
-        $('.message-form').css('display','block');
-        var str = $(this).serialize();
-        $.ajax({
-            type: "POST",
-            url: "/sendorder",
-            data: str,
-            success: function(data) {
-                $('.message-form').html(data);
-            }
-
-        });
-        return false;
-    });
-
     //ajax форма обратной связи
     $(".callback form").submit(function(e) {
         e.preventDefault();
@@ -177,7 +160,7 @@ var enterShop = {
      * @param quantity
      */
     addToBasket: function (productId, quantity) {
-        if (!quantity) {
+        if (!quantity || (quantity == 0) || (quantity < 0)) {
             quantity = 1;
         }
 
@@ -194,7 +177,7 @@ var enterShop = {
             success: function(data) {
                 $('.order-button-wrap').html('<button class="order-button add-basket-active callback_content" onclick="enterShop.showBasket()">' +
                     '<i class="glyphicon glyphicon-shopping-cart"></i>' +
-                    '<span>В корзине</span>');
+                    '<span>В корзине</span></button>');
             }
         });
     },
@@ -206,8 +189,32 @@ var enterShop = {
         location.href = '/basket';
     },
 
-    setQuantityInBasket: function (quantity) {
+    /**
+     * Set quantity in basket
+     *
+     * @param productId
+     * @param quantity
+     * @param price
+     */
+    setQuantityBasket: function (productId, quantity, price) {
+        if (!quantity || (quantity == 0) || (quantity < 0)) {
+            quantity = 1;
+        }
 
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        $.ajax({
+            type: "POST",
+            url: "/addtobasket",
+            data: {productId:productId,quantity:quantity},
+            success: function(data) {
+                location.reload();
+            }
+        });
     }
 }
 
