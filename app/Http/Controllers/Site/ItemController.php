@@ -94,9 +94,11 @@ class ItemController extends Controller
 
         $inBasket = 'N';
 
-        foreach ($arToBasket as $keyId=>$arBasket) {
-            if ($item['id'] == $keyId)
-                $inBasket = 'Y';
+        if(isset($arToBasket)) {
+            foreach ($arToBasket as $keyId=>$arBasket) {
+                if ($item['id'] == $keyId)
+                    $inBasket = 'Y';
+            }
         }
 
         return view('public/products/item', [
