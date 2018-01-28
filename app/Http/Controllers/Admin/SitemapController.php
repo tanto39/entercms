@@ -92,7 +92,7 @@ class SitemapController extends Controller
             }
         }
 
-        file_put_contents($_SERVER["DOCUMENT_ROOT"] . "public/sitemap.xml", $sitemapXML.$sitemapTXT.$sitemapEnd);
+        file_put_contents($_SERVER["DOCUMENT_ROOT"] . "/public/sitemap.xml", $sitemapXML.$sitemapTXT.$sitemapEnd);
 
         $request->session()->flash('success', 'Карта сайта обновлена');
         return redirect()->route('admin.sitemap.index');
