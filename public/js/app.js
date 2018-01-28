@@ -101,23 +101,6 @@ $(document).ready(function () {
         $('html,body').animate({scrollTop: 0}, 1000);
     });
 
-    //ajax заказ
-    $(".form-zakaz form").submit(function(e) {
-        e.preventDefault();
-        $('.message-form').css('display','block');
-        var str = $(this).serialize();
-        $.ajax({
-            type: "POST",
-            url: "/sendorder",
-            data: str,
-            success: function(data) {
-                $('.message-form').html(data);
-            }
-
-        });
-        return false;
-    });
-
     //ajax форма обратной связи
     $(".callback form").submit(function(e) {
         e.preventDefault();
@@ -136,7 +119,7 @@ $(document).ready(function () {
     });
 
     //ссылка на  соглашение
-    $(".form-pd a").attr("href", "pd.docx");
+    $(".form-pd a").attr("href", "/pd.docx");
 
 });
 
@@ -157,12 +140,82 @@ function addInput(wrapSelector) {
  * Site public scripts
  */
 var enterShop = {
+    /**
+     * Change picture in product slider
+     * @param src
+     * @param img_container
+     * @param element
+     * @param event
+     */
     changePicture: function (src, img_container, element, event) {
         event.preventDefault();
         img_container.attr('src', src);
         $(".detail-image-small-block").find('.detail-image-small-item').removeClass('active');
         element.addClass('active');
     },
+
+    /**
+     * Add product to basket
+     * @param productId
+     * @param quantity
+     */
+    addToBasket: function (productId, quantity) {
+        if (!quantity || (quantity == 0) || (quantity < 0)) {
+            quantity = 1;
+        }
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        $.ajax({
+            type: "POST",
+            url: "/addtobasket",
+            data: {productId:productId,quantity:quantity},
+            success: function(data) {
+                $('.order-button-wrap').html('<button class="order-button add-basket-active callback_content" onclick="enterShop.showBasket()">' +
+                    '<i class="glyphicon glyphicon-shopping-cart"></i>' +
+                    '<span>В корзине</span></button>');
+            }
+        });
+    },
+
+    /**
+     * Show basket
+     */
+    showBasket: function () {
+        location.href = '/basket';
+    },
+
+    /**
+     * Set quantity in basket
+     *
+     * @param productId
+     * @param quantity
+     * @param price
+     */
+    setQuantityBasket: function (productId, quantity, price) {
+        if (!quantity || (quantity == 0) || (quantity < 0)) {
+            quantity = 1;
+        }
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        $.ajax({
+            type: "POST",
+            url: "/addtobasket",
+            data: {productId:productId,quantity:quantity},
+            success: function(data) {
+                location.reload();
+            }
+        });
+    }
 }
 
 

@@ -58,6 +58,11 @@ Route::group(['namespace' => 'Site'], function() {
     // Search
     Route::get('/search','SearchController@index')->name('item.search');
 
+    // Basket
+    Route::get('/basket','OrderController@showBasket')->name('item.basket');
+    Route::post('/addtobasket','OrderController@addToBasket')->name('item.addtobasket');
+    Route::post('/deletebasketitem','OrderController@deleteBasketItem')->name('item.deletebasketitem');
+
     // Blog controllers
     Route::get('/' . BLOG_SLUG, 'CategoryController@showBlogCategories')->name('item.showBlogCategories');
     Route::get('/' . BLOG_SLUG . '/{category_slug}', 'CategoryController@showBlogCategory')->name('item.showBlogCategory');

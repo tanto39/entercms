@@ -21,10 +21,43 @@
     @endforeach
 </select>
 
-<label for="full_content">Состав заказа</label>
-<textarea id="full_content" class="form-control" name="full_content" rows="15">
-    {{$order->full_content or ""}}
-</textarea>
+@if(!empty($productList))
+<label>Состав заказа</label>
+    <div class="basket-box">
+        @foreach($productList as $key=>$item)
+                <div class="basket-item flex" data-product-id="{{$item['id']}}">
+                    <div class="basket-img flex">
+                        @if (!empty($item['preview_img'][0]))
+                            <a target="_blank" href="{{route('item.showProduct', ['category_slug' => $item['category']['slug'], 'item_slug' => $item['slug']])}}">
+                                <img src="{{$item['preview_img'][0]['MIDDLE']}}" alt="{{$item['title']}}" title="{{$item['title']}}"/>
+                            </a>
+                        @endif
+                    </div>
+                    <div class="basket-title flex">
+                        <a target="_blank" href="{{route('item.showProduct', ['category_slug' => $item['category']['slug'], 'item_slug' => $item['slug']])}}" >{{$item['title']}}</a>
+                    </div>
+                    <div class="basket-quantity flex">
+                        <input class="form-control" type="number" name="quantity[{{$item['id']}}]" value="{{$item['quantity'] or '1'}}"/>
+                    </div>
+                    <div class="basket-price flex">
+                        <span class="basket-price-value">{{$item['fullprice'] or '0'}}</span>&nbsp;руб.
+                    </div>
+                    <div class="basket-delete flex">
+                        <input class="btn btn-danger" type="submit" name="deleteProduct[{{$item['id']}}]" value="Удалить">
+                    </div>
+                </div>
+        @endforeach
+    </div>
+@endif
+
+<label for="add_product">Добавление товара</label>
+<select id="add_product" class="form-control selectpicker" data-live-search="true" name="add_product">
+    <option value="0">Не добавлять</option>
+    @foreach($products as $product)
+        <option value="{{$product['id']}}">{{$product['title']}}</option>
+    @endforeach
+</select>
+
 
 <input type="hidden" name="created_by"
    @if(isset($order->id))

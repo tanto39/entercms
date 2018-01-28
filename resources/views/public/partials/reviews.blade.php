@@ -1,5 +1,5 @@
 <div class="reviews">
-    <h4>Отзывы</h4>
+    @if($result['slug'] != REVIEWS_SLUG)<h3>Отзывы о {{$result['title']}}</h3>@endif
     @if(!empty($result['reviews']))
         @foreach($result['reviews'] as $review)
             <div class="review-item">
@@ -18,7 +18,7 @@
         <input type="text" id="author_name" class="form-control" name="author_name" required>
 
         <div class="rating-wrap">
-            <label for="rating">Оценка:</label>
+            <label>Оценка:</label>
             <div class="rating">
                 @for($i = 1; $i <= 5; $i++)
                     <input type="radio" name="rating" value="{{$i}}">
@@ -33,7 +33,7 @@
         <div class="form-input form-pd"><label>Даю согласие на обработку <a href="#" target="_blank" rel="noopener noreferrer">персональных данных</a>:</label><input class="checkbox-inline" type="checkbox" required="" name="pd" /></div>
 
 
-        <input type="hidden" name="item_id" value="{{$result['id'] or ''}}" required>
+        <input type="hidden" name="item_id" value="{{$result['id'] or ''}}">
 
         <div class="form-buttons">
             <input class="btn btn-primary" type="submit" name="save" value="Отправить">

@@ -84,3 +84,25 @@ select.bs-select-hidden,select.selectpicker{display:none!important}.bootstrap-se
     top: 5px;
     right: 5px;
 }
+
+.basket-item {
+    padding: 15px;
+    justify-content: space-around;
+    margin: 5px 0;
+    border: 2px solid #ccc;
+    border-radius: 20px;
+    align-items: center;
+}
+.basket-img {
+    flex-basis: 25%;
+}
+.basket-img img{
+    width: 80%;
+    max-width: 300px;
+}
+.basket-title {
+    flex-basis: 25%;
+}
+.basket-quantity {
+    flex-basis: 10%;
+}
