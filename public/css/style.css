@@ -797,7 +797,17 @@ p.adv-desc {
     img.list-item-img {width: auto;}
     .blog-item-img-link {width: 100%; float: none;}
     .top-product-block .order-box {
-        flex-basis: 80%;
-        width: 80%;
+        flex-basis: 100%;
+        width: 100%;
+    }
+    .full_content {
+        padding: 15px;
+    }
+    .basket-item {
+        flex-direction: column;
+        font-size: 1.2em;
+    }
+    .basket-wrap .form-zakaz .order-button {
+        width: 100%;
     }
 }

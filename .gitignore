@@ -3,6 +3,7 @@
 /public/images
 /public/files
 /public/storage
+/public/sitemap.xml
 /storage/*.key
 /vendor
 /.idea

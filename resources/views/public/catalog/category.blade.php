@@ -3,10 +3,7 @@
 @section('content')
     <div class="container main">
 
-        <div class="col-sm-3">
-            @include('public.partials.smartfilter')
-        </div>
-        <div class="item-page category-page col-sm-9">
+        <div class="item-page category-page col-sm-9 col-sm-push-3">
             {{-- Breadcrumbs include --}}
             @include('public.partials.breadcrumbs')
 
@@ -87,6 +84,11 @@
                 </ul>
             </div>
         </div>
+
+        <div class="col-sm-3 col-sm-pull-9">
+            @include('public.partials.smartfilter')
+        </div>
+
     </div>
 
     <div id="blueimp-gallery-carousel" class="blueimp-gallery blueimp-gallery-carousel">
