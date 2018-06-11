@@ -44,6 +44,10 @@
             <div class="flex-basis-33">
                 <a class="alert alert-success" href="{{route('admin.sitemap.index')}}">Карта сайта</a>
             </div>
+
+            <div class="flex-basis-33">
+                <a class="alert alert-success" href="{{route('admin.turbopages.index')}}">Генерация турбостраниц</a>
+            </div>
         @endif
     </div>
 @endsection

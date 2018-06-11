@@ -45,6 +45,10 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
     // Sitemap
     Route::get('/sitemap','SitemapController@index')->name('admin.sitemap.index');
     Route::post('/sitemap/generate','SitemapController@generate')->name('admin.sitemap.generate');
+
+    // Turbopages
+    Route::get('/turbopages','TurbopagesController@index')->name('admin.turbopages.index');
+    Route::post('/turbopages/generate','TurbopagesController@generate')->name('admin.turbopages.generate');
 });
 
 Route::get('/', 'HomeController@index')->name('home.index');
