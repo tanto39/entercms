@@ -38,7 +38,9 @@ class SitemapController extends Controller
         $mainPage = Item::where('slug', '/')->select(['id', 'slug', 'updated_at'])->get()->toArray()[0];
 
         $items = Item::with('category')->orderby('is_product')
-            ->where('slug', '!=', '/')->select(['id', 'slug', 'is_product', 'category_id', 'updated_at'])->get()->toArray();
+            ->where('slug', '!=', '/')
+            ->where('published', 1)
+            ->select(['id', 'slug', 'is_product', 'category_id', 'updated_at'])->get()->toArray();
 
         $categories = Category::select(['id', 'slug', 'catalog_section', 'parent_id', 'updated_at'])
             ->orderby('catalog_section')->get()->toArray();
