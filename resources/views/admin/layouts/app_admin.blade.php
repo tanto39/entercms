@@ -66,7 +66,13 @@
                             </li>
                             <li><a href="{{route('admin.review.index')}}">Отзывы</a></li>
                             <li><a href="{{route('admin.user.index')}}">Пользователи</a></li>
-                            <li><a href="{{route('admin.sitemap.index')}}">Карта сайта</a></li>
+
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">СЕО</a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="{{route('admin.sitemap.index')}}">Карта сайта</a></li>
+                                    <li><a href="{{route('admin.turbopages.index')}}">Турбостраницы</a></li>                                </ul>
+                            </li>
                         @endif
                     </ul>
 
@@ -110,7 +116,7 @@
 
         <div class="footer">
             <div class="container">
-                <p>Система управления контентом разработана EnterKursk.ru</p>
+                <p>Система управления контентом разработана <a href="https://enterkursk.ru" target="_blank">EnterKursk.ru</a></p>
             </div>
         </div>
     </div>

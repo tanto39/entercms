@@ -4,6 +4,7 @@
 /public/files
 /public/storage
 /public/sitemap.xml
+/public/turbopages.xml
 /storage/*.key
 /vendor
 /.idea
