@@ -262,10 +262,10 @@ trait FilterController
             }
         }
 
-        $requestUri = url()->getRequest()->getRequestUri();
+        //$requestUri = url()->getRequest()->getRequestUri();
 
-        $selectTable = $selectTable->paginate(20);
-        $selectTable->setPath($requestUri);
+        $selectTable = $selectTable->get(); //paginate(PAGE_COUNT);
+        //$selectTable->setPath($requestUri);
 
         return $selectTable;
     }

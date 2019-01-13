@@ -51,6 +51,10 @@
             <div class="clearfix"></div>
             @if(!empty($items))
                 <h2>Товары</h2>
+
+                {{-- Breadcrumbs include --}}
+                @include('public.partials.sort')
+
                 <div class="product-list flex">
                     @foreach($items as $item)
                         <a class="list-item" href="{{route('item.showProduct', ['category_slug' => $result['slug'], 'item_slug' => $item['slug']])}}">

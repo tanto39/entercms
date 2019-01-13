@@ -37,7 +37,7 @@ trait OrderTrait
                 'description',
                 'properties',
                 'category_id'
-            ])->paginate(500);
+            ])->get();
 
         $items = $this->handleItemsArray($items);
 

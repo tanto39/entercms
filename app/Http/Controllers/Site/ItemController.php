@@ -90,11 +90,11 @@ class ItemController extends Controller
     {
         $item = $this->getItem($category_slug, $item_slug, 1);
 
-        $arToBasket = $request->cookie('basket');
+        $arToBasket = unserialize($request->cookie('basket'));
 
         $inBasket = 'N';
 
-        if(isset($arToBasket)) {
+        if(isset($arToBasket) && !empty($arToBasket)) {
             foreach ($arToBasket as $keyId=>$arBasket) {
                 if ($item['id'] == $keyId)
                     $inBasket = 'Y';

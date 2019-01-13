@@ -663,6 +663,10 @@ p.adv-desc {
     margin: 5px auto;
 }
 
+/*-----sort-------*/
+.sortform .btn-danger{margin-left: 10px;}
+.sort-select {width: 50%;}
+
 /*-----basket-----*/
 .basket-button {
     background: #8a32a7;
@@ -749,6 +753,7 @@ p.adv-desc {
     .basket-button {
         top: 0;
     }
+    .sort-select {width: 90%;}
 }
 
 @media all and (max-width: 1200px) {
