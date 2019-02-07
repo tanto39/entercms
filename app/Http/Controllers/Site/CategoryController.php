@@ -93,7 +93,8 @@ class CategoryController extends Controller
         $arSortProp = [0=>'', 1=>'', 2=>''];
         if ($request->get('setsort'.$this->prefix)) {
             $arSortProp = explode("_", $request->get('sort' . $this->prefix));
-            $items = $this->setSortByProps($items, $arSortProp, $request);
+            if ($arSortProp[1] != 'default')
+                $items = $this->setSortByProps($items, $arSortProp, $request);
         }
 
         $itemsLink = $this->arrayPaginate($items);
