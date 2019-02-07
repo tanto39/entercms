@@ -152,7 +152,7 @@ trait CategoryTrait
      */
     public function handleItemsArray($items)
     {
-        $items = $items->toArray()['data'];
+        $items = $items->toArray();
 
         foreach ($items as $key=>$item) {
             if(isset($item['preview_img']))

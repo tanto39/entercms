@@ -33,12 +33,12 @@ $(document).ready(function () {
             j++;
             urlBot.reloadPage(arUrl[i], i, j);
             if(j<num_reload) {
-                setTimeout(f.bind(null, i, j, arUrl, num_reload),5000);
+                setTimeout(f.bind(null, i, j, arUrl, num_reload),3000);
             }
             else if(typeof arUrl[i+1] != "undefined") {
                 j = 0;
                 i++;
-                setTimeout(f.bind(null, i, j, arUrl, num_reload),5000);
+                setTimeout(f.bind(null, i, j, arUrl, num_reload),3000);
             }
         };
 

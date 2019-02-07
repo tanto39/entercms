@@ -15,6 +15,7 @@ class SearchController extends Controller
     use \App\HandlePropertyController;
     use \App\CategoryTrait;
     use \App\SearchController;
+    use \App\SortTrait;
 
     /**
      * Show the application dashboard.
@@ -34,12 +35,12 @@ class SearchController extends Controller
 
         $items = $this->searchByTitle($request, $items);
 
-        $items = $items->with('category')->orderby('order', 'asc')->orderby('updated_at', 'desc')->paginate(20);
-        $items->setPath('search?searchText=' . $searchText);
-
-        $itemsLink = $items->links();
-
+        $items = $items->with('category')->orderby('order', 'asc')->orderby('updated_at', 'desc')->get();
         $items = $this->handleItemsArray($items);
+        $itemsLink = $this->arrayPaginate($items);
+
+        // Get items for current page
+        $items = $this->getCurrentPageItems($items);
 
         // Set hrefs
         foreach ($items as $key=>$item) {

@@ -56,7 +56,7 @@
     <h2>Мы на карте</h2>
     <div class="yandex-map">
         <div class="map-load">Загрузка карты...</div>
-        <script defer charset="utf-8" async src="https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3AYWBlETvV_7SlsILrBhnqigPl7yE_Wk5d&amp;width=100%25&amp;height=358&amp;lang=ru_RU&amp;scroll=false"></script>
+        <script defer async src="https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3AYWBlETvV_7SlsILrBhnqigPl7yE_Wk5d&amp;width=100%25&amp;height=358&amp;lang=ru_RU&amp;scroll=false"></script>
     </div>
 </section>
 @endsection

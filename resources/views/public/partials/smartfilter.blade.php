@@ -1,4 +1,4 @@
-<form class="smart-filter" method="get">
+<form id="smart-filter" class="smart-filter" method="get">
     <h3>Фильтр по товарам</h3>
     @foreach($properties as $key=>$property)
         <div class="smart-filter-item">
@@ -7,11 +7,11 @@
                 <div class="flex smart-filter-wrap_num">
                     <div class="smart-filter-item_num">
                         <span>От:</span>
-                        <input type="number" class="form-control" name="property[{{$property['id']}}][from]" value="{{$property['values']['from'] or ""}}">
+                        <input type="number" class="form-control" name="property[{{$property['id']}}][from]" value="@if($property['values']['from']){{$property['values']['from']}}@else''@endif">
                     </div>
                     <div class="smart-filter-item_num">
                         <span>До:</span>
-                        <input type="number" class="form-control" name="property[{{$property['id']}}][to]" value="{{$property['values']['to'] or ""}}">
+                        <input type="number" class="form-control" name="property[{{$property['id']}}][to]" value="@if($property['values']['to']){{$property['values']['to']}}@else''@endif">
                     </div>
                 </div>
             @elseif($property['type'] == PROP_TYPE_LIST)

@@ -8,6 +8,8 @@ use App\Item;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Cookie\CookieJar;
+use Symfony\Component\HttpFoundation\Cookie;
+use Illuminate\Http\Response;
 
 class OrderController extends Controller
 {
@@ -22,7 +24,7 @@ class OrderController extends Controller
         $arToBasket = [];
         $items = [];
 
-        $arToBasket = $request->cookie('basket');
+        $arToBasket = unserialize($request->cookie('basket'));
 
         if (!empty($arToBasket))
             $items = $this->getProductList($arToBasket);
@@ -44,14 +46,14 @@ class OrderController extends Controller
     {
         $arToBasket = [];
 
-        $arToBasket = $request->cookie('basket');
+        $arToBasket = unserialize($request->cookie('basket'));
 
         $arToBasket[$request->productId] = [
             'id' => $request->productId,
             'quantity' => $request->quantity
         ];
 
-        $cookieJar->queue(cookie('basket', $arToBasket, 1000000));
+        $cookieJar->queue(cookie('basket', serialize($arToBasket), 1000000));
     }
 
     /**
@@ -66,9 +68,9 @@ class OrderController extends Controller
         if ($request->delete) {
             $arToBasket = [];
 
-            $arToBasket = $request->cookie('basket');
+            $arToBasket = unserialize($request->cookie('basket'));
             unset($arToBasket[$request->productId]);
-            $cookieJar->queue(cookie('basket', $arToBasket, 1000000));
+            $cookieJar->queue(cookie('basket', serialize($arToBasket), 1000000));
         }
 
         return redirect()->route('item.basket');
@@ -90,7 +92,7 @@ class OrderController extends Controller
         }
 
         // Order create
-        $requestData['full_content'] = serialize($request->cookie('basket'));
+        $requestData['full_content'] = $request->cookie('basket');
         $order = Order::create($requestData);
 
         self::sendMailOrder(ADMIN_EMAIL, $requestData, $order->id);
