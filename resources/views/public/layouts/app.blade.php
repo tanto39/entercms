@@ -17,10 +17,10 @@ $uri = preg_replace("/\?.*/i",'', $_SERVER['REQUEST_URI']);
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="keywords" content="{{$result['meta_key'] or META_KEY}}" />
-    <meta name="description" content="{{$result['meta_desc'] or META_DESC}}" />
+    <meta name="keywords" content="{{$result['meta_key'] ?? META_KEY}}" />
+    <meta name="description" content="{{$result['meta_desc'] ?? META_DESC}}" />
 
-    <title>{{$result['title'] or META_TITLE}}</title>
+    <title>{{$result['title'] ?? META_TITLE}}</title>
 
     <!-- Scripts -->
     <script defer src="{{ asset('js/app.js') }}"></script>

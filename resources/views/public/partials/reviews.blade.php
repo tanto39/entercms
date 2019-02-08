@@ -33,7 +33,7 @@
         <div class="form-input form-pd"><label>Даю согласие на обработку <a href="#" target="_blank" rel="noopener noreferrer">персональных данных</a>:</label><input class="checkbox-inline" type="checkbox" required="" name="pd" /></div>
 
 
-        <input type="hidden" name="item_id" value="{{$result['id'] or ''}}">
+        <input type="hidden" name="item_id" value="{{$result['id'] ?? ''}}">
 
         <div class="form-buttons">
             <input class="btn btn-primary" type="submit" name="save" value="Отправить">

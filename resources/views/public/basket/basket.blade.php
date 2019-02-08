@@ -24,10 +24,10 @@
                                         <a target="_blank" href="{{route('item.showProduct', ['category_slug' => $item['category']['slug'], 'item_slug' => $item['slug']])}}" >{{$item['title']}}</a>
                                     </div>
                                     <div class="basket-quantity flex">
-                                        <input class="form-control" type="number" value="{{$item['quantity'] or '1'}}" onchange="enterShop.setQuantityBasket({{$item['id']}}, $(this).val(), {{$item['price']}})"/>
+                                        <input class="form-control" type="number" value="{{$item['quantity'] ?? '1'}}" onchange="enterShop.setQuantityBasket({{$item['id']}}, $(this).val(), {{$item['price']}})"/>
                                     </div>
                                     <div class="basket-price flex">
-                                        <span class="basket-price-value">{{$item['fullprice'] or '0'}}</span>&nbsp;руб.
+                                        <span class="basket-price-value">{{$item['fullprice'] ?? '0'}}</span>&nbsp;руб.
                                     </div>
                                     <div class="basket-delete flex">
                                         <input class="btn btn-danger" type="submit" name="delete" value="Удалить">
@@ -35,7 +35,7 @@
                                 </div>
                             </form>
                         @endforeach
-                        <div class="basket-summ">Общая сумма: <span class="sum-price">{{$price or "0"}}</span> руб.</div>
+                        <div class="basket-summ">Общая сумма: <span class="sum-price">{{$price ?? "0"}}</span> руб.</div>
                     </div>
 
                     <div class="form-zakaz">
@@ -46,7 +46,7 @@
                                 <input class="form-phone form-control" type="tel" placeholder="8**********" required pattern="(\+?\d[- .]*){7,13}" title="Международный, государственный или местный телефонный номер" name="phone" size="16" />
                                 <input class="form-mail form-control" type="email" placeholder="email@email.ru" required pattern="[^@]+@[^@]+\.[a-zA-Z]{2,6}" name="email" size="16" />
                                 <input type="hidden" name="title" value="{{$title}}"/>
-                                <input type="hidden" name="price" value="{{$price or '0'}}"/>
+                                <input type="hidden" name="price" value="{{$price ?? '0'}}"/>
                                 <div class="form-input form-pd"><label>Даю согласие на обработку <a href="#" target="_blank" rel="noopener noreferrer">персональных данных</a>:</label><input class="checkbox-inline" type="checkbox" required="" name="pd" /></div>
                                 <label>Защита от спама: введите сумму 2+2:</label><input class="form-control form-capcha" type="number" required name="capcha"/>
                                 <input class="btn form-submit order-button" type="submit" name="submit" value="Сделать заказ" />
