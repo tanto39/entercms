@@ -39,8 +39,8 @@
         <tbody>
             @forelse($items as $item)
                 <tr>
-                    <td><input type="text" class="form-control" name="title" value="{{$item->title or ""}}" form="form-{{$item->id}}" required></td>
-                    <td><input type="number" class="form-control index-order-input" name="order" value="{{$item->order or ""}}" form="form-{{$item->id}}"></td>
+                    <td><input type="text" class="form-control" name="title" value="{{$item->title ?? ""}}" form="form-{{$item->id}}" required></td>
+                    <td><input type="number" class="form-control index-order-input" name="order" value="{{$item->order ?? ""}}" form="form-{{$item->id}}"></td>
                     <td>{{$item->updated_at}}</td>
                     <td>
                         <select class="form-control select-tick" name="published" form="form-{{$item->id}}">

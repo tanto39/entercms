@@ -39,10 +39,10 @@
         <tbody>
             @forelse($menuitems as $menuitem)
                 <tr>
-                    <td><input type="text" class="form-control" name="title" value="{{$menuitem->title or ""}}" form="form-{{$menuitem->id}}" required></td>
-                    <td><input type="number" class="form-control index-order-input" name="order" value="{{$menuitem->order or ""}}" form="form-{{$menuitem->id}}"></td>
+                    <td><input type="text" class="form-control" name="title" value="{{$menuitem->title ?? ""}}" form="form-{{$menuitem->id}}" required></td>
+                    <td><input type="number" class="form-control index-order-input" name="order" value="{{$menuitem->order ?? ""}}" form="form-{{$menuitem->id}}"></td>
                     <td>{{$menuitem->updated_at}}</td>
-                    <td><input type="text" class="form-control" name="slug" value="{{$menuitem->slug or ""}}" form="form-{{$menuitem->id}}" required></td>
+                    <td><input type="text" class="form-control" name="slug" value="{{$menuitem->slug ?? ""}}" form="form-{{$menuitem->id}}" required></td>
                     <td>
                         <a href="{{route('admin.menuitem.edit', $menuitem)}}"><span class="edit-link">&#9998;</span></a>
                     </td>

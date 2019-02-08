@@ -1,6 +1,6 @@
 
 <label for="title">Заголовок</label>
-<input type="text" id="title" class="form-control" name="title" value="{{$review->title or ""}}" required>
+<input type="text" id="title" class="form-control" name="title" value="{{$review->title ?? ""}}" required>
 
 <label for="published">Статус</label>
 <select id="published" class="form-control" name="published">
@@ -9,16 +9,16 @@
 </select>
 
 <label for="author_name">Имя автора</label>
-<input type="text" id="author_name" class="form-control" name="author_name" value="{{$review->author_name or ""}}" required>
+<input type="text" id="author_name" class="form-control" name="author_name" value="{{$review->author_name ?? ""}}" required>
 
 <label for="slug">Символьный код</label>
-<input type="text" id="slug" class="form-control" name="slug" value="{{$review->slug or ""}}">
+<input type="text" id="slug" class="form-control" name="slug" value="{{$review->slug ?? ""}}">
 
 <label for="order">Порядок</label>
-<input type="number" id="order" class="form-control" name="order" value="{{$review->order or ""}}">
+<input type="number" id="order" class="form-control" name="order" value="{{$review->order ?? ""}}">
 
 <label for="rating">Рейтинг</label>
-<input type="number" id="rating" class="form-control" name="rating" value="{{$review->rating or ""}}">
+<input type="number" id="rating" class="form-control" name="rating" value="{{$review->rating ?? ""}}">
 
 <label for="item_id">Материал</label>
 <select id="item_id" class="form-control selectpicker" data-live-search="true" name="item_id">
@@ -36,7 +36,7 @@
 </select>
 
 <label for="content">Контент</label>
-<textarea id="content" class="form-control" name="full_content" rows="15">{{$review->full_content or ""}}</textarea>
+<textarea id="content" class="form-control" name="full_content" rows="15">{{$review->full_content ?? ""}}</textarea>
 
 <div class="form-buttons">
 <input class="btn btn-primary" type="submit" name="save" value="Сохранить">
