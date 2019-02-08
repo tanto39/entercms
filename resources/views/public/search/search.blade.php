@@ -9,7 +9,7 @@
 
             @isset($result)
                 <div class="col-md-12 items">
-                    <h1>Результаты поиска: {{$searchText or ""}}</h1>
+                    <h1>Результаты поиска: {{$searchText ?? ""}}</h1>
                     @foreach($result as $item)
                         <div class="item-blog">
                             <h3><a href="{{$item['href']}}">{{$item['title']}}</a></h3>
@@ -18,7 +18,7 @@
                                     <img class="blog-item-img" src="{{$item['preview_img'][0]['MIDDLE']}}" alt="{{$item['title']}}" title="{{$item['title']}}"/>
                                 </a>
                             @endif
-                            <p class="item-blog-desc">{{$item['description'] or ""}}</p>
+                            <p class="item-blog-desc">{{$item['description'] ?? ""}}</p>
                             <a class="readmore" href="{{$item['href']}}">Подробнее</a>
                         </div>
                     @endforeach

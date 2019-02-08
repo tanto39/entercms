@@ -9,7 +9,7 @@
 
             <main class="catalog-categories">
                 <h1>{{$result['title']}}</h1>
-                <article class="categories-description"><h2>{{$result['title']}} - лучшие цены в Курске.</h2>{!! $result['full_content'] or "" !!}</article>
+                <article class="categories-description"><h2>{{$result['title']}} - лучшие цены в Курске.</h2>{!! $result['full_content'] ?? "" !!}</article>
                 <h2>Разделы каталога</h2>
                 @isset($result['children'])
                     <div class="flex category-list">
