@@ -1,18 +1,18 @@
 
 <label for="title">Заголовок</label>
-<input type="text" id="title" class="form-control" name="title" value="{{$order->title or ""}}" required>
+<input type="text" id="title" class="form-control" name="title" value="{{$order->title ?? ""}}" required>
 
 <label for="name">Имя покупателя</label>
-<input type="text" id="name" class="form-control" name="name" value="{{$order->name or ""}}">
+<input type="text" id="name" class="form-control" name="name" value="{{$order->name ?? ""}}">
 
 <label for="email">Email покупателя</label>
-<input type="text" id="email" class="form-control" name="email" value="{{$order->email or ""}}">
+<input type="text" id="email" class="form-control" name="email" value="{{$order->email ?? ""}}">
 
 <label for="phone">Телефон покупателя</label>
-<input type="text" id="phone" class="form-control" name="phone" value="{{$order->phone or ""}}">
+<input type="text" id="phone" class="form-control" name="phone" value="{{$order->phone ?? ""}}">
 
 <label for="price">Сумма заказа</label>
-<input type="number" id="price" class="form-control" name="price" value="{{$order->price or ""}}">
+<input type="number" id="price" class="form-control" name="price" value="{{$order->price ?? ""}}">
 
 <label for="status_order">Статус заказа</label>
 <select id="status_order" class="form-control" name="status_order">
@@ -37,10 +37,10 @@
                         <a target="_blank" href="{{route('item.showProduct', ['category_slug' => $item['category']['slug'], 'item_slug' => $item['slug']])}}" >{{$item['title']}}</a>
                     </div>
                     <div class="basket-quantity flex">
-                        <input class="form-control" type="number" name="quantity[{{$item['id']}}]" value="{{$item['quantity'] or '1'}}"/>
+                        <input class="form-control" type="number" name="quantity[{{$item['id']}}]" value="{{$item['quantity'] ?? '1'}}"/>
                     </div>
                     <div class="basket-price flex">
-                        <span class="basket-price-value">{{$item['fullprice'] or '0'}}</span>&nbsp;руб.
+                        <span class="basket-price-value">{{$item['fullprice'] ?? '0'}}</span>&nbsp;руб.
                     </div>
                     <div class="basket-delete flex">
                         <input class="btn btn-danger" type="submit" name="deleteProduct[{{$item['id']}}]" value="Удалить">
@@ -61,9 +61,9 @@
 
 <input type="hidden" name="created_by"
    @if(isset($order->id))
-       value="{{$order->created_by or ""}}"
+       value="{{$order->created_by ?? ""}}"
    @else
-       value="{{$user->id or ""}}"
+       value="{{$user->id ?? ""}}"
     @endif
 >
 

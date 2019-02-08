@@ -12,13 +12,13 @@
 </select>
 
 <label for="title">Заголовок</label>
-<input type="text" id="title" class="form-control" name="title" value="{{$category->title or ""}}" required>
+<input type="text" id="title" class="form-control" name="title" value="{{$category->title ?? ""}}" required>
 
 <label for="slug">Ссылка</label>
-<input type="text" id="slug" class="form-control" name="slug" value="{{$category->slug or ""}}">
+<input type="text" id="slug" class="form-control" name="slug" value="{{$category->slug ?? ""}}">
 
 <label for="order">Порядок</label>
-<input type="number" id="order" class="form-control" name="order" value="{{$category->order or ""}}">
+<input type="number" id="order" class="form-control" name="order" value="{{$category->order ?? ""}}">
 
 {{--Preview images--}}
 @include('admin.partials.previmg')
@@ -30,33 +30,33 @@
 </select>
 
 <label for="meta_key">Мета тег keywords</label>
-<input type="text" id="meta_key" class="form-control" name="meta_key" value="{{$category->meta_key or ""}}">
+<input type="text" id="meta_key" class="form-control" name="meta_key" value="{{$category->meta_key ?? ""}}">
 
 <label for="meta_desc">Мета тег description</label>
-<input type="text" id="meta_desc" class="form-control" name="meta_desc" value="{{$category->meta_desc or ""}}">
+<input type="text" id="meta_desc" class="form-control" name="meta_desc" value="{{$category->meta_desc ?? ""}}">
 
 <label for="description">Описание</label>
-<textarea id="description" class="form-control" name="description" rows="3">{{$category->description or ""}}</textarea>
+<textarea id="description" class="form-control" name="description" rows="3">{{$category->description ?? ""}}</textarea>
 
 <label for="full_content">Контент</label>
 <textarea id="full_content" class="form-control" name="full_content" rows="15">
-    {{$category->full_content or ""}}
+    {{$category->full_content ?? ""}}
 </textarea>
 
 <hr>
 
 <input type="hidden" name="created_by"
     @if(isset($category->id))
-         value="{{$category->created_by or ""}}"
+         value="{{$category->created_by ?? ""}}"
     @else
-        value="{{$user->id or ""}}"
+        value="{{$user->id ?? ""}}"
     @endif
 >
 
 {{-- Properties filter include --}}
 @include("admin/partials.properties")
 
-<input type="hidden" name="modify_by" value="{{$user->id or ""}}">
+<input type="hidden" name="modify_by" value="{{$user->id ?? ""}}">
 
 <div class="form-buttons">
     <input class="btn btn-primary" type="submit" name="save" value="Сохранить">

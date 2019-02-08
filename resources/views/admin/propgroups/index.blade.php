@@ -39,10 +39,10 @@
         <tbody>
             @forelse($propgroups as $propgroup)
                 <tr>
-                    <td><input type="text" class="form-control" name="title" value="{{$propgroup->title or ""}}" form="form-{{$propgroup->id}}" required></td>
-                    <td><input type="number" class="form-control index-order-input" name="order" value="{{$propgroup->order or ""}}" form="form-{{$propgroup->id}}"></td>
+                    <td><input type="text" class="form-control" name="title" value="{{$propgroup->title ?? ""}}" form="form-{{$propgroup->id}}" required></td>
+                    <td><input type="number" class="form-control index-order-input" name="order" value="{{$propgroup->order ?? ""}}" form="form-{{$propgroup->id}}"></td>
                     <td>{{$propgroup->updated_at}}</td>
-                    <td><input type="text" class="form-control" name="slug" value="{{$propgroup->slug or ""}}" form="form-{{$propgroup->id}}"></td>
+                    <td><input type="text" class="form-control" name="slug" value="{{$propgroup->slug ?? ""}}" form="form-{{$propgroup->id}}"></td>
                     <td>
                         <a href="{{route('admin.propgroup.edit', $propgroup)}}"><span class="edit-link">&#9998;</span></a>
                     </td>

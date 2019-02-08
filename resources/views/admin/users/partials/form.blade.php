@@ -1,9 +1,9 @@
 
 <label for="name">Имя</label>
-<input type="text" id="name" class="form-control" name="name" value="{{$user->name or ""}}" required>
+<input type="text" id="name" class="form-control" name="name" value="{{$user->name ?? ""}}" required>
 
 <label for="email">Электронная почта</label>
-<input type="email" id="email" class="form-control" name="email" value="{{$user->email or ""}}">
+<input type="email" id="email" class="form-control" name="email" value="{{$user->email ?? ""}}">
 
 <label for="password">Пароль</label>
 <input type="password" id="password" class="form-control" name="password" value="">
@@ -14,7 +14,7 @@
     <option value="0" @if(isset($user->id) && $user->is_admin == 0) selected="" @endif>Нет</option>
 </select>
 
-<input type="hidden" name="id" value="{{$user->id or ""}}">
+<input type="hidden" name="id" value="{{$user->id ?? ""}}">
 
 <div class="form-buttons">
 <input class="btn btn-primary" type="submit" name="save" value="Сохранить">

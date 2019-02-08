@@ -1,12 +1,12 @@
 
 <label for="title">Заголовок</label>
-<input type="text" id="title" class="form-control" name="title" value="{{$menu->title or ""}}" required>
+<input type="text" id="title" class="form-control" name="title" value="{{$menu->title ?? ""}}" required>
 
 <label for="slug">Символьный код</label>
-<input type="text" id="slug" class="form-control" name="slug" value="{{$menu->slug or ""}}">
+<input type="text" id="slug" class="form-control" name="slug" value="{{$menu->slug ?? ""}}">
 
 <label for="order">Порядок</label>
-<input type="number" id="order" class="form-control" name="order" value="{{$menu->order or ""}}">
+<input type="number" id="order" class="form-control" name="order" value="{{$menu->order ?? ""}}">
 
 <div class="form-buttons">
 <input class="btn btn-primary" type="submit" name="save" value="Сохранить">

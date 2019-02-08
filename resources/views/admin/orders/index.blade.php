@@ -46,7 +46,7 @@
                 <tr>
                     <td>
                         @if($isAdmin)
-                            <input type="text" class="form-control" name="title" value="{{$order->title or ""}}" form="form-{{$order->id}}" required>
+                            <input type="text" class="form-control" name="title" value="{{$order->title ?? ""}}" form="form-{{$order->id}}" required>
                         @else
                             <a href="{{route("admin.order.show", $order->id)}}">{{$order->title}}</a>
                         @endif

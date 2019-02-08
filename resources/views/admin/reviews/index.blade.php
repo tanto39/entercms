@@ -39,8 +39,8 @@
         <tbody>
             @forelse($reviews as $review)
                 <tr>
-                    <td><input type="text" class="form-control" name="title" value="{{$review->title or ""}}" form="form-{{$review->id}}" required></td>
-                    <td><input type="number" class="form-control index-order-input" name="order" value="{{$review->order or ""}}" form="form-{{$review->id}}"></td>
+                    <td><input type="text" class="form-control" name="title" value="{{$review->title ?? ""}}" form="form-{{$review->id}}" required></td>
+                    <td><input type="number" class="form-control index-order-input" name="order" value="{{$review->order ?? ""}}" form="form-{{$review->id}}"></td>
                     <td>{{$review->updated_at}}</td>
                     <td>
                         <select class="form-control select-tick" name="published" form="form-{{$review->id}}">

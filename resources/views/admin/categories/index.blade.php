@@ -39,8 +39,8 @@
         <tbody>
             @forelse($categories as $category)
                 <tr>
-                    <td><input type="text" class="form-control" name="title" value="{{$category->title or ""}}" form="form-{{$category->id}}" required></td>
-                    <td><input type="number" class="form-control index-order-input" name="order" value="{{$category->order or ""}}" form="form-{{$category->id}}"></td>
+                    <td><input type="text" class="form-control" name="title" value="{{$category->title ?? ""}}" form="form-{{$category->id}}" required></td>
+                    <td><input type="number" class="form-control index-order-input" name="order" value="{{$category->order ?? ""}}" form="form-{{$category->id}}"></td>
                     <td>{{$category->updated_at}}</td>
                     <td>
                         <select class="form-control select-tick" name="published" form="form-{{$category->id}}">

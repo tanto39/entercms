@@ -1,9 +1,9 @@
 
 <label for="title">Заголовок</label>
-<input type="text" id="title" class="form-control" name="title" value="{{$property->title or ""}}" required>
+<input type="text" id="title" class="form-control" name="title" value="{{$property->title ?? ""}}" required>
 
 <label for="slug">Символьный код</label>
-<input type="text" id="slug" class="form-control" name="slug" value="{{$property->slug or ""}}">
+<input type="text" id="slug" class="form-control" name="slug" value="{{$property->slug ?? ""}}">
 
 <label for="prop_kind">Вид (к чему относится - категории или материалу)</label>
 <select id="prop_kind" class="form-control" name="prop_kind">
@@ -46,7 +46,7 @@
 </select>
 
 <label for="order">Порядок</label>
-<input type="number" id="order" class="form-control" name="order" value="{{$property->order or ""}}">
+<input type="number" id="order" class="form-control" name="order" value="{{$property->order ?? ""}}">
 
 @isset($property->type)
     @if($property->type == PROP_TYPE_LIST)
@@ -54,7 +54,7 @@
         <div class="add-input-wrap">
             @if(isset($propEnums))
                 @foreach($propEnums as $key=>$propEnum)
-                    <input type="text" class="form-control" name="prop_enums[{{$propEnum['id']}}]" value="{{$propEnum['title'] or ""}}">
+                    <input type="text" class="form-control" name="prop_enums[{{$propEnum['id']}}]" value="{{$propEnum['title'] ?? ""}}">
                 @endforeach
             @endif
                 <input type="text" class="form-control" name="prop_enums_add[]" value="">
@@ -64,13 +64,13 @@
 
     @else
         <label for="default">Значение по умолчанию</label>
-        <input type="text" id="default" class="form-control" name="default" value="{{$property->default or ""}}">
+        <input type="text" id="default" class="form-control" name="default" value="{{$property->default ?? ""}}">
     @endif
 @endisset
 
-<input type="hidden" name="id" value="{{$property->id or ""}}">
-<input type="hidden" name="old_type" value="{{$property->type or ""}}">
-<input type="hidden" name="old_category_id" value="{{$property->category_id or ""}}">
+<input type="hidden" name="id" value="{{$property->id ?? ""}}">
+<input type="hidden" name="old_type" value="{{$property->type ?? ""}}">
+<input type="hidden" name="old_category_id" value="{{$property->category_id ?? ""}}">
 
 <div class="form-buttons">
     <input class="btn btn-primary" type="submit" name="save" value="Сохранить">

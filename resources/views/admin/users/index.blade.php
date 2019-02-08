@@ -39,8 +39,8 @@
         <tbody>
             @forelse($users as $user)
                 <tr>
-                    <td><input type="text" class="form-control" name="name" value="{{$user->name or ""}}" form="form-{{$user->id}}" required></td>
-                    <td><input type="email" class="form-control" name="email" value="{{$user->email or ""}}" form="form-{{$user->id}}"></td>
+                    <td><input type="text" class="form-control" name="name" value="{{$user->name ?? ""}}" form="form-{{$user->id}}" required></td>
+                    <td><input type="email" class="form-control" name="email" value="{{$user->email ?? ""}}" form="form-{{$user->id}}"></td>
                     <td>{{$user->updated_at}}</td>
                     <td>
                         <select class="form-control select-tick" name="is_admin" form="form-{{$user->id}}">
@@ -53,7 +53,7 @@
                     </td>
                     <td><input class="btn btn-primary" type="submit" name="saveFromList" value="Ок" form="form-{{$user->id}}"></td>
                     <td><input class="btn btn-danger btn-delete" type="submit" name="delete" value="&#10008;" form="form-{{$user->id}}"></td>
-                    <input type="hidden" name="id" value="{{$user->id or ""}}" form="form-{{$user->id}}">
+                    <input type="hidden" name="id" value="{{$user->id ?? ""}}" form="form-{{$user->id}}">
                 </tr>
             @empty
                 <tr>

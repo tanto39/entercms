@@ -39,20 +39,20 @@
         <tbody>
             @forelse($properties as $property)
                 <tr>
-                    <td><input type="text" class="form-control" name="title" value="{{$property->title or ""}}" form="form-{{$property->id}}" required></td>
-                    <td><input type="number" class="form-control index-order-input" name="order" value="{{$property->order or ""}}" form="form-{{$property->id}}"></td>
+                    <td><input type="text" class="form-control" name="title" value="{{$property->title ?? ""}}" form="form-{{$property->id}}" required></td>
+                    <td><input type="number" class="form-control index-order-input" name="order" value="{{$property->order ?? ""}}" form="form-{{$property->id}}"></td>
                     <td>{{$property->updated_at}}</td>
-                    <td><input type="text" class="form-control" name="slug" value="{{$property->slug or ""}}" form="form-{{$property->id}}"></td>
+                    <td><input type="text" class="form-control" name="slug" value="{{$property->slug ?? ""}}" form="form-{{$property->id}}"></td>
                     <td>
                         <a href="{{route('admin.property.edit', $property)}}"><span class="edit-link">&#9998;</span></a>
                     </td>
                     <td><input class="btn btn-primary" type="submit" name="saveFromList" value="Ок" form="form-{{$property->id}}"></td>
                     <td><input class="btn btn-danger btn-delete" type="submit" name="delete" value="&#10008;" form="form-{{$property->id}}"></td>
-                    <input type="hidden" name="prop_kind" value="{{$property->prop_kind or ""}}" form="form-{{$property->id}}">
-                    <input type="hidden" name="category_id" value="{{$property->category_id or ""}}" form="form-{{$property->id}}">
-                    <input type="hidden" name="id" value="{{$property->id or ""}}" form="form-{{$property->id}}">
-                    <input type="hidden" name="old_type" value="{{$property->type or ""}}" form="form-{{$property->id}}">
-                    <input type="hidden" name="type" value="{{$property->type or ""}}" form="form-{{$property->id}}">
+                    <input type="hidden" name="prop_kind" value="{{$property->prop_kind ?? ""}}" form="form-{{$property->id}}">
+                    <input type="hidden" name="category_id" value="{{$property->category_id ?? ""}}" form="form-{{$property->id}}">
+                    <input type="hidden" name="id" value="{{$property->id ?? ""}}" form="form-{{$property->id}}">
+                    <input type="hidden" name="old_type" value="{{$property->type ?? ""}}" form="form-{{$property->id}}">
+                    <input type="hidden" name="type" value="{{$property->type ?? ""}}" form="form-{{$property->id}}">
                 </tr>
             @empty
                 <tr>

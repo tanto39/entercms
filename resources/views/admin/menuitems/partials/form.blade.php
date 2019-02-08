@@ -1,11 +1,11 @@
 <label for="title">Название</label>
-<input type="text" id="title" class="form-control" name="title" value="{{$menuitem->title or ""}}" required>
+<input type="text" id="title" class="form-control" name="title" value="{{$menuitem->title ?? ""}}" required>
 
 <label for="slug">Символьный код</label>
-<input type="text" id="slug" class="form-control" name="slug" value="{{$menuitem->slug or ""}}">
+<input type="text" id="slug" class="form-control" name="slug" value="{{$menuitem->slug ?? ""}}">
 
 <label for="order">Порядок</label>
-<input type="number" id="order" class="form-control" name="order" value="{{$menuitem->order or ""}}">
+<input type="number" id="order" class="form-control" name="order" value="{{$menuitem->order ?? ""}}">
 
 <label for="show_child">Показывать вложенные пункты</label>
 <select id="show_child" class="form-control" name="show_child">
@@ -51,7 +51,7 @@
 @endif
 
 <label for="href">Ссылка</label>
-<input type="text" id="href" class="form-control" name="href" value="{{$menuitem->href or ""}}">
+<input type="text" id="href" class="form-control" name="href" value="{{$menuitem->href ?? ""}}">
 
 <hr>
 
