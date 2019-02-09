@@ -3,7 +3,7 @@
 @section('content')
 
     @component('admin.components.breadcrumbs')
-        @slot('title') Список пользоваетлей @endslot
+        @slot('title') Список пользователей @endslot
         @slot('active') Пользователи @endslot
     @endcomponent
 
