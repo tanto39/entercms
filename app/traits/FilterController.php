@@ -200,11 +200,13 @@ trait FilterController
                     // End number diapasons
                     if ($arTo[0] != 1) {
                         for ($i = 1; $i < $arTo[0]; $i++) {
-                            $regexNumDiap .= '|"['.$i.']';
-                            for ($j = 1; $j < $countNumberTo; $j++) {
-                                $regexNumDiap .= '[0-9]';
+                            if ($i > $arFrom[0] || $countNumberTo != $countNumberFrom) {
+                                $regexNumDiap .= '|"['.$i.']';
+                                for ($j = 1; $j < $countNumberTo; $j++) {
+                                    $regexNumDiap .= '[0-9]';
+                                }
+                                $regexNumDiap .= '"';
                             }
-                            $regexNumDiap .= '"';
                         }
                     }
 
@@ -212,32 +214,31 @@ trait FilterController
 
                         for ($j = 0; $j < $countNumberTo; $j++) {
                             if ($j == 0) {
-                                $regexNumDiap .= '|"[0-'.$arTo[0].']';
-                            }
-                            else {
+                                if ($countNumberTo != $countNumberFrom)
+                                    $regexNumDiap .= '|"[0-' . $arTo[0] . ']';
+                                else
+                                    $regexNumDiap .= '|"[' . $arTo[0] . ']';
+                            } else {
                                 if ($j == $i) {
                                     if ($arTo[$j] != 0)
-                                        $regexNumDiap .= '[0-'.($arTo[$j]-1).']';
+                                        $regexNumDiap .= '[0-' . ($arTo[$j] - 1) . ']';
                                     else
                                         $regexNumDiap .= '[0]';
-                                }
-                                elseif ($j < $i) {
-                                    $regexNumDiap .= '[0-'.$arTo[$j].']';
-                                }
-                                else {
-                                    if (($arTo[$j] == 0 && ($arTo[$i] == 0)) || ($arTo[$j-1] == 0 && ($arTo[$i] == 0)))
+                                } elseif ($j < $i) {
+                                    $regexNumDiap .= '[0-' . $arTo[$j] . ']';
+                                } else {
+                                    if (($arTo[$j] == 0 && ($arTo[$i] == 0)) || ($arTo[$j - 1] == 0 && ($arTo[$i] == 0)))
                                         $regexNumDiap .= '[0]';
                                     else
                                         $regexNumDiap .= '[0-9]';
                                 }
                             }
                         }
-
                         $regexNumDiap .= '"';
                     }
 
                     /**
-                     * https://regex101.com/r/XXOqPc/7
+                     * https://regex101.com/r/XXOqPc/8
                      *
                      * if set 203-25030 regex is "i:14;a:[^}]*("[2-9][0-9][3-9]"|"[2-9][1-9][0-9]"|"[2-9][0-9][4-9]"|"[1-9][0-9][0-9][0-9]"|"[0-1][0-9][0-9][0-9][0-9]"|"[1][0-9][0-9][0-9][0-9]"|"[0-2][0-4][0-9][0-9][0-9]"|"[0-2][0-5][0][0][0]"|"[0-2][0-5][0-0][0-2][0-9]"|"[0-2][0-5][0-0][0-3][0]");} ◀"
                      */

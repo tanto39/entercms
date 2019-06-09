@@ -50,7 +50,11 @@
                     <td><input class="btn btn-danger btn-delete" type="submit" name="delete" value="&#10008;" form="form-{{$property->id}}"></td>
                     <input type="hidden" name="prop_kind" value="{{$property->prop_kind ?? ""}}" form="form-{{$property->id}}">
                     <input type="hidden" name="category_id" value="{{$property->category_id ?? ""}}" form="form-{{$property->id}}">
+                    <input type="hidden" name="old_category_id" value="{{$property->category_id ?? ""}}" form="form-{{$property->id}}">
                     <input type="hidden" name="id" value="{{$property->id ?? ""}}" form="form-{{$property->id}}">
+                    <input type="hidden" name="group_id" value="{{$property->group_id ?? ""}}" form="form-{{$property->id}}">
+                    <input type="hidden" name="old_title" value="{{$property->title ?? ""}}" form="form-{{$property->id}}">
+                    <input type="hidden" name="old_order" value="{{$property->order ?? ""}}" form="form-{{$property->id}}">
                     <input type="hidden" name="old_type" value="{{$property->type ?? ""}}" form="form-{{$property->id}}">
                     <input type="hidden" name="type" value="{{$property->type ?? ""}}" form="form-{{$property->id}}">
                 </tr>

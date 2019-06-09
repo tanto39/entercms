@@ -33,6 +33,7 @@ trait HandlePropertyController
         $obProps = [];
         $oldImages = [];
         $arProps = [];
+        $propGroupName = PROP_GROUP_NAME_ALL;
 
         if (!is_null($selectTable)) {
             $obProps = unserialize($selectTable
@@ -69,7 +70,12 @@ trait HandlePropertyController
                     $this->arProps[$propGroupName][$propId]['value'] = $property;
                 }
             }
+
+            // Sort properties by order
+            foreach ($this->arProps as $groupName => $aProp)
+                uasort($this->arProps[$groupName], ['self', 'sortArray']);
         }
+
         $strProp = serialize($this->arProps);
         return $strProp;
     }
@@ -166,13 +172,15 @@ trait HandlePropertyController
     }
 
     /**
-     * Delete property values from element with change property kind, insert
+     * Delete property values from element with change property kind, insert (or change property title in elements)
      *
      * @param $requestData
      * @param $isChangeCategoryId - if change category id
+     * @param $isChangeTitle - if change property title
+     * @param $isChangeTitle - if change property order
      * @param $categoryId
      */
-    public function deletePropertyWithChange($requestData, $categoryId, $isChangeCategoryId = false)
+    public function deletePropertyWithChange($requestData, $categoryId, $isChangeTitle = false, $isChangeOrder = false, $isChangeCategoryId = false)
     {
         $arProperties = [];
         $arChildId = [];
@@ -203,13 +211,16 @@ trait HandlePropertyController
                     else
                         $arChildId = $selectTable->select(['id'])->get()->toArray();
 
-                    // Delete properties
-                    $this->deleteArProperties($arProperties, $requestData, $selectTable, $arElement);
+                    // Change or delete properties from element
+                    if ($isChangeTitle == true || $isChangeOrder == true)
+                        $this->changeProperties($arProperties, $requestData, $selectTable, $arElement);
+                    else
+                        $this->deleteArProperties($arProperties, $requestData, $selectTable, $arElement);
 
                     // Recurce for child categories
                     if (!empty($arChildId)) {
                         foreach ($arChildId as $childId)
-                            $this->deletePropertyWithChange($requestData, $childId['id'], $isChangeCategoryId);
+                            $this->deletePropertyWithChange($requestData, $childId['id'], $isChangeTitle, $isChangeOrder, $isChangeCategoryId);
                     }
                 }
 
@@ -240,14 +251,17 @@ trait HandlePropertyController
                     if (empty($arProperties) || ($isChangeCategoryId && ($categoryId == $arElement['id'])))
                         continue;
 
-                    // Delete properties
-                    $this->deleteArProperties($arProperties, $requestData, $selectTable, $arElement);
+                    // Change or delete properties from element
+                    if ($isChangeTitle == true || $isChangeOrder == true)
+                        $this->changeProperties($arProperties, $requestData, $selectTable, $arElement);
+                    else
+                        $this->deleteArProperties($arProperties, $requestData, $selectTable, $arElement);
                 }
 
                 // Recurce for child categories
                 if (!empty($arChildId)) {
                     foreach ($arChildId as $childId)
-                        $this->deletePropertyWithChange($requestData, $childId['id'], $isChangeCategoryId);
+                        $this->deletePropertyWithChange($requestData, $childId['id'], $isChangeTitle, $isChangeOrder, $isChangeCategoryId);
                 }
 
                 break;
@@ -285,6 +299,30 @@ trait HandlePropertyController
                 $selectTable->where('id', $arElement['id'])->update(['properties' => serialize($arProperties)]);
             }
         }
+    }
+
+    /**
+     * Change properties title in elements
+     *
+     * @param $arProperties
+     * @param $requestData
+     * @param $selectTable
+     * @param $arElement
+     */
+    public function changeProperties($arProperties, $requestData, $selectTable, $arElement)
+    {
+        foreach ($arProperties as $propGroup=>$arProperty) {
+            if (key_exists($requestData['id'], $arProperty)) {
+                if ($requestData['old_title'] != $requestData['title'])
+                    $arProperties[$propGroup][$requestData['id']]['title'] = $requestData['title'];
+
+                if ($requestData['old_order'] != $requestData['order'])
+                    $arProperties[$propGroup][$requestData['id']]['order'] = $requestData['order'];
+            }
+            uasort($arProperties[$propGroup], ['self', 'sortArray']);
+        }
+
+        $selectTable->where('id', $arElement['id'])->update(['properties' => serialize($arProperties)]);
     }
 
     /**
@@ -395,5 +433,14 @@ trait HandlePropertyController
         }
 
         return $arCategories;
+    }
+
+    /**
+     * @param $a
+     * @param $b
+     * @return bool
+     */
+    public static function sortArray($a, $b) {
+        return ($a['order'] > $b['order']);
     }
 }
