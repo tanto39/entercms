@@ -69,6 +69,8 @@
 @endisset
 
 <input type="hidden" name="id" value="{{$property->id ?? ""}}">
+<input type="hidden" name="old_title" value="{{$property->title ?? ""}}">
+<input type="hidden" name="old_order" value="{{$property->order ?? ""}}">
 <input type="hidden" name="old_type" value="{{$property->type ?? ""}}">
 <input type="hidden" name="old_category_id" value="{{$property->category_id ?? ""}}">
 

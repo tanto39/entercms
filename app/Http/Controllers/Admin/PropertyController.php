@@ -154,6 +154,14 @@ class PropertyController extends Controller
 
         $requestData = $this->getRequestData($request);
 
+        // Change property name with change title
+        if ($requestData['old_title'] != $requestData['title'])
+            $this->deletePropertyWithChange($requestData, $requestData['category_id'], true);
+
+        // Change property order with change order in element
+        if ($requestData['old_order'] != $requestData['order'])
+            $this->deletePropertyWithChange($requestData, $requestData['category_id'], false, true);
+
         // Delete properties with change type
         if ($requestData['old_type'] != $requestData['type']) {
             $this->deletePropertyWithChange($requestData, $requestData['category_id']);
