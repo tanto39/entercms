@@ -4,7 +4,7 @@ define("ADMIN_EMAIL", 'tanto39@mail.ru');
 define("HOST_PATH", 'http://entercms/');
 
 // Pagination
-define("PAGE_COUNT", 20);
+define("PAGE_COUNT", 21);
 
 // Slugs
 define("BLOG_SLUG", 'blog');
