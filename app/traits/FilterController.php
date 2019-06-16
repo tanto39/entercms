@@ -120,6 +120,7 @@ trait FilterController
         $arProperty = $request->get('property');
 
         $regex = '';
+        $ifToMoreThenFrom = "";
 
         if (isset($arProperty)) {
             foreach ($arProperty as $propId=>$selectValue) {
@@ -137,11 +138,14 @@ trait FilterController
                     $countNumberFrom = count($arFrom);
                     $countNumberTo = count($arTo);
 
+                    if ($countNumberTo > $countNumberFrom)
+                        $ifToMoreThenFrom = '-9';
+
                     $regexNumDiap = '"';
 
                     // First number diapason
                     foreach ($arFrom as $key=>$number)
-                        $regexNumDiap .= '['.$number.'-9]';
+                        $regexNumDiap .= '['.$number.$ifToMoreThenFrom.']';
 
                     $regexNumDiap .= '"';
 
@@ -149,7 +153,7 @@ trait FilterController
 
                         for ($j = 0; $j < $countNumberFrom; $j++) {
                             if ($j == 0) {
-                                $regexNumDiap .= '|"['.$arFrom[0].'-9]';
+                                $regexNumDiap .= '|"['.$arFrom[0].$ifToMoreThenFrom.']';
                             }
                             else {
                                 if ($j == $i) {
@@ -220,8 +224,12 @@ trait FilterController
                                     $regexNumDiap .= '|"[' . $arTo[0] . ']';
                             } else {
                                 if ($j == $i) {
-                                    if ($arTo[$j] != 0)
-                                        $regexNumDiap .= '[0-' . ($arTo[$j] - 1) . ']';
+                                    if ($arTo[$j] != 0) {
+                                        if ($j == ($countNumberTo-1))
+                                            $regexNumDiap .= '[0-' . $arTo[$j] . ']';
+                                        else
+                                            $regexNumDiap .= '[0-' . ($arTo[$j] - 1) . ']';
+                                    }
                                     else
                                         $regexNumDiap .= '[0]';
                                 } elseif ($j < $i) {
