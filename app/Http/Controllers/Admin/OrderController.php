@@ -98,6 +98,10 @@ class OrderController extends Controller
 
         $order = Order::create($requestData);
 
+        $order->title = $order->id . '-' . $order->title;
+
+        $order->update();
+
         $request->session()->flash('success', 'Заказ добавлен');
         return redirect()->route('admin.order.edit', $order);
     }

@@ -95,6 +95,9 @@ class OrderController extends Controller
         $requestData['full_content'] = $request->cookie('basket');
         $order = Order::create($requestData);
 
+        $order->title = $order->id . '-' . $order->title;
+        $order->update();
+
         self::sendMailOrder(ADMIN_EMAIL, $requestData, $order->id);
         self::sendMailOrder($requestData['email'], $requestData, $order->id);
 
@@ -120,12 +123,12 @@ class OrderController extends Controller
         $name = $requestData['name'];
         $phone = $requestData['phone'];
         $email = $requestData['email'];
-        $order = $requestData['title'];
+        $order = $orderId . '-' . $requestData['title'];
         $price = $requestData['price'];
 
         $headers = "Content-type: text/plain; charset = utf-8";
         $subject = "Новый заказ";
-        $message = "Имя: $name \nТелефон: $phone \nЭлектронный адрес: $email \nТовар: $order \nЦена: $price";
+        $message = "Имя: $name \nТелефон: $phone \nЭлектронный адрес: $email \nНомер заказа: $orderId \nЗаказ: $order \nЦена: $price";
         $send = mail ($mail, $subject, $message, $headers);
     }
 }
