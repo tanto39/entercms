@@ -48,6 +48,10 @@
             <div class="flex-basis-33">
                 <a class="alert alert-success" href="{{route('admin.turbopages.index')}}">Генерация турбостраниц</a>
             </div>
+
+            <div class="flex-basis-33">
+                <a class="alert alert-success" href="{{route('admin.delivery.index')}}">Службы доставки</a>
+            </div>
         @endif
     </div>
 @endsection

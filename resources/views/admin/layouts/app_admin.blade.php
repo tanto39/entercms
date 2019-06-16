@@ -48,6 +48,7 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Магазин</a>
                             <ul class="dropdown-menu" role="menu">
                                 <li><a href="{{route('admin.order.index')}}">Заказы</a></li>
+                                <li><a href="{{route('admin.delivery.index')}}">Службы доставки</a></li>
                             </ul>
                         </li>
                         @if(Illuminate\Support\Facades\Auth::user()->is_admin == 1)
