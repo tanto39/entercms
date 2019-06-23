@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Item;
 use App\Order;
 use App\StatusOrder;
+use App\Delivery;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -55,7 +56,7 @@ class OrderController extends Controller
             'status_orders' => StatusOrder::orderby('id', 'asc')->select(['id', 'title'])->get(),
             'searchText' => $this->searchText,
             'filter' => $this->arFilter,
-            'sort' => $this->sortVal
+            'sort' => $this->sortVal,
         ]);
     }
 
@@ -71,12 +72,16 @@ class OrderController extends Controller
 
         $products = Item::where('is_product', 1)->select(['id', 'title'])->get()->toArray();
 
+        // Deliveries
+        $deliveries = Delivery::orderby('order', 'asc')->select(['id', 'title', 'price'])->get();
+
         return view('admin.orders.create', [
             'status_orders' => StatusOrder::orderby('id', 'asc')->select(['id', 'title'])->get(),
             'order' => [],
             'productList' => [],
             'products' => $products,
             'user' => Auth::user(),
+            'deliveries' => $deliveries,
             'delimiter' => ''
         ]);
     }
@@ -136,12 +141,16 @@ class OrderController extends Controller
 
         $products = Item::where('is_product', 1)->select(['id', 'title'])->get()->toArray();
 
+        // Deliveries
+        $deliveries = Delivery::orderby('title', 'asc')->select(['id', 'title', 'price'])->get();
+
         return view('admin.orders.edit', [
             'status_orders' => StatusOrder::orderby('id', 'asc')->select(['id', 'title'])->get(),
             'order' => $order,
             'productList' => $productList,
             'products' => $products,
             'user' => Auth::user(),
+            'deliveries' => $deliveries,
             'delimiter' => '-'
         ]);
     }

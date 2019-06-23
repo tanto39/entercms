@@ -14,6 +14,7 @@ class Delivery extends Model
      * Fields white list
      */
     protected $fillable = [
+        'published',
         'title',
         'order',
         'price',
@@ -35,6 +36,7 @@ class Delivery extends Model
     {
         Schema::create('deliveries', function (Blueprint $table) {
             $table->increments('id');
+            $table->tinyInteger('published')->nullable();
             $table->integer('order')->nullable();
             $table->integer('price')->nullable();
             $table->text('title')->nullable();
