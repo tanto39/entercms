@@ -22,7 +22,8 @@ class Order extends Model
         'price',
         'count',
         'full_content',
-        'item_id',
+        'delivery',
+        'address',
         'created_by',
         'status_order',
     ];
@@ -44,6 +45,7 @@ class Order extends Model
             $table->integer('order')->nullable();
             $table->integer('price')->nullable();
             $table->text('title')->nullable();
+            $table->text('address')->nullable();
             $table->text('name')->nullable();
             $table->text('email')->nullable();
             $table->text('phone')->nullable();
@@ -51,12 +53,14 @@ class Order extends Model
             $table->integer('created_by')->nullable()->unsigned();
             $table->integer('modify_by')->nullable()->unsigned();
             $table->integer('status_order')->nullable()->unsigned();
+            $table->integer('delivery')->nullable()->unsigned();
             $table->timestamps();
 
             // Foreign keys
             $table->foreign('created_by')->references('id')->on('users');
             $table->foreign('modify_by')->references('id')->on('users');
             $table->foreign('status_order')->references('id')->on('status_orders');
+            $table->foreign('delivery')->references('id')->on('deliveries');
         });
     }
 }

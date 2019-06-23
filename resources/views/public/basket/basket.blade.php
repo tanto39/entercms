@@ -24,7 +24,7 @@
                                         <a target="_blank" href="{{route('item.showProduct', ['category_slug' => $item['category']['slug'], 'item_slug' => $item['slug']])}}" >{{$item['title']}}</a>
                                     </div>
                                     <div class="basket-quantity flex">
-                                        <input class="form-control" type="number" value="{{$item['quantity'] ?? '1'}}" onchange="enterShop.setQuantityBasket({{$item['id']}}, $(this).val(), {{$item['price']}})"/>
+                                        <input class="form-control" type="number" value="{{$item['quantity'] ?? '1'}}" onchange="enterShop.setQuantityBasket({{$item['id']}}, $(this).val())"/>
                                     </div>
                                     <div class="basket-price flex">
                                         <span class="basket-price-value">{{$item['fullprice'] ?? '0'}}</span>&nbsp;руб.
@@ -45,6 +45,15 @@
                                 <input class="form-name form-control" type="text" placeholder="Введите имя" required name="name" size="16" />
                                 <input class="form-phone form-control" type="tel" placeholder="8**********" required pattern="(\+?\d[- .]*){7,13}" title="Международный, государственный или местный телефонный номер" name="phone" size="16" />
                                 <input class="form-mail form-control" type="email" placeholder="email@email.ru" required pattern="[^@]+@[^@]+\.[a-zA-Z]{2,6}" name="email" size="16" />
+                                <input class="form-address form-control" type="text" placeholder="Введите адрес, если нужна доставка (с индексом)" name="address" size="16" />
+
+                                <label for="form-delivery">Доставка</label>
+                                <select id="form-delivery" class="form-control" name="delivery" onchange="enterShop.setDelivery($('#form-delivery option:selected').data('delivery-price'), {{$price ?? "0"}})">
+                                    @foreach($deliveries as $delivery)
+                                        <option value="{{$delivery->id}}" data-delivery-price="{{$delivery->price}}">{{$delivery->title}} ({{$delivery->price}} руб.)</option>
+                                    @endforeach
+                                </select>
+
                                 <input type="hidden" name="title" value="{{$title}}"/>
                                 <input type="hidden" name="price" value="{{$price ?? '0'}}"/>
                                 <div class="form-input form-pd"><label>Даю согласие на обработку <a href="#" target="_blank" rel="noopener noreferrer">персональных данных</a>:</label><input class="checkbox-inline" type="checkbox" required="" name="pd" /></div>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Site;
 
 use App;
 use App\Order;
+use App\Delivery;
 use App\Item;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -29,10 +30,14 @@ class OrderController extends Controller
         if (!empty($arToBasket))
             $items = $this->getProductList($arToBasket);
 
+        // Deliveries
+        $deliveries = Delivery::orderby('order', 'asc')->select(['id', 'title', 'price'])->get();
+
         return view('public/basket/basket', [
             'items' => $items,
             'price' => $this->price,
-            'title' =>  $this->title
+            'title' =>  $this->title,
+            'deliveries' => $deliveries
         ]);
     }
 
@@ -93,6 +98,12 @@ class OrderController extends Controller
 
         // Order create
         $requestData['full_content'] = $request->cookie('basket');
+
+        if ($requestData['delivery'] && $requestData['delivery'] > 0) {
+            $delivery = Delivery::where('id', $requestData['delivery'])->select(['id', 'title', 'price'])->first();
+            $requestData['price'] += $delivery->price;
+        }
+
         $order = Order::create($requestData);
 
         $order->title = $order->id . '-' . $order->title;
@@ -125,10 +136,19 @@ class OrderController extends Controller
         $email = $requestData['email'];
         $order = $orderId . '-' . $requestData['title'];
         $price = $requestData['price'];
+        $deliveryId = $requestData['delivery'];
+        $deliveryName = "Не задано";
+
+        if ($deliveryId && $deliveryId > 0) {
+            $delivery = Delivery::where('id', $deliveryId)->select(['id', 'title', 'price'])->first();
+            $deliveryName = $delivery->title;
+            $price += $delivery->price;
+        }
+
 
         $headers = "Content-type: text/plain; charset = utf-8";
         $subject = "Новый заказ";
-        $message = "Имя: $name \nТелефон: $phone \nЭлектронный адрес: $email \nНомер заказа: $orderId \nЗаказ: $order \nЦена: $price";
+        $message = "Имя: $name \nТелефон: $phone \nЭлектронный адрес: $email \nНомер заказа: $orderId \nЗаказ: $order \nДоставка: $deliveryName \nЦена: $price";
         $send = mail ($mail, $subject, $message, $headers);
     }
 }

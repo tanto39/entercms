@@ -11,6 +11,9 @@
 <label for="phone">Телефон покупателя</label>
 <input type="text" id="phone" class="form-control" name="phone" value="{{$order->phone ?? ""}}">
 
+<label for="address">Адрес</label>
+<input type="text" id="address" class="form-control" name="address" value="{{$order->address ?? ""}}">
+
 <label for="price">Сумма заказа</label>
 <input type="number" id="price" class="form-control" name="price" value="{{$order->price ?? ""}}">
 
@@ -18,6 +21,13 @@
 <select id="status_order" class="form-control" name="status_order">
     @foreach($status_orders as $status_order)
         <option value="{{$status_order->id}}" @if(isset($order->status_order) && $order->status_order == $status_order->id) selected="" @endif>{{$status_order->title}}</option>
+    @endforeach
+</select>
+
+<label for="delivery">Доставка</label>
+<select id="delivery" class="form-control" name="delivery">
+    @foreach($deliveries as $delivery)
+        <option value="{{$delivery->id}}" @if(isset($order->delivery) && $order->delivery == $delivery->id) selected="" @endif data-delivery-price="{{$delivery->price}}">{{$delivery->title}} ({{$delivery->price}} руб.)</option>
     @endforeach
 </select>
 

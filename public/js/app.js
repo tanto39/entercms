@@ -194,9 +194,8 @@ var enterShop = {
      *
      * @param productId
      * @param quantity
-     * @param price
      */
-    setQuantityBasket: function (productId, quantity, price) {
+    setQuantityBasket: function (productId, quantity) {
         if (!quantity || (quantity == 0) || (quantity < 0)) {
             quantity = 1;
         }
@@ -215,7 +214,21 @@ var enterShop = {
                 location.reload();
             }
         });
+    },
+
+    /**
+     * Set delivery
+     *
+     * @param deliveryPrice
+     * @param allPrice
+     */
+    setDelivery: function (deliveryPrice, allPrice) {
+        allPrice = parseInt(allPrice);
+        deliveryPrice = parseInt(deliveryPrice);
+        allPrice += deliveryPrice;
+        $('.sum-price').text(allPrice);
     }
+
 }
 
 
