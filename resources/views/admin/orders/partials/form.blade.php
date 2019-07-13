@@ -50,7 +50,7 @@
                         <input class="form-control" type="number" name="quantity[{{$item['id']}}]" value="{{$item['quantity'] ?? '1'}}"/>
                     </div>
                     <div class="basket-price flex">
-                        <span class="basket-price-value">{{$item['fullprice'] ?? '0'}}</span>&nbsp;руб.
+                        <span class="basket-price-value" data-product-price="{{$item['fullprice'] ?? '0'}}">{{$item['fullprice'] ?? '0'}}</span>&nbsp;руб.
                     </div>
                     <div class="basket-delete flex">
                         <input class="btn btn-danger" type="submit" name="deleteProduct[{{$item['id']}}]" value="Удалить">
@@ -79,6 +79,7 @@
 
 <div class="form-buttons">
 <input class="btn btn-primary" type="submit" name="save" value="Сохранить">
+    <input class="btn btn-primary" type="submit" name="changePrice" value="Пересчитать цену" onclick="event.preventDefault(); enterShopAdmin.changePrice()">
 
 @if(isset($order->id))
     <input class="btn btn-danger" type="submit" name="delete" value="Удалить">
