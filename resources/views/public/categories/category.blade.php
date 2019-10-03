@@ -57,7 +57,7 @@
                     @foreach($items as $item)
                         <div class="item-blog" itemprop="blogPost" itemscope="" itemtype="https://schema.org/BlogPosting">
                             <h3 itemprop="name"><a itemprop="url" href="{{route('item.showBlogItem', ['category_slug' => $result['slug'], 'item_slug' => $item['slug']])}}">{{$item['title']}}</a></h3>
-                            @if(isset($item['preview_img'][0]))
+                            @if(isset($item['preview_img'][0]['MIDDLE']))
                                 <a class="blog-item-img-link" href="{{route('item.showBlogItem', ['category_slug' => $result['slug'], 'item_slug' => $item['slug']])}}">
                                     <img itemprop="thumbnailUrl" class="blog-item-img" src="{{$item['preview_img'][0]['MIDDLE']}}" alt="{{$item['title']}}" title="{{$item['title']}}"/>
                                 </a>
@@ -71,7 +71,7 @@
 
             <div class="col-md-12 pagination-wrap">
                 <ul class="pagination">
-                    {{$itemsLink}}
+                    {!!$itemsLink!!}
                 </ul>
             </div>
         </div>

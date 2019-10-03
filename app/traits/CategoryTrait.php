@@ -122,7 +122,9 @@ trait CategoryTrait
 
         // Filter
         $items = $this->filterExec($request, $items);
-        $items = $this->smartFilterExec($request, $items);
+
+        if ($isProduct == 1)
+            $items = $this->smartFilterExec($request, $items);
 
         return $items;
     }

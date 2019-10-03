@@ -40,13 +40,17 @@ class CategoryController extends Controller
 
         // Items
         $items = $this->getItems($category, 0, $request);
+
+        $requestUri = $request->getRequestUri();
+        $items = $items->paginate(PAGE_COUNT);
+        $items->setPath($requestUri);
         $itemsLink = $items->links();
 
         $items = $this->handleItemsArray($items);
 
         return view('public/categories/category', [
             'result' => $category,
-            'items' => $items,
+            'items' => $items['data'],
             'itemsLink' => $itemsLink
         ]);
     }
@@ -54,6 +58,7 @@ class CategoryController extends Controller
     /**
      * Show catalog category
      *
+     * @param Request $request
      * @param $category_slug
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
@@ -97,10 +102,10 @@ class CategoryController extends Controller
                 $items = $this->setSortByProps($items, $arSortProp, $request);
         }
 
-        $itemsLink = $this->arrayPaginate($items);
+        $itemsLink = $this->arrayPaginate($request, $items);
 
         // Get items for current page
-        $items = $this->getCurrentPageItems($items);
+        $items = $this->getCurrentPageItems($request, $items);
 
         // View
         return view('public/catalog/category', [
