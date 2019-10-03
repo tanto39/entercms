@@ -19,7 +19,7 @@ class SearchController extends Controller
 
     /**
      * Show the application dashboard.
-     *
+     * @param Request $request
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
@@ -37,10 +37,10 @@ class SearchController extends Controller
 
         $items = $items->with('category')->orderby('order', 'asc')->orderby('updated_at', 'desc')->get();
         $items = $this->handleItemsArray($items);
-        $itemsLink = $this->arrayPaginate($items);
+        $itemsLink = $this->arrayPaginate($request, $items);
 
         // Get items for current page
-        $items = $this->getCurrentPageItems($items);
+        $items = $this->getCurrentPageItems($request, $items);
 
         // Set hrefs
         foreach ($items as $key=>$item) {

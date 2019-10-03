@@ -84,7 +84,7 @@
 
             <div class="col-md-12 pagination-wrap">
                 <ul class="pagination">
-                    {{$itemsLink}}
+                    {!!$itemsLink!!}
                 </ul>
             </div>
         </div>

@@ -3,10 +3,7 @@
 namespace App;
 
 use Illuminate\Http\Request;
-use Illuminate\Cookie\CookieJar;
-use Symfony\Component\HttpFoundation\Cookie;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Facades\Input;
 
 trait SortTrait
 {
@@ -49,13 +46,14 @@ trait SortTrait
     /**
      * Array paginate
      *
+     * @param Request $request
      * @param $items
      * @return \Illuminate\Support\HtmlString
      */
-    public function arrayPaginate($items)
+    public function arrayPaginate(Request $request, $items)
     {
-        $page = Input::get('page', 1);
-        $itemsForCurrentPage = $this->getCurrentPageItems($items);
+        $page = $request->input('page', 1);
+        $itemsForCurrentPage = $this->getCurrentPageItems($request, $items);
         $result = new LengthAwarePaginator($itemsForCurrentPage, count($items), PAGE_COUNT, $page);
         $result->setPath(url()->getRequest()->getRequestUri());
 
@@ -66,14 +64,15 @@ trait SortTrait
 
     /**
      * Get items for current page
+     * @param Request $request
      * @param $items
      * @return array
      */
-    public function getCurrentPageItems($items)
+    public function getCurrentPageItems(Request $request, $items)
     {
         $itemsForCurrentPage = [];
 
-        $page = Input::get('page', 1);
+        $page = $request->input('page', 1);
         $offSet = ($page * PAGE_COUNT) - PAGE_COUNT;
         $itemsForCurrentPage = array_slice($items, $offSet, PAGE_COUNT, true);
 
