@@ -31,6 +31,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
     Route::resource('/menu', 'MenuController', ['as'=>'admin']);
     Route::resource('/menuitem', 'MenuItemController', ['as'=>'admin']);
     Route::resource('/delivery', 'DeliveryController', ['as'=>'admin']);
+    Route::resource('/region', 'RegionController', ['as'=>'admin']);
 
     // Sorting and filters
     Route::post('/category/filter','CategoryController@filter')->name('admin.category.filter');
@@ -43,6 +44,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
     Route::post('/menu/filter','MenuController@filter')->name('admin.menu.filter');
     Route::post('/menuitem/filter','MenuItemController@filter')->name('admin.menuitem.filter');
     Route::post('/delivery/filter','DeliveryController@filter')->name('admin.delivery.filter');
+    Route::post('/region/filter','RegionController@filter')->name('admin.region.filter');
 
     // Sitemap
     Route::get('/sitemap','SitemapController@index')->name('admin.sitemap.index');

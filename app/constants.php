@@ -50,7 +50,6 @@ define("MENU_TYPE_ITEM", 2);
 define("MENU_TYPE_REVIEWS", 3);
 define("MENU_TYPE_LINK", 4);
 
-
 // Default meta keys
 define("META_TITLE", "EnterCMS");
 define("META_KEY", "EnterCMS");
