@@ -54,3 +54,9 @@ define("MENU_TYPE_LINK", 4);
 define("META_TITLE", "EnterCMS");
 define("META_KEY", "EnterCMS");
 define("META_DESC", "EnterCMS");
+
+// Contacts
+define("COMPANY", "Название компании");
+define("PHONE", "+7 (4712) 2-22-50");
+define("ADDRESS", "г. Курск, ул. Пушкина, 8");
+define("MAIL", "info@enterkursk.ru");

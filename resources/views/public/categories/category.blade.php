@@ -3,30 +3,30 @@
 @section('content')
     <div class="container main">
 
-        <div class="item-page category-page">
+        <div class="item-page blog-page">
             {{-- Breadcrumbs include --}}
             @include('public.partials.breadcrumbs')
 
             <main>
                 <h1>{{$result['title']}}</h1>
 
-                {{--Include Slider--}}
-                @isset($result['preview_img'][0])
-                    <div class="col-md-4 detail-image">
-                        @include('public.partials.previewSlider')
-                    </div>
-                @endisset
+                <div class="flex category-desk">
+                    {{--Include Slider--}}
+                    @isset($result['preview_img'][0])
+                        <div class="detail-image">
+                            @include('public.partials.previewSlider')
+                        </div>
+                    @endisset
 
-                <article class="@if(isset($result['preview_img'][0])) col-sm-8 @else col-md-12 @endif">
-                    {!! $result['full_content'] !!}
-                </article>
-
+                    <article class="category-content @if(!isset($result['preview_img'][0])) full-flex-basis @endif">
+                        {!! $result['full_content'] !!}
+                    </article>
+                </div>
                 {{-- Properties include --}}
                 {{--<div class="col-md-12">--}}
                     {{--@include('public.partials.properties')--}}
                 {{--</div>--}}
 
-                <div class="clearfix"></div>
                 @if(!empty($result['children']))
                     <div class="category-child">
                         <h2>Подразделы</h2>
@@ -50,9 +50,8 @@
 
             </main>
 
-            <div class="clearfix"></div>
             @isset($items)
-                <div class="col-md-12 items" itemscope="" itemtype="https://schema.org/Blog">
+                <div class="items" itemscope="" itemtype="https://schema.org/Blog">
                     <h2>Материалы</h2>
                     @foreach($items as $item)
                         <div class="item-blog" itemprop="blogPost" itemscope="" itemtype="https://schema.org/BlogPosting">
@@ -62,14 +61,14 @@
                                     <img itemprop="thumbnailUrl" class="blog-item-img" src="{{$item['preview_img'][0]['MIDDLE']}}" alt="{{$item['title']}}" title="{{$item['title']}}"/>
                                 </a>
                             @endif
-                            <p class="item-blog-desc">{{$item['description'] or ""}}</p>
+                            <p class="item-blog-desc">{{$item['description'] ?? ""}}</p>
                             <a class="readmore" href="{{route('item.showBlogItem', ['category_slug' => $result['slug'], 'item_slug' => $item['slug']])}}">Подробнее</a>
                         </div>
                     @endforeach
                 </div>
             @endisset
 
-            <div class="col-md-12 pagination-wrap">
+            <div class="pagination-wrap">
                 <ul class="pagination">
                     {!!$itemsLink!!}
                 </ul>

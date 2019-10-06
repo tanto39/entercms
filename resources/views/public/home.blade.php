@@ -2,21 +2,23 @@
 
 @section('content')
 <aside class="section landing-section landing-section-color">
-    <div class="container adv-wrap text-center">
-        <div class="col-sm-4 adv-item">
-            <div class="adv-img adv-img-1"></div>
-            <p class="adv-title">Доступные цены</p>
-            <p class="adv-desc">Лучшие в Курске цены</p>
-        </div>
-        <div class="col-sm-4 adv-item">
-            <div class="adv-img adv-img-2"></div>
-            <p class="adv-title">Высокое качество</p>
-            <p class="adv-desc">Только официальные поставщики</p>
-        </div>
-        <div class="col-sm-4 adv-item">
-            <div class="adv-img adv-img-3"></div>
-            <p class="adv-title">Многолетний опыт</p>
-            <p class="adv-desc">Мы дорожим своим авторитетом</p>
+    <div class="container text-center">
+        <div class="adv-wrap flex">
+            <div class="adv-item">
+                <div class="adv-img adv-img-1"></div>
+                <p class="adv-title">Доступные цены</p>
+                <p class="adv-desc">Лучшие в Курске цены</p>
+            </div>
+            <div class="adv-item">
+                <div class="adv-img adv-img-2"></div>
+                <p class="adv-title">Высокое качество</p>
+                <p class="adv-desc">Только официальные поставщики</p>
+            </div>
+            <div class="adv-item">
+                <div class="adv-img adv-img-3"></div>
+                <p class="adv-title">Многолетний опыт</p>
+                <p class="adv-desc">Мы дорожим своим авторитетом</p>
+            </div>
         </div>
     </div>
 </aside>
@@ -28,7 +30,6 @@
         @endif
         {!! $result['full_content'] !!}
     </article>
-    <div class="clearfix"></div>
     <button class="callback" data-target="#modal-callback" data-toggle="modal">Обратный звонок</button>
 </main>
 <section class="section landing-section landing-section-color">

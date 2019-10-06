@@ -3,7 +3,7 @@
 @section('content')
     <div class="container main">
 
-        <div class="item-page">
+        <div class="item-page blog-item">
             {{-- Breadcrumbs include --}}
             @include('public.partials.breadcrumbs')
 
@@ -18,6 +18,7 @@
                 <article itemprop="articleBody">
                     {!! $result['full_content'] !!}
                 </article>
+
             </main>
 
             @if($showReviews == "Y")

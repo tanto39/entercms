@@ -31,24 +31,26 @@ $uri = preg_replace("/\?.*/i",'', $_SERVER['REQUEST_URI']);
 <body>
 <div class="wrapper">
     <header class="header" id="header">
-        <div class="container center-header">
-            <div class="row">
-                <div class="header-left col-sm-5">
+        <div class="container flex center-header">
+            <div class="header-left">
 
-                    <?php if ($uri != "/"):?>
-                    <a class="logo" href="/">Название компании</a>
-                    <?php else:?>
-                    <a class="logo" href="#">Название компании</a>
-                    <?php endif;?>
+                <?php if ($uri != "/"):?>
+                <a class="logo" href="/">{{COMPANY}}</a>
+                <?php else:?>
+                <a class="logo" href="#">{{COMPANY}}</a>
+                <?php endif;?>
 
-                    <div class="address">г. Курск, ул. Литовская, 8</div>
+                <div class="address">{{ADDRESS}}</div>
+            </div>
+
+            <div class="header-center flex">
+                <div class="header-center-wrap">
+                    <div class="header-phone flex"><i class="glyphicon glyphicon-earphone"></i><span>{{PHONE}}</span></div>
+                    <a class="header-mail flex" href="mailto:{{MAIL}}"><i class="glyphicon glyphicon-envelope"></i><span>{{MAIL}}</span></a>
                 </div>
-
-                <div class="header-center col-sm-4">
-                    <div class="header-phone flex"><i class="glyphicon glyphicon-earphone"></i><span>+7 950 871-54-19</span></div>
-                    <a class="header-mail flex" href="mailto:info@tipovoi.ru"><i class="glyphicon glyphicon-envelope"></i><span>info@tipovoi.ru</span></a>
-                </div>
-                <div class="header-right col-sm-3">
+            </div>
+            <div class="header-right flex">
+                    <div class="header-right-wrap">
                     <button class="callback" data-target="#modal-callback" data-toggle="modal">Обратный звонок</button>
                     <a class="basket-button" href="{{route('item.basket')}}">
                         <i class="glyphicon glyphicon-shopping-cart"></i>
@@ -83,16 +85,15 @@ $uri = preg_replace("/\?.*/i",'', $_SERVER['REQUEST_URI']);
 
     <footer class="footer" id="footer">
         <div class="container">
-            <div class="row contact" itemscope itemtype="http://schema.org/LocalBusiness" >
-                <div class="col-sm-4 footer-block">
-                    <div class="fn org" itemprop="name"><span class="category">ООО </span>Типовой сайт</div>
-                    <div class="tel" itemprop="telephone">+7 (4712) 2-22-50</div>
-                    <div>Адрес: <span itemprop="address">г. Курск, ул. Литовская, 8</span></div>
-                    <div class="email" itemprop="email">info@tipovoi-sait.ru</div>
-                    <div><a href="/">tipovoi.ru</a></div>
+            <div class="contact flex" itemscope itemtype="http://schema.org/LocalBusiness" >
+                <div class="footer-block">
+                    <div class="fn org" itemprop="name"><span class="category">ООО </span>{{COMPANY}}</div>
+                    <div class="tel" itemprop="telephone">{{PHONE}}</div>
+                    <div>Адрес: <span itemprop="address">{{ADDRESS}}</span></div>
+                    <div class="email" itemprop="email">{{MAIL}}</div>
+                    <div>Все права защищены</div>
                 </div>
-                <div class="col-sm-4 footer-block"></div>
-                <div class="col-sm-4 footer-block">
+                <div class="footer-block text-right">
                     <div>Время работы: <span class="workhours" itemprop="openingHours">Все дни недели 10:00 - 22:00</span></div>
                     <div class="metrica"><img alt="" title="" src="/images/metrika.png"></div>
                     <div class="enterkursk">Сайт разработан <a target="_blank" href="https://enterkursk.ru">EnterKursk.ru</a></div>
@@ -119,7 +120,7 @@ $uri = preg_replace("/\?.*/i",'', $_SERVER['REQUEST_URI']);
                 </div>
                 <div class="modal-body">
                     <div class="form-zakaz">
-                        <form action="mail.php" method="post">
+                        <form action="" method="post">
                             <input class="form-name form-control" type="text" placeholder="Введите имя" required name="name" size="16" />
                             <input class="form-phone form-control" type="tel" placeholder="8**********" required pattern="(\+?\d[- .]*){7,13}" title="Международный, государственный или местный телефонный номер" name="phone" size="16" />
                             <input class="form-mail form-control" type="email" placeholder="email@email" required pattern="[^@]+@[^@]+\.[a-zA-Z]{2,6}" name="email" size="16" />
@@ -128,7 +129,7 @@ $uri = preg_replace("/\?.*/i",'', $_SERVER['REQUEST_URI']);
                             <label>Защита от спама: введите сумму 2+2:</label><input class="form-control" id="form-capcha" type="number" required name="capcha"/>
                             <input class="btn form-submit order-button" type="submit" name="submit" value="Отправить сообщение" />
                         </form>
-                        <div class='message-form'><p>Загрузка...</p></div>
+                        <div class='message-form alert alert-success'><p>Загрузка...</p></div>
                     </div>
                 </div>
                 <div class="modal-footer"><button class="btn btn-default" type="button" data-dismiss="modal">Закрыть</button></div>
