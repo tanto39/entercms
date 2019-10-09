@@ -1,27 +1,28 @@
 @extends('public/layouts/app')
 
 @section('content')
-    <div class="container main">
+    <div class="container main flex category-page-wrap">
 
-        <div class="item-page category-page col-sm-9 col-sm-push-3">
+        <div class="item-page category-page">
             {{-- Breadcrumbs include --}}
             @include('public.partials.breadcrumbs')
 
-            <main class="row">
+            <main>
                 <h1>{{$result['title']}}</h1>
 
-                {{--Include Slider--}}
-                @isset($result['preview_img'][0])
-                    <div class="col-md-4 detail-image">
-                        @include('public.partials.previewSlider')
-                    </div>
-                @endisset
+                <div class="flex category-desk">
+                    {{--Include Slider--}}
+                    @isset($result['preview_img'][0])
+                        <div class="detail-image">
+                            @include('public.partials.previewSlider')
+                        </div>
+                    @endisset
 
-                <article class="category-content @if(isset($result['preview_img'][0])) col-sm-8 @else col-md-12 @endif">
-                    <h2>Купить {{$result['title']}} в Курске</h2>
-                    {!! $result['full_content'] !!}
-                </article>
-
+                    <article class="category-content">
+                        <h2>Купить {{$result['title']}} в Курске</h2>
+                        {!! $result['full_content'] !!}
+                    </article>
+                </div>
                 {{-- Properties include --}}
                 @include('public.partials.properties')
 
@@ -82,17 +83,16 @@
                 </div>
             @endif
 
-            <div class="col-md-12 pagination-wrap">
+            <div class="pagination-wrap">
                 <ul class="pagination">
                     {!!$itemsLink!!}
                 </ul>
             </div>
         </div>
 
-        <div class="col-sm-3 col-sm-pull-9">
+        <aside class="left-sidebar">
             @include('public.partials.smartfilter')
-        </div>
-
+        </aside>
     </div>
 
     <div id="blueimp-gallery-carousel" class="blueimp-gallery blueimp-gallery-carousel">

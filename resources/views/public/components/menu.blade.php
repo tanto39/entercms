@@ -15,7 +15,7 @@
 
 <div class="collapse navbar-collapse" id="app-navbar-collapse">
     <!-- Left Side Of Navbar -->
-    <ul class="nav navbar-nav">
+    <ul class="nav navbar-nav flex">
         @if(!empty($menu))
             @foreach($menu as $slug=>$menuBlock)
                 @if($slug == $menuSlug)

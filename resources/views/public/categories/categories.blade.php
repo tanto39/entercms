@@ -8,7 +8,7 @@
             @include('public.partials.breadcrumbs')
             <main class="blog-categories">
                 <h1>Категории</h1>
-                <div class="categories-description">{!! $result['full_content'] or "" !!}</div>
+                <div class="categories-description">{!! $result['full_content'] ?? "" !!}</div>
 
                 @isset($result['children'])
                     <div class="flex category-list">

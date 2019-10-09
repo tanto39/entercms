@@ -102,7 +102,7 @@ $(document).ready(function () {
     });
 
     //ajax форма обратной связи
-    $(".callback form").submit(function(e) {
+    $(".form-zakaz form").submit(function(e) {
         e.preventDefault();
         $('.message-form').css('display','block');
         var str = $(this).serialize();
@@ -113,7 +113,6 @@ $(document).ready(function () {
             success: function(data) {
                 $('.message-form').html(data);
             }
-
         });
         return false;
     });

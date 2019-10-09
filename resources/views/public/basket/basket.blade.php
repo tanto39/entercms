@@ -4,7 +4,7 @@
     <div class="container main">
         <div class="item-page">
             <h1>Корзина</h1>
-            <div class="row basket-wrap">
+            <div class="basket-wrap">
 
                 @if(!empty($items))
                     <div class="basket-box">

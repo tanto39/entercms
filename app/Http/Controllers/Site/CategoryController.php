@@ -46,11 +46,12 @@ class CategoryController extends Controller
         $items->setPath($requestUri);
         $itemsLink = $items->links();
 
-        $items = $this->handleItemsArray($items);
+        $items = $items->toArray();
+        $items = $this->handleItemsArray($items['data']);
 
         return view('public/categories/category', [
             'result' => $category,
-            'items' => $items['data'],
+            'items' => $items,
             'itemsLink' => $itemsLink
         ]);
     }
