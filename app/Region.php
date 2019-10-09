@@ -17,6 +17,11 @@ class Region extends Model
         'order',
         'slug',
         'regwhere',
+        'phone',
+        'address',
+        'mail',
+        'regmap',
+        'regtext',
     ];
 
     /**
@@ -30,6 +35,11 @@ class Region extends Model
             $table->string('title');
             $table->string('slug')->unique()->nullable();
             $table->string('regwhere')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('address')->nullable();
+            $table->string('mail')->nullable();
+            $table->text('regmap')->nullable();
+            $table->text('regtext')->nullable();
             $table->timestamps();
         });
 

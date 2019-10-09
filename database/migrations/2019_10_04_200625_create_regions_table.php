@@ -14,7 +14,7 @@ class CreateRegionsTable extends Migration
      */
     public function up()
     {
-        // Region::createTable();
+        //Region::createTable();
     }
 
     /**
@@ -24,6 +24,6 @@ class CreateRegionsTable extends Migration
      */
     public function down()
     {
-        // Schema::dropIfExists('regions');
+        //Schema::dropIfExists('regions');
     }
 }
