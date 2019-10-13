@@ -57,6 +57,11 @@ define("META_DESC", "EnterCMS");
 
 // Contacts
 define("COMPANY", "Название компании");
+define("COMPANY_WHERE", "в Курске");
 define("PHONE", "+7 (4712) 2-22-50");
 define("ADDRESS", "г. Курск, ул. Пушкина, 8");
 define("MAIL", "info@enterkursk.ru");
+define("COMPANY_MAP", "<script defer async src=\"https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3AYWBlETvV_7SlsILrBhnqigPl7yE_Wk5d&amp;width=100%25&amp;height=358&amp;lang=ru_RU&amp;scroll=false\"></script>");
+
+// Use regions ('Y', 'N')
+define("USE_REGION", "N");

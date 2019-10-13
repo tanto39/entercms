@@ -226,7 +226,27 @@ var enterShop = {
         deliveryPrice = parseInt(deliveryPrice);
         allPrice += deliveryPrice;
         $('.sum-price').text(allPrice);
-    }
+    },
+
+    /**
+     * Set region
+     */
+    setRegion: function () {
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        $.ajax({
+            type: "POST",
+            url: "/setregion",
+            data: {regionId:regionId},
+            success: function(data) {
+                location.reload();
+            }
+        });
+    },
 
 }
 

@@ -1,5 +1,5 @@
 <?php
-    global $menu;
+    $menu = \App\Http\Controllers\Site\MenuController::getInstance()->getMenuTree();
 ?>
 
 <div class="navbar-header">

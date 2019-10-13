@@ -19,7 +19,7 @@
                     @endisset
 
                     <article class="category-content">
-                        <h2>Купить {{$result['title']}} в Курске</h2>
+                        <h2>Купить {{$result['title']}}</h2>
                         {!! $result['full_content'] !!}
                     </article>
                 </div>
