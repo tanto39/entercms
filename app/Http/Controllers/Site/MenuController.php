@@ -13,12 +13,25 @@ use App\Http\Controllers\Controller;
 
 class MenuController extends Controller
 {
+    protected static $_instance;
+    public $menu = [];
+
+    private function __construct() {}
+
+    /**
+     * @return MenuController
+     */
+    public static function getInstance() {
+        if (self::$_instance === null) {
+            self::$_instance = new self;
+        }
+        return self::$_instance;
+    }
+
     /**
      * Create menu tree
-     *
-     * @return array
      */
-    public static function createMenuTree()
+    public function createMenuTree()
     {
         $requestUri = url()->getRequest()->path();
 
@@ -56,6 +69,14 @@ class MenuController extends Controller
             }
         }
 
-        return $resultMenuItems;
+        $this->menu = $resultMenuItems;
+    }
+
+    /**
+     * @return array
+     */
+    public function getMenuTree()
+    {
+        return $this->menu;
     }
 }

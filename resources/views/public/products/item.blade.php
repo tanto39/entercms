@@ -1,3 +1,8 @@
+<?php
+$template = \App\Http\Controllers\Site\TemplateController::getInstance();
+if($template->isInstance == 'N') $template->setTemplateVariables();
+?>
+
 @extends('public/layouts/app')
 
 @section('content')
@@ -7,7 +12,7 @@
             {{-- Breadcrumbs include --}}
             @include('public.partials.breadcrumbs')
             <main itemscope itemtype="http://schema.org/Product">
-                <h1 itemprop="name">{{$result['title']}}</h1>
+                <h1 itemprop="name">{{$result['title']." ".$template->contacts['companyWhere']}}</h1>
                 <article class="product">
 
                     <div class="product-wrap flex">

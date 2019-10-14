@@ -5,12 +5,9 @@ namespace App\Http\Controllers\Site;
 use App;
 use App\Order;
 use App\Delivery;
-use App\Item;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Cookie\CookieJar;
-use Symfony\Component\HttpFoundation\Cookie;
-use Illuminate\Http\Response;
 
 class OrderController extends Controller
 {
@@ -20,7 +17,7 @@ class OrderController extends Controller
     use \App\CategoryTrait;
     use \App\OrderTrait;
 
-    public function showBasket(CookieJar $cookieJar, Request $request)
+    public function showBasket(Request $request)
     {
         $arToBasket = [];
         $items = [];

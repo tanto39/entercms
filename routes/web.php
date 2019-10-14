@@ -70,6 +70,7 @@ Route::group(['namespace' => 'Site'], function() {
     Route::get('/basket','OrderController@showBasket')->name('item.basket');
     Route::post('/addtobasket','OrderController@addToBasket')->name('item.addtobasket');
     Route::post('/deletebasketitem','OrderController@deleteBasketItem')->name('item.deletebasketitem');
+    Route::post('/setregion','SetRegionController@setRegion')->name('item.setregion');
 
     // Blog controllers
     Route::get('/' . BLOG_SLUG, 'CategoryController@showBlogCategories')->name('item.showBlogCategories');

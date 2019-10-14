@@ -1,3 +1,8 @@
+<?php
+$template = \App\Http\Controllers\Site\TemplateController::getInstance();
+if($template->isInstance == 'N') $template->setTemplateVariables();
+?>
+
 @extends('public/layouts.app')
 
 @section('content')
@@ -7,7 +12,7 @@
             <div class="adv-item">
                 <div class="adv-img adv-img-1"></div>
                 <p class="adv-title">Доступные цены</p>
-                <p class="adv-desc">Лучшие в Курске цены</p>
+                <p class="adv-desc">Лучшие {{$template->contacts['companyWhere']}} цены</p>
             </div>
             <div class="adv-item">
                 <div class="adv-img adv-img-2"></div>
@@ -53,11 +58,5 @@
         <a href="{{route('item.showCatalogCategories')}}" class="order-button order-button-link">Перейти в каталог</a>
     </div>
 </section>
-<section class="landing-section section-map">
-    <h2>Мы на карте</h2>
-    <div class="yandex-map">
-        <div class="map-load">Загрузка карты...</div>
-        <script defer async src="https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3AYWBlETvV_7SlsILrBhnqigPl7yE_Wk5d&amp;width=100%25&amp;height=358&amp;lang=ru_RU&amp;scroll=false"></script>
-    </div>
-</section>
+
 @endsection

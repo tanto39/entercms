@@ -1,8 +1,6 @@
 <?php
-global $menu;
-$menu = \App\Http\Controllers\Site\MenuController::createMenuTree();
-
-$uri = preg_replace("/\?.*/i",'', $_SERVER['REQUEST_URI']);
+$template = \App\Http\Controllers\Site\TemplateController::getInstance();
+if($template->isInstance == 'N') $template->setTemplateVariables();
 ?>
 
 <!DOCTYPE html>
@@ -30,23 +28,29 @@ $uri = preg_replace("/\?.*/i",'', $_SERVER['REQUEST_URI']);
 </head>
 <body>
 <div class="wrapper">
+
     <header class="header" id="header">
+
+        @if(USE_REGION == "Y")
+            @include('public.partials.region')
+        @endif
+
         <div class="container flex center-header">
             <div class="header-left">
 
-                <?php if ($uri != "/"):?>
+                @if ($template->uri != "/")
                 <a class="logo" href="/">{{COMPANY}}</a>
-                <?php else:?>
+                @else
                 <a class="logo" href="#">{{COMPANY}}</a>
-                <?php endif;?>
+                @endif
 
-                <div class="address">{{ADDRESS}}</div>
+                <div class="address">{{$template->contacts['address']}}</div>
             </div>
 
             <div class="header-center flex">
                 <div class="header-center-wrap">
-                    <div class="header-phone flex"><i class="glyphicon glyphicon-earphone"></i><span>{{PHONE}}</span></div>
-                    <a class="header-mail flex" href="mailto:{{MAIL}}"><i class="glyphicon glyphicon-envelope"></i><span>{{MAIL}}</span></a>
+                    <div class="header-phone flex"><i class="glyphicon glyphicon-earphone"></i><span>{{$template->contacts['phone']}}</span></div>
+                    <a class="header-mail flex" href="mailto:{{$template->contacts['mail']}}"><i class="glyphicon glyphicon-envelope"></i><span>{{$template->contacts['mail']}}</span></a>
                 </div>
             </div>
             <div class="header-right flex">
@@ -83,14 +87,22 @@ $uri = preg_replace("/\?.*/i",'', $_SERVER['REQUEST_URI']);
     <!-- Include content -->
     @yield('content')
 
+    <section class="landing-section section-map">
+        <h2>Мы на карте</h2>
+        <div class="yandex-map">
+            <div class="map-load">Загрузка карты...</div>
+            {!!$template->contacts['map']!!}
+        </div>
+    </section>
+
     <footer class="footer" id="footer">
         <div class="container">
             <div class="contact flex" itemscope itemtype="http://schema.org/LocalBusiness" >
                 <div class="footer-block">
                     <div class="fn org" itemprop="name"><span class="category">ООО </span>{{COMPANY}}</div>
-                    <div class="tel" itemprop="telephone">{{PHONE}}</div>
-                    <div>Адрес: <span itemprop="address">{{ADDRESS}}</span></div>
-                    <div class="email" itemprop="email">{{MAIL}}</div>
+                    <div class="tel" itemprop="telephone">{{$template->contacts['phone']}}</div>
+                    <div>Адрес: <span itemprop="address">{{$template->contacts['address']}}</span></div>
+                    <div class="email" itemprop="email">{{$template->contacts['mail']}}</div>
                     <div>Все права защищены</div>
                 </div>
                 <div class="footer-block text-right">
