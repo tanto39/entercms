@@ -7,11 +7,11 @@
                 <div class="flex smart-filter-wrap_num">
                     <div class="smart-filter-item_num">
                         <span>От:</span>
-                        <input type="number" class="form-control" name="property[{{$property['id']}}][from]" value="@if($property['values']['from']){{$property['values']['from']}}@else''@endif">
+                        <input type="number" class="form-control" name="property[{{$property['id']}}][from]" value="@if($property['values']['from']){{$property['values']['from']}}@endif">
                     </div>
                     <div class="smart-filter-item_num">
                         <span>До:</span>
-                        <input type="number" class="form-control" name="property[{{$property['id']}}][to]" value="@if($property['values']['to']){{$property['values']['to']}}@else''@endif">
+                        <input type="number" class="form-control" name="property[{{$property['id']}}][to]" value="@if($property['values']['to']){{$property['values']['to']}}@endif">
                     </div>
                 </div>
             @elseif($property['type'] == PROP_TYPE_LIST)

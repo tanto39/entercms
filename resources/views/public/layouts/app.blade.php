@@ -127,7 +127,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-zakaz">
-                        <form action="" method="post">
+                        <form method="post">
                             <input class="form-name form-control" type="text" placeholder="Введите имя" required name="name" size="16" />
                             <input class="form-phone form-control" type="tel" placeholder="8**********" required pattern="(\+?\d[- .]*){7,13}" title="Международный, государственный или местный телефонный номер" name="phone" size="16" />
                             <input class="form-mail form-control" type="email" placeholder="email@email" required pattern="[^@]+@[^@]+\.[a-zA-Z]{2,6}" name="email" size="16" />
