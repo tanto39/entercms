@@ -48,13 +48,15 @@ class TemplateController extends Controller
             RegionController::getInstance()->getRegionFromCookie();
             $this->regions = RegionController::getInstance()->getRegionList();
             $this->selectedRegion = RegionController::getInstance()->getSelectedRegion();
-            $this->contacts = [
-                'phone' => $this->selectedRegion[0]['phone'],
-                'mail' => $this->selectedRegion[0]['mail'],
-                'address' => $this->selectedRegion[0]['address'],
-                'map' => $this->selectedRegion[0]['regmap'],
-                'companyWhere' => $this->selectedRegion[0]['regwhere']
-            ];
+
+            if(!empty($this->selectedRegion))
+                $this->contacts = [
+                    'phone' => $this->selectedRegion[0]['phone'],
+                    'mail' => $this->selectedRegion[0]['mail'],
+                    'address' => $this->selectedRegion[0]['address'],
+                    'map' => $this->selectedRegion[0]['regmap'],
+                    'companyWhere' => $this->selectedRegion[0]['regwhere']
+                ];
         }
 
         $this->isInstance = 'Y';
