@@ -236,6 +236,7 @@ h1, h2 {text-align: center;}
     border-top-left-radius: 0.3em;
     border-bottom-left-radius: 0.3em;
     font-size: 0.88em;
+	padding: 0.47em 1em;
 }
 .search-form button {
     background: #dad9d9;

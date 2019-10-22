@@ -17,7 +17,7 @@ class TemplateController extends Controller
         'mail' => MAIL,
         'address' => ADDRESS,
         'map' => COMPANY_MAP,
-        'companyWhere' => ""
+        'companyWhere' => COMPANY_WHERE
     ];
 
     private function __construct() {}
@@ -37,7 +37,7 @@ class TemplateController extends Controller
      */
     public function setTemplateVariables() {
         // uri
-        $this->uri = preg_replace("/\?.*/i",'', $_SERVER['REQUEST_URI']);
+        $this->uri = url()->getRequest()->path();
 
         // Init menu instance
         MenuController::getInstance()->createMenuTree();

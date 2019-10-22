@@ -24,6 +24,9 @@ class SearchController extends Controller
      */
     public function index(Request $request)
     {
+        $template = TemplateController::getInstance();
+        if($template->isInstance == 'N') $template->setTemplateVariables();
+
         // Get items
         $items = new Item();
         $searchText = $request->get('searchText');
@@ -60,7 +63,8 @@ class SearchController extends Controller
         return view('public/search/search', [
             'result' => $items,
             'itemsLink' => $itemsLink,
-            'searchText' => $searchText
+            'searchText' => $searchText,
+            'template' => $template
         ]);
 
     }
