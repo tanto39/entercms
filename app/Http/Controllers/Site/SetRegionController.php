@@ -12,7 +12,11 @@ class SetRegionController extends Controller
 {
     public static function setRegion(CookieJar $cookieJar, Request $request)
     {
-        $cookieJar->queue(cookie('selectedRegion', $request->regionId, 1000000));
+        if($request->regionId != 0)
+            $cookieJar->queue(cookie('selectedRegion', $request->regionId, 1000000));
+        else
+            Cookie::queue(Cookie::forget('selectedRegion'));
+
         return redirect()->back();
     }
 }
