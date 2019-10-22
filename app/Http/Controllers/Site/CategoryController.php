@@ -29,6 +29,9 @@ class CategoryController extends Controller
      */
     public function showBlogCategory($category_slug, Request $request)
     {
+        $template = TemplateController::getInstance();
+        if($template->isInstance == 'N') $template->setTemplateVariables();
+
         // Get category
         $category = $this->getCategory($category_slug, 0);
 
@@ -52,7 +55,8 @@ class CategoryController extends Controller
         return view('public/categories/category', [
             'result' => $category,
             'items' => $items,
-            'itemsLink' => $itemsLink
+            'itemsLink' => $itemsLink,
+            'template' => $template
         ]);
     }
 
@@ -68,9 +72,11 @@ class CategoryController extends Controller
         // Redirect if unset smart filter
         $unsetFilter = $request->get('unsetfilter');
 
+        $template = TemplateController::getInstance();
+        if($template->isInstance == 'N') $template->setTemplateVariables();
+
         if (isset($unsetFilter)) {
-            $requestUri = url()->getRequest()->path();
-            return redirect($requestUri);
+            return redirect($template->uri);
         }
 
         // Get category
@@ -115,7 +121,8 @@ class CategoryController extends Controller
             'properties' => $properties,
             'sortProps' => $sortProps,
             'arSortProp' => $arSortProp,
-            'itemsLink' => $itemsLink
+            'itemsLink' => $itemsLink,
+            'template' => $template
         ]);
 
     }
@@ -126,6 +133,9 @@ class CategoryController extends Controller
      */
     public function showBlogCategories()
     {
+        $template = TemplateController::getInstance();
+        if($template->isInstance == 'N') $template->setTemplateVariables();
+
         // Get category
         $category = $this->getCategory(BLOG_SLUG, 0);
         $category = $this->handleCategoryArray($category);
@@ -136,6 +146,7 @@ class CategoryController extends Controller
 
         return view('public/categories/categories', [
             'result' => $category,
+            'template' => $template
         ]);
     }
 
@@ -146,6 +157,9 @@ class CategoryController extends Controller
      */
     public function showCatalogCategories()
     {
+        $template = TemplateController::getInstance();
+        if($template->isInstance == 'N') $template->setTemplateVariables();
+
         // Get category
         $category = $this->getCategory(CATALOG_SLUG, 1);
         $category = $this->handleCategoryArray($category);
@@ -155,7 +169,8 @@ class CategoryController extends Controller
                 $category['children'][$key] = $this->handleCategoryArray($child);
 
         return view('public/catalog/categories', [
-            'result' => $category
+            'result' => $category,
+            'template' => $template
         ]);
     }
 

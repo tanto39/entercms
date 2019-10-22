@@ -1,8 +1,3 @@
-<?php
-$template = \App\Http\Controllers\Site\TemplateController::getInstance();
-if($template->isInstance == 'N') $template->setTemplateVariables();
-?>
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>

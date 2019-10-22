@@ -19,7 +19,7 @@
                     @endisset
 
                     <article class="category-content">
-                        <h2>Купить {{$result['title']}}</h2>
+                        <h2>{{$result['title'].' '.$template->contacts['companyWhere']}}</h2>
                         {!! $result['full_content'] !!}
                     </article>
                 </div>

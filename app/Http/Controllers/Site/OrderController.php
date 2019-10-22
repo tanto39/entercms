@@ -22,6 +22,9 @@ class OrderController extends Controller
         $arToBasket = [];
         $items = [];
 
+        $template = TemplateController::getInstance();
+        if($template->isInstance == 'N') $template->setTemplateVariables();
+
         $arToBasket = unserialize($request->cookie('basket'));
 
         if (!empty($arToBasket))
@@ -34,7 +37,8 @@ class OrderController extends Controller
             'items' => $items,
             'price' => $this->price,
             'title' =>  $this->title,
-            'deliveries' => $deliveries
+            'deliveries' => $deliveries,
+            'template' => $template
         ]);
     }
 

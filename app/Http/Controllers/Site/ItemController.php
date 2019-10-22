@@ -6,7 +6,6 @@ use App;
 use App\Item;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Cookie\CookieJar;
 
 class ItemController extends Controller
 {
@@ -16,6 +15,7 @@ class ItemController extends Controller
 
     public $indexRoute = 'item.index';
     public $prefix = 'Item';
+    public $cat_slug = '';
 
     /**
      * Display uncategorised item.
@@ -28,12 +28,13 @@ class ItemController extends Controller
         $item = [];
         $showReviews = "N";
 
-        $uri = url()->getRequest()->path();
+        $template = TemplateController::getInstance();
+        if($template->isInstance == 'N') $template->setTemplateVariables();
 
         $item = new Item();
 
         // Show reviews
-        if ($uri == "reviews") {
+        if ($template->uri == "reviews") {
             $item = $item->with(['reviews' => function($query) {
                 $query->where('published', 1);
             }]);
@@ -56,7 +57,8 @@ class ItemController extends Controller
 
         return view('public/items/item', [
             'result' => $item,
-            'showReviews' => $showReviews
+            'showReviews' => $showReviews,
+            'template' => $template
         ]);
     }
 
@@ -72,9 +74,13 @@ class ItemController extends Controller
         $showReviews = "Y";
         $item = $this->getItem($category_slug, $item_slug, 0);
 
+        $template = TemplateController::getInstance();
+        if($template->isInstance == 'N') $template->setTemplateVariables();
+
         return view('public/items/item', [
             'result' => $item,
-            'showReviews' => $showReviews
+            'showReviews' => $showReviews,
+            'template' => $template
         ]);
 
     }
@@ -84,10 +90,14 @@ class ItemController extends Controller
      *
      * @param string $category_slug
      * @param string $item_slug
+     * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function showProduct($category_slug, $item_slug, CookieJar $cookieJar, Request $request)
+    public function showProduct($category_slug, $item_slug, Request $request)
     {
+        $template = TemplateController::getInstance();
+        if($template->isInstance == 'N') $template->setTemplateVariables();
+
         $item = $this->getItem($category_slug, $item_slug, 1);
 
         $arToBasket = unserialize($request->cookie('basket'));
@@ -103,7 +113,8 @@ class ItemController extends Controller
 
         return view('public/products/item', [
             'result' => $item,
-            'inBasket' => $inBasket
+            'inBasket' => $inBasket,
+            'template' => $template
         ]);
 
     }
@@ -119,9 +130,7 @@ class ItemController extends Controller
     public function getItem($category_slug, $item_slug, $isProduct)
     {
         $item = [];
-
-        global $cat_slug;
-        $cat_slug = $category_slug;
+        $this->cat_slug = $category_slug;
 
         // Get item with reviews and categories
         $item = Item::with([
@@ -129,8 +138,7 @@ class ItemController extends Controller
                 $query->where('published', 1);
             },
             'category' => function($query) {
-                global $cat_slug;
-                $query->where('slug', $cat_slug);
+                $query->where('slug', $this->cat_slug);
             }
         ])
         ->where('slug', $item_slug)->where('is_product', $isProduct)->get()->toArray();

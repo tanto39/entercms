@@ -1,8 +1,3 @@
-<?php
-$template = \App\Http\Controllers\Site\TemplateController::getInstance();
-if($template->isInstance == 'N') $template->setTemplateVariables();
-?>
-
 @extends('public/layouts/app')
 
 @section('content')
