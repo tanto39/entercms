@@ -3,7 +3,7 @@
 @section('content')
     <div class="container main flex category-page-wrap">
 
-        <div class="item-page category-page">
+        <div class="item-page category-page @if(USE_CATALOG == "N")full-flex-basis @endif">
             {{-- Breadcrumbs include --}}
             @include('public.partials.breadcrumbs')
 
@@ -18,11 +18,16 @@
                         </div>
                     @endisset
 
-                    <article class="category-content">
+                    <article @if(USE_CATALOG == "Y")class="category-content"@endif>
                         <h2>{{$result['title'].' '.$template->contacts['companyWhere']}}</h2>
                         {!! $result['full_content'] !!}
                     </article>
                 </div>
+
+                @if(USE_CATALOG == "N")
+                    <a class="callback" download="" href="/price.xlsx">Скачать прайслист</a>
+                @endif
+
                 {{-- Properties include --}}
                 @include('public.partials.properties')
 
@@ -50,7 +55,8 @@
             </main>
 
             <div class="clearfix"></div>
-            @if(!empty($items))
+
+            @if(!empty($items) && USE_CATALOG == "Y")
                 <h2>Товары</h2>
 
                 {{-- Breadcrumbs include --}}
@@ -90,9 +96,11 @@
             </div>
         </div>
 
+        @if(USE_CATALOG == "Y")
         <aside class="left-sidebar">
             @include('public.partials.smartfilter')
         </aside>
+        @endif
     </div>
 
     <div id="blueimp-gallery-carousel" class="blueimp-gallery blueimp-gallery-carousel">

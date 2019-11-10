@@ -51,10 +51,19 @@
             <div class="header-right flex">
                     <div class="header-right-wrap">
                     <button class="callback" data-target="#modal-callback" data-toggle="modal">Обратный звонок</button>
-                    <a class="basket-button" href="{{route('item.basket')}}">
-                        <i class="glyphicon glyphicon-shopping-cart"></i>
-                        <span>Корзина</span>
-                    </a>
+
+                    @if(USE_CATALOG == "Y")
+                        <a class="basket-button" href="{{route('item.basket')}}">
+                            <i class="glyphicon glyphicon-shopping-cart"></i>
+                            <span>Корзина</span>
+                        </a>
+                    @else
+                        <a class="basket-button" href="{{route('item.showCatalogCategories')}}">
+                            <i class="glyphicon glyphicon-shopping-cart"></i>
+                            <span>Прайслист</span>
+                        </a>
+                    @endif
+
                 </div>
             </div>
         </div>
