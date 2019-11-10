@@ -65,3 +65,6 @@ define("COMPANY_MAP", "<script defer async src=\"https://api-maps.yandex.ru/serv
 
 // Use regions ('Y', 'N')
 define("USE_REGION", "N");
+
+// Use catalog ('Y', 'N')
+define("USE_CATALOG", "Y");
