@@ -122,7 +122,7 @@ h1, h2 {text-align: center;}
     -webkit-justify-content: flex-end;
     -ms-flex-pack: end;
 }
-.center-header, .header-phone, .header-mail, .category-page-wrap, .category-page .form-buttons, .blog-item .detail-image-small-block, .region-form{
+.center-header, .header-phone, .header-mail, .category-page-wrap, .category-page .form-buttons, .blog-item .detail-image-small-block, .region-form, .detail-image-small-block{
     justify-content: flex-start;
     -webkit-box-pack: start;
     -webkit-justify-content: flex-start;
