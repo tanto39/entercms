@@ -72,6 +72,7 @@
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">СЕО</a>
                                 <ul class="dropdown-menu" role="menu">
                                     <li><a href="{{route('admin.sitemap.index')}}">Карта сайта</a></li>
+                                    <li><a href="{{route('admin.yandexmarket.index')}}">Генерация для Яндекс.Маркет</a></li>
                                     <li><a href="{{route('admin.turbopages.index')}}">Турбостраницы</a></li>
                                     <li><a href="{{route('admin.region.index')}}">Регионы</a></li>
                                 </ul>

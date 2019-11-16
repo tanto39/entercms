@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<yml_catalog date="2019-11-16 12:18:19"><shop><name>Название компании</name><company>Название компании</company><url>http://entercms/</url>
+                <currencies>
+                    <currency id="RUR" rate="1"/>
+                    <currency id="USD" rate="60"/>
+                </currencies>
+                <categories>
+                    <category id="1">Бытовая техника</category>
+                    <category id="10" parentId="1">Мелкая техника для кухни</category>
+                </categories>
+                <delivery-options>
+                      <option cost="300" days="0" order-before="12"/>
+                </delivery-options>
+                <offers>
+        
+	<offer id="8">
+                    <name>Товар 1</name>
+                    <url>http://entercms/catalog/razdel-1/tovar-1</url>
+                    <price>2559</price>
+                    <currencyId>RUR</currencyId>
+                    <categoryId>6</categoryId>
+                    <picture>http://entercms/images/shares/previews/depositphotos_36886721-stock-photo-variety-of-consumer-products-in-jpg1515699206.jpg</picture>
+                    <pickup>true</pickup><delivery>true</delivery>
+                    <description><![CDATA[<p>Сайт рыбатекст поможет дизайнеру, верстальщику, вебмастеру сгенерировать несколько абзацев более менее осмысленного текста рыбы на русском языке, а начинающему оратору отточить навык публичных выступлений в домашних условиях. При создании генератора мы использовали небезизвестный универсальный код речей. Текст генерируется абзацами случайным образом от двух до десяти предложений в абзаце, что позволяет сделать текст более привлекательным и живым для визуально-слухового восприятия.</p>]]></description>
+                    <param name="Цвет">белый</param></offer>
+	<offer id="9">
+                    <name>Товар 2</name>
+                    <url>http://entercms/catalog/razdel-1/tovar-2</url>
+                    <price>1005</price>
+                    <currencyId>RUR</currencyId>
+                    <categoryId>6</categoryId>
+                    <picture>http://entercms/images/shares/previews/1456862-jpg1515700270.jpg</picture>
+                    <pickup>true</pickup><delivery>true</delivery>
+                    <description><![CDATA[<p>Сайт рыбатекст поможет дизайнеру, верстальщику, вебмастеру сгенерировать несколько абзацев более менее осмысленного текста рыбы на русском языке, а начинающему оратору отточить навык публичных выступлений в домашних условиях. При создании генератора мы использовали небезизвестный универсальный код речей. Текст генерируется абзацами случайным образом от двух до десяти предложений в абзаце, что позволяет сделать текст более привлекательным и живым для визуально-слухового восприятия.</p>]]></description>
+                    <param name="Цвет">белый</param></offer>
+	<offer id="11">
+                    <name>Товар 3</name>
+                    <url>http://entercms/catalog/razdel-1/tovar-3</url>
+                    <price>550</price>
+                    <currencyId>RUR</currencyId>
+                    <categoryId>6</categoryId>
+                    <picture>http://entercms/images/shares/previews/inx960x640-jpg1515700677.jpg</picture>
+                    <pickup>true</pickup><delivery>true</delivery>
+                    <description><![CDATA[<p>По своей сути рыбатекст является альтернативой традиционному lorem ipsum, который вызывает у некторых людей недоумение при попытках прочитать рыбу текст. В отличии от lorem ipsum, текст рыба на русском языке наполнит любой макет непонятным смыслом и придаст неповторимый колорит советских времен.111</p>]]></description>
+                    <param name="Цвет">белый</param></offer>
+	<offer id="14">
+                    <name>Товар 11</name>
+                    <url>http://entercms/catalog/razdel-1/tovar-11560668504</url>
+                    <price>110</price>
+                    <currencyId>RUR</currencyId>
+                    <categoryId>6</categoryId>
+                    <picture></picture>
+                    <pickup>true</pickup><delivery>true</delivery>
+                    <description><![CDATA[<p>Сайт рыбатекст поможет дизайнеру, верстальщику, вебмастеру сгенерировать несколько абзацев более менее осмысленного текста рыбы на русском языке, а начинающему оратору отточить навык публичных выступлений в домашних условиях. При создании генератора мы использовали небезизвестный универсальный код речей. Текст генерируется абзацами случайным образом от двух до десяти предложений в абзаце, что позволяет сделать текст более привлекательным и живым для визуально-слухового восприятия.</p>]]></description>
+                    <param name="Цвет">белый</param></offer>
+	<offer id="15">
+                    <name>Товар 12</name>
+                    <url>http://entercms/catalog/razdel-1/tovar-115606685041560669514</url>
+                    <price>24110</price>
+                    <currencyId>RUR</currencyId>
+                    <categoryId>6</categoryId>
+                    <picture></picture>
+                    <pickup>true</pickup><delivery>true</delivery>
+                    <description><![CDATA[<p>Сайт рыбатекст поможет дизайнеру, верстальщику, вебмастеру сгенерировать несколько абзацев более менее осмысленного текста рыбы на русском языке, а начинающему оратору отточить навык публичных выступлений в домашних условиях. При создании генератора мы использовали небезизвестный универсальный код речей. Текст генерируется абзацами случайным образом от двух до десяти предложений в абзаце, что позволяет сделать текст более привлекательным и живым для визуально-слухового восприятия.1</p>]]></description>
+                    <param name="Цвет">белый</param></offer>
+</offers></shop></yml_catalog>
