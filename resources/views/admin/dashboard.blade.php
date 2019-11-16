@@ -46,6 +46,10 @@
             </div>
 
             <div class="flex-basis-33">
+                <a class="alert alert-success" href="{{route('admin.yandexmarket.index')}}">Генерация для Яндекс.Маркет</a>
+            </div>
+
+            <div class="flex-basis-33">
                 <a class="alert alert-success" href="{{route('admin.turbopages.index')}}">Генерация турбостраниц</a>
             </div>
 

@@ -50,6 +50,10 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
     Route::get('/sitemap','SitemapController@index')->name('admin.sitemap.index');
     Route::post('/sitemap/generate','SitemapController@generate')->name('admin.sitemap.generate');
 
+    // Yandex market
+    Route::get('/yandexmarket','YandexMarketController@index')->name('admin.yandexmarket.index');
+    Route::post('/yandexmarket/generate','YandexMarketController@generate')->name('admin.yandexmarket.generate');
+
     // Turbopages
     Route::get('/turbopages','TurbopagesController@index')->name('admin.turbopages.index');
     Route::post('/turbopages/generate','TurbopagesController@generate')->name('admin.turbopages.generate');
