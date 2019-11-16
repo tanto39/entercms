@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Item;
 use App\Category;
+use App\PropEnum;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -66,10 +67,33 @@ class YandexMarketController extends Controller
                 $price = 0;
                 $picture = '';
                 $properties = [];
+                $params = '';
 
                 $url = HOST_PATH . CATALOG_SLUG . '/' . $item['category']['slug'] . '/' . $item['slug'];
                 $properties = unserialize($item['properties']);
                 $price = $properties[PROP_GROUP_NAME_ALL][PROP_PRICE_ID]['value'];
+
+                // Param tag
+                foreach ($properties as $propertyGroupName=>$propertyGroup) {
+                    foreach ($propertyGroup as $propertyId => $property) {
+                        if ($propertyId != PROP_PRICE_ID) {
+                            if (($property['type'] == PROP_TYPE_NUM || $property['type'] == PROP_TYPE_TEXT) && !empty($property['value'])) {
+                                $params .= '<param name="'.$property['title'].'">'.$property['value'].'</param>';
+                            }
+                            else if($property['type'] == PROP_TYPE_LIST) {
+                                foreach ($property['value'] as $keyProp => $propListId) {
+                                    $propListArray = PropEnum::where('id', $propListId)
+                                        ->select(['id', 'title'])
+                                        ->get()
+                                        ->toArray();
+
+                                    if(!empty($propListArray))
+                                        $params .= '<param name="'.$property['title'].'">'.$propListArray[0]['title'].'</param>';
+                                }
+                            }
+                        }
+                    }
+                }
 
                 if(!empty($item['preview_img']))
                     $picture = unserialize($item['preview_img']);
@@ -84,8 +108,7 @@ class YandexMarketController extends Controller
                     <categoryId>'.$item['category_id'].'</categoryId>
                     <picture>'.$picture.'</picture>
                     <pickup>true</pickup><delivery>true</delivery>
-                    <description><![CDATA['.$item["full_content"].']]></description>
-                    <param name="Цвет">белый</param>'
+                    <description><![CDATA['.$item["full_content"].']]></description>'.$params
                 . "</offer>\r\n";
             }
         }

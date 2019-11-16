@@ -34,6 +34,7 @@ define("PROP_KIND_ITEM", 2);
 define("PROP_TYPE_NUM", 1);
 define("PROP_TYPE_IMG", 3);
 define("PROP_TYPE_FILE", 4);
+define("PROP_TYPE_TEXT", 5);
 define("PROP_TYPE_LIST", 6);
 define("PROP_TYPE_CATEGORY_LINK", 7);
 define("PROP_TYPE_ITEM_LINK", 8);
