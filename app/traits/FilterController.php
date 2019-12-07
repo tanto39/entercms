@@ -282,13 +282,17 @@ trait FilterController
     /**
      * Select properties for smart filter
      *
+     * @param $request
+     * @param $categoryId
      * @return mixed
      */
-    public function getFilterProperties($request)
+    public function getFilterProperties($request, $categoryId)
     {
         $arPropertyGet = $request->get('property');
 
-        $properties = Property::where('smart_filter', 1)->where('prop_kind', PROP_KIND_ITEM)
+        $properties = Property::where('smart_filter', 1)
+            ->whereIn('category_id', [$categoryId, CATALOG_ID])
+            ->where('prop_kind', PROP_KIND_ITEM)
             ->orderby('order', 'asc')
             ->select(['id', 'order', 'title', 'slug', 'type'])->get()->toArray();
 

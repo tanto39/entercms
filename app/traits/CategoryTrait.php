@@ -101,20 +101,37 @@ trait CategoryTrait
      *
      * @param $category
      * @param $isProduct
+     * @param $request
      * @return mixed
      */
     public function getItems($category, $isProduct, $request)
     {
         $items = new Item();
 
-        $items = $items->where('category_id', $category['id'])
-            ->where('published', 1)->where('is_product', $isProduct)
+        //get child categories
+        $childCategories = Category::where('parent_id', $category['id'])->select(['id'])->get()->toArray();
+
+        $items = $items->with('category');
+
+        if(!empty($childCategories)) {
+            foreach ($childCategories as $key=>$arCategory)
+                $childCategories[$key] = $arCategory['id'];
+            $childCategories[] = $category['id'];
+            $items = $items->whereIn('category_id', $childCategories);
+        }
+        else {
+            $items = $items->where('category_id', $category['id']);
+        }
+
+        // get items
+        $items = $items->where('published', 1)->where('is_product', $isProduct)
             ->select([
                 'title',
                 'preview_img',
                 'order',
                 'rating',
                 'slug',
+                'category_id',
                 'description',
                 'properties',
             ])

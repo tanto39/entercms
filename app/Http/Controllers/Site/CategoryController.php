@@ -91,7 +91,7 @@ class CategoryController extends Controller
                 $category['children'][$key] = $this->handleCategoryArray($child);
 
         // Filter properties
-        $properties = $this->getFilterProperties($request);
+        $properties = $this->getFilterProperties($request, $category['id']);
 
         // Get sort properties
         $sortProps = $this->getAllSortProperties();
