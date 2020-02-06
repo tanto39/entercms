@@ -18,10 +18,10 @@
                         </div>
                     @endisset
 
-                    <article @if(USE_CATALOG == "Y")class="category-content"@endif>
+                    <div @if(USE_CATALOG == "Y")class="category-content"@endif>
                         <h2>{{$result['title'].' '.$template->contacts['companyWhere']}}</h2>
                         {!! $result['full_content'] !!}
-                    </article>
+                    </div>
                 </div>
 
                 @if(USE_CATALOG == "N")

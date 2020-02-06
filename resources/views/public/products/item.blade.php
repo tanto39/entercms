@@ -8,7 +8,7 @@
             @include('public.partials.breadcrumbs')
             <main itemscope itemtype="http://schema.org/Product">
                 <h1 itemprop="name">{{$result['title']." ".$template->contacts['companyWhere']}}</h1>
-                <article class="product">
+                <div class="product">
 
                     <div class="product-wrap flex">
                         <div class="product-desc @if(empty($result['preview_img'])) full-flex-basis @endif">
@@ -46,7 +46,7 @@
 
                     <div class="full_content" itemprop="description"><h2>Описание {{$result['title']}}</h2>{!! $result['full_content'] !!}</div>
 
-                </article>
+                </div>
             </main>
 
             {{-- Reviews include --}}
