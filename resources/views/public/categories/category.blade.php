@@ -18,9 +18,9 @@
                         </div>
                     @endisset
 
-                    <article class="category-content @if(!isset($result['preview_img'][0])) full-flex-basis @endif">
+                    <div class="category-content @if(!isset($result['preview_img'][0])) full-flex-basis @endif">
                         {!! $result['full_content'] !!}
-                    </article>
+                    </div>
                 </div>
                 {{-- Properties include --}}
                 {{--<div class="col-md-12">--}}

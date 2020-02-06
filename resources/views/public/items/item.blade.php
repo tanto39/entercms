@@ -15,9 +15,9 @@
                     @include('public.partials.previewSlider')
                 </div>
 
-                <article itemprop="articleBody">
+                <div itemprop="articleBody">
                     {!! $result['full_content'] !!}
-                </article>
+                </div>
 
             </main>
 
