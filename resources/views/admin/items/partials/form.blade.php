@@ -37,7 +37,7 @@
 <label for="meta_desc">Мета тег description</label>
 <input type="text" id="meta_desc" class="form-control" name="meta_desc" value="{{$item->meta_desc ?? ""}}">
 
-<label for="description">Описание</label>
+<label for="description">Мета title</label>
 <textarea id="description" class="form-control" name="description" rows="3">{{$item->description ?? ""}}</textarea>
 
 <label for="full_content">Контент</label>

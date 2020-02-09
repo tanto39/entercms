@@ -1,6 +1,7 @@
 # User-agent: *
 # Disallow: /admin/
 # Disallow: /vendor/
+# Disallow: /blog/
 # Disallow: /*.php&
 # Disallow: /*mail.php
 # Disallow: /*index.php*

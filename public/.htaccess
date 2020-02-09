@@ -37,8 +37,8 @@
 
     RewriteEngine On
 
-    # RewriteCond %{HTTP:X-Forwarded-Proto} !=https
-    # RewriteRule .* https://%{SERVER_NAME}%{REQUEST_URI} [R=301,L]
+    # RewriteCond %{HTTP:X-Forwarded-Proto} !https
+    # RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
 
     RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /public
     RewriteRule ^(.*)$ / [R=301,L]

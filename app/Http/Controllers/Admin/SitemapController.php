@@ -46,7 +46,7 @@ class SitemapController extends Controller
             ->orderby('catalog_section')->get()->toArray();
 
         // Add main page
-        $sitemapTXT .= "\t" . '<url><loc>' . HOST_PATH . '</loc><lastmod>' . $mainPage['updated_at'] . '</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>' . "\r\n";
+        $sitemapTXT .= "\t" . '<url><loc>' . HOST_PATH . '</loc><lastmod>' . explode(" ", $mainPage['updated_at'])[0] . '</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>' . "\r\n";
 
         // Add categories to sitemap
         if (!empty($categories)) {
@@ -71,7 +71,7 @@ class SitemapController extends Controller
                     }
                 }
 
-                $sitemapTXT .= "\t" . '<url><loc>' . $url . '</loc><lastmod>' . $category['updated_at'] . '</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url>' . "\r\n";
+                $sitemapTXT .= "\t" . '<url><loc>' . $url . '</loc><lastmod>' . explode(" ", $category['updated_at'])[0] . '</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url>' . "\r\n";
             }
         }
 
@@ -90,7 +90,7 @@ class SitemapController extends Controller
                         $url = HOST_PATH . BLOG_SLUG . '/' . $item['category']['slug'] . '/' . $item['slug'];
                 }
 
-                $sitemapTXT .= "\t" . '<url><loc>' . $url . '</loc><lastmod>' . $item['updated_at'] . '</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>' . "\r\n";
+                $sitemapTXT .= "\t" . '<url><loc>' . $url . '</loc><lastmod>' . explode(" ", $item['updated_at'])[0] . '</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>' . "\r\n";
             }
         }
 
