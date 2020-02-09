@@ -64,7 +64,7 @@
 
                 <div class="product-list flex">
                     @foreach($items as $item)
-                        <a class="list-item" href="{{route('item.showProduct', ['category_slug' => $result['slug'], 'item_slug' => $item['slug']])}}">
+                        <a class="list-item" href="{{route('item.showProduct', ['category_slug' => $item['category']['slug'], 'item_slug' => $item['slug']])}}">
                             <div class="list-item-title">
                                 {{$item['title']}}
                             </div>

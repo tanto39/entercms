@@ -13,7 +13,7 @@
     <meta name="keywords" content="{{$result['meta_key'] ?? META_KEY}}" />
     <meta name="description" content="{{$result['meta_desc'] ?? META_DESC}}" />
 
-    <title>{{$result['title'] ?? META_TITLE}}</title>
+    <title>{{$result['description'] ?? META_TITLE}}</title>
 
     <!-- Scripts -->
     <script defer src="{{ asset('js/app.js') }}"></script>
