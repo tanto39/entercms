@@ -2,29 +2,29 @@
     @foreach($result['properties'] as $groupName=>$propGroup)
         <table class="table table-striped table-properties">
             <thead>
-                <tr>
-                    <th colspan="2">{{$groupName}}</th>
-                </tr>
+            <tr>
+                <th colspan="2">{{$groupName}}</th>
+            </tr>
             </thead>
             <tbody>
-                @foreach($propGroup as $propId=>$property)
+            @foreach($propGroup as $propId=>$property)
+                @if(!empty($property['value']))
                     <tr>
                         @if($property['type'] == PROP_TYPE_IMG)
-                            <td colspan="2">
-                                @if(!empty($property['value']))
+                            <td class="no-display">{{$property['title']}}</td>
+                            <td>
                                 <p>{{$property['title']}}</p>
-                                    <div class="property-image flex">
-                                        @foreach($property['value'] as $key=>$photo)
-                                            <a class="property-image-small-item flex @if($key == 0) active @endif" href="{{$photo['MIDDLE']}}" data-original-src="{{$photo['MIDDLE']}}" data-full-src="{{$photo['FULL']}}">
-                                                <img class="property-image-small-item-img" src="{{$photo['SMALL']}}" alt="{{$property['title']}}"/>
-                                            </a>
-                                        @endforeach
-                                    </div>
-                                @endif
+                                <div class="property-image flex">
+                                    @foreach($property['value'] as $key=>$photo)
+                                        <a class="property-image-small-item flex @if($key == 0) active @endif" href="{{$photo['MIDDLE']}}" data-original-src="{{$photo['MIDDLE']}}" data-full-src="{{$photo['FULL']}}">
+                                            <img class="property-image-small-item-img" src="{{$photo['SMALL']}}" alt="{{$property['title']}}"/>
+                                        </a>
+                                    @endforeach
+                                </div>
                             </td>
                         @elseif($property['type'] == PROP_TYPE_ITEM_LINK)
-                            <td colspan="2">
-                                <p>{{$property['title']}}</p>
+                            <td class="no-display">{{$property['title']}}</td>
+                            <td>
                                 @if(!empty($property['arItem']))
                                     <div class="property-item-link flex">
                                         @foreach($property['arItem'] as $key=>$linkItem)
@@ -39,7 +39,8 @@
                                 @endif
                             </td>
                         @elseif($property['type'] == PROP_TYPE_CATEGORY_LINK)
-                            <td colspan="2">
+                            <td class="no-display">{{$property['title']}}</td>
+                            <td>
                                 <p>{{$property['title']}}</p>
                                 @if(!empty($property['arItem']))
                                     <div class="property-item-link flex">
@@ -69,7 +70,8 @@
                             </td>
                         @endif
                     </tr>
-                @endforeach
+                @endif
+            @endforeach
             </tbody>
         </table>
     @endforeach

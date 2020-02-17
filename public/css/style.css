@@ -378,15 +378,17 @@ p.adv-desc {margin: 0;color: #401714;}
 
 /*------- item link properties -------*/
 .property-item-link-block{
-    font-size: 1.3em;
+    font-size: 0.9em;
     background: #d9dbe6;
-    margin: 4px;
-    padding: 10px;
+    margin: 0.1em;
+    padding: 0.6em;
     text-align: center;
-    color: #696e8a;
+    color: #41464c;
 }
+.property-item-link-title{height: 10vh;}
 .property-item-link-block:hover {text-decoration: none;background: #cdd6e6;}
 .property-item-link-img {max-width: 100%;}
+.no-display{display:none;}
 
 /*--- product list -----*/
 .list-item{
@@ -746,6 +748,9 @@ p.adv-desc {margin: 0;color: #401714;}
     }
     .left-sidebar{order:2;}
     .footer-block{text-align: left;}
+    .breadcrumb>li{display: block;}
+    .property-item-link-img{display:none;}
+    .property-item-link-title{height: auto;}
 }
 @media all and (max-width: 576px) {
     .top-product-block, .product-list, .property-item-link, .basket-item{
