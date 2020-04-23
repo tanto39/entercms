@@ -149,17 +149,17 @@ h4{font-size: 1.4em;}
     -ms-flex-preferred-size: 22%;
     width: 25%;
 }
-.product-wrap .detail-image, .property-item-link-block, .quantity-wrap{
-    flex-basis: 30%;
-    -webkit-flex-basis: 30%;
-    -ms-flex-preferred-size: 30%;
-    width: 30%;
-}
-.adv-item, .region_select{
+.product-wrap .detail-image, .property-item-link-block, .quantity-wrap, .adv-item, .region_select{
     flex-basis: 33%;
     -webkit-flex-basis: 33%;
     -ms-flex-preferred-size: 33%;
     width: 33%;
+}
+.detail-image-small-item{
+    flex-basis: 32%;
+    -webkit-flex-basis: 32%;
+    -ms-flex-preferred-size: 30%;
+    width: 32%;
 }
 .category-page .detail-image, .blog-page .detail-image, .top-product-block .order-box{
     flex-basis: 40%;
@@ -180,10 +180,10 @@ h4{font-size: 1.4em;}
     width: 56%;
 }
 .product-desc{
-    flex-basis: 70%;
-    -webkit-flex-basis: 70%;
-    -ms-flex-preferred-size: 70%;
-    width: 70%;
+    flex-basis: 67%;
+    -webkit-flex-basis: 67%;
+    -ms-flex-preferred-size: 60%;
+    width: 67%;
 }
 .category-page{flex-basis: 75%; -webkit-flex-basis: 75%; -ms-flex-preferred-size: 67%; width: 75%;}
 .full-flex-basis{
@@ -385,7 +385,7 @@ p.adv-desc {margin: 0;color: #401714;}
     text-align: center;
     color: #41464c;
 }
-.property-item-link-title{height: 10vh;}
+.property-item-link-title{min-height: 10vh;}
 .property-item-link-block:hover {text-decoration: none;background: #cdd6e6;}
 .property-item-link-img {max-width: 100%;}
 .no-display{display:none;}
@@ -514,6 +514,7 @@ p.adv-desc {margin: 0;color: #401714;}
 .socbuttons{position: fixed; display: block; right: 0.3rem; top: 36vh;}
 .socbuttons .ya-share2__container_size_m .ya-share2__icon{height: 7vh;width: 7vh;}
 .socbuttons .ya-share2__item, .socbuttons .ya-share2__list_direction_horizontal > .ya-share2__item{display: block; margin-top: 0.5rem;}
+.ya-share2__container_size_m .ya-share2__icon{background-size: auto !important;}
 
 /*---scroll---*/
 .scroll{
@@ -564,7 +565,7 @@ p.adv-desc {margin: 0;color: #401714;}
     margin: 1px;
     overflow: hidden;
 }
-.detail-image-small-item{min-height: 100px;}
+.detail-image-small-item{min-height: 115px;}
 .detail-image-small-item.active{border: 1px solid #586af3;}
 .detail-image-big{
     border: 1px solid #b2b2b2;
@@ -586,7 +587,7 @@ p.adv-desc {margin: 0;color: #401714;}
     margin-top: 0;
     padding-bottom: 48.25%;
 }
-#blueimp-gallery-carousel img{max-height: 80%;margin-top: 3%;}
+#blueimp-gallery-carousel img{max-height: 90%;margin-top: 1%;}
 
 /*-----Smart filter----*/
 .left-sidebar{

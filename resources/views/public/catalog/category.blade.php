@@ -90,9 +90,7 @@
             @endif
 
             <div class="pagination-wrap">
-                <ul class="pagination">
-                    {!!$itemsLink!!}
-                </ul>
+                {!!$itemsLink!!}
             </div>
         </div>
 
