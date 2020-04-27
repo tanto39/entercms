@@ -59,6 +59,21 @@ trait SortTrait
 
         $itemsLink = $result->links();
 
+        // Delete duble pages
+        $elements = [];
+        $elements = $itemsLink->elements[0];
+        if (!empty($elements)) {
+            foreach($elements as $key=>$element) {
+                $arPage = explode('page=', $element);
+                $endPage = end($arPage);
+
+                if($endPage == 1)
+                    $itemsLink->elements[0][$key] = substr($arPage[0],0,-1);
+                else
+                    $itemsLink->elements[0][$key] = $arPage[0]."page=".end($arPage);
+            }
+        }
+
         return $itemsLink;
     }
 
