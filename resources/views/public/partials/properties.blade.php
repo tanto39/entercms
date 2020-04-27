@@ -31,7 +31,7 @@
                                             <a class="property-item-link-block" href="{{$linkItem['slug']}}">
                                                 <div class="property-item-link-title">{{$linkItem['title']}}</div>
                                                 @if(isset($linkItem['preview_img'][0]))
-                                                    <img class="property-item-link-img" src="{{$linkItem['preview_img'][0]['MIDDLE']}}" alt="{{$property['title']}}"/>
+                                                    <img class="property-item-link-img" src="{{$linkItem['preview_img'][0]['MIDDLE']}}" alt="{{$linkItem['title']}}" title="{{$linkItem['title']}}"/>
                                                 @endif
                                             </a>
                                         @endforeach
@@ -48,7 +48,7 @@
                                             <a class="property-item-link-block" href="{{$linkItem['slug']}}">
                                                 <div class="property-item-link-title">{{$linkItem['title']}}</div>
                                                 @if(isset($linkItem['preview_img'][0]))
-                                                    <img class="property-item-link-img" src="{{$linkItem['preview_img'][0]['MIDDLE']}}" alt="{{$property['title']}}"/>
+                                                    <img class="property-item-link-img" src="{{$linkItem['preview_img'][0]['MIDDLE']}}" alt="{{$linkItem['title']}}" title="{{$linkItem['title']}}"/>
                                                 @endif
                                             </a>
                                         @endforeach
