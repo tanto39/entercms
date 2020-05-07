@@ -25,11 +25,8 @@
                 </div>
             @endisset
 
-            <div class="col-md-12 pagination-wrap">
-                <ul class="pagination">
-                    {{$itemsLink}}
-                </ul>
-            </div>
+            {{-- Pagination include --}}
+            @include('public.partials.pagination')
         </div>
     </div>
 @endsection
