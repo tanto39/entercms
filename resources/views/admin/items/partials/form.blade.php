@@ -40,6 +40,11 @@
 <label for="description">Мета title</label>
 <textarea id="description" class="form-control" name="description" rows="3">{{$item->description ?? ""}}</textarea>
 
+@if(isset($item->id) && $item->is_product == 1)
+<label for="price">Цена</label>
+<input type="text" id="price" class="form-control" name="price" value="{{$item->price ?? ""}}">
+@endif
+
 <label for="full_content">Контент</label>
 <textarea id="full_content" class="form-control" name="full_content" rows="15">
     {{$item->full_content ?? ""}}

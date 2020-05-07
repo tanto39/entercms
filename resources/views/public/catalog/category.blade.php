@@ -75,8 +75,8 @@
                             </div>
                             <div class="price">Цена:
                                 <span>
-                                    @if(isset($item['properties'][PROP_GROUP_NAME_ALL][PROP_PRICE_ID]['value']))
-                                        {{$item['properties'][PROP_GROUP_NAME_ALL][PROP_PRICE_ID]['value']}}
+                                    @if(isset($item['price']))
+                                        {{$item['price']}}
                                     @else
                                         0
                                     @endif
@@ -89,9 +89,9 @@
                 </div>
             @endif
 
-            <div class="pagination-wrap">
-                {!!$itemsLink!!}
-            </div>
+            {{-- Pagination include --}}
+            @include('public.partials.pagination')
+
         </div>
 
         @if(USE_CATALOG == "Y")

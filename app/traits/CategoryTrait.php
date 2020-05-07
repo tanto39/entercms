@@ -134,11 +134,11 @@ trait CategoryTrait
                 'category_id',
                 'description',
                 'properties',
-            ])
-            ->orderby('order', 'asc')->orderby('updated_at', 'desc');
+                'price'
+            ]);
 
-        // Filter
-        $items = $this->filterExec($request, $items);
+        // Filter and sort
+        $items = $this->filterExec($request, $items, 'public');
 
         if ($isProduct == 1)
             $items = $this->smartFilterExec($request, $items);

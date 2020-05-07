@@ -1,5 +1,21 @@
 <form id="smart-filter" class="smart-filter" method="get">
     <h3>Фильтр по товарам</h3>
+
+
+    <div class="smart-filter-item">
+        <span class="smart-filter-prop-title">Цена</span>
+        <div class="flex smart-filter-wrap_num">
+            <div class="smart-filter-item_num">
+                <span>От:</span>
+                <input type="number" class="form-control" name="fields[price][from]" value="@if($filterFields['price']['from']){{$filterFields['price']['from']}}@endif">
+            </div>
+            <div class="smart-filter-item_num">
+                <span>До:</span>
+                <input type="number" class="form-control" name="fields[price][to]" value="@if($filterFields['price']['to']){{$filterFields['price']['to']}}@endif">
+            </div>
+        </div>
+    </div>
+
     @foreach($properties as $key=>$property)
         <div class="smart-filter-item">
             <span class="smart-filter-prop-title">{{$property['title']}}</span>

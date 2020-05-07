@@ -44,18 +44,21 @@ class CategoryController extends Controller
         // Items
         $items = $this->getItems($category, 0, $request);
 
+        // Paginate
         $requestUri = $request->getRequestUri();
-        $items = $items->paginate(PAGE_COUNT);
-        $items->setPath($requestUri);
-        $itemsLink = $items->links();
+        $page = $request->input('page', 1);
+        $countItems = $items->count();
+        $itemLinks = $this->setPaginate($requestUri, $page, $countItems);
+        
+        // Get items for current page
+        $items = $this->getCurrentPageItems($request, $items, $page, $countItems);
 
-        $items = $items->toArray();
-        $items = $this->handleItemsArray($items['data']);
+        $items = $this->handleItemsArray($items);
 
         return view('public/categories/category', [
             'result' => $category,
             'items' => $items,
-            'itemsLink' => $itemsLink,
+            'itemLinks' => $itemLinks,
             'template' => $template
         ]);
     }
@@ -90,29 +93,40 @@ class CategoryController extends Controller
             foreach ($category['children'] as $key=>$child)
                 $category['children'][$key] = $this->handleCategoryArray($child);
 
-        // Filter properties
+        // Get fields and properties values for Smart Filter
         $properties = $this->getFilterProperties($request, $category['id']);
+        $filterFields = $request->get('fields');
 
         // Get sort properties
         $sortProps = $this->getAllSortProperties();
 
+        $template->sort = 'default';
+        if ($request->get('unsetsortCategoryPublic') == null)
+            $template->sort = $request->get('sortCategoryPublic');
+
         // Items
         $items = $this->getItems($category, 1, $request);
 
+        // Paginate
+        $requestUri = $request->getRequestUri();
+        $page = $request->input('page', 1);
+        $countItems = $items->count();
+        $itemLinks = $this->setPaginate($requestUri, $page, $countItems);
+
+        // Get items for current page
+        $items = $this->getCurrentPageItems($request, $items, $page, $countItems);
+
         $items = $this->handleItemsArray($items);
 
-        // Set sort property
+        // Set sort property, deprecated, not used
         $arSortProp = [0=>'', 1=>'', 2=>''];
         if ($request->get('setsort'.$this->prefix)) {
             $arSortProp = explode("_", $request->get('sort' . $this->prefix));
-            if ($arSortProp[1] != 'default')
-                $items = $this->setSortByProps($items, $arSortProp, $request);
+            if (array_key_exists(1, $arSortProp)) {
+                if ($arSortProp[1] != 'default')
+                    $items = $this->setSortByProps($items, $arSortProp, $request);
+            }
         }
-
-        $itemsLink = $this->arrayPaginate($request, $items);
-
-        // Get items for current page
-        $items = $this->getCurrentPageItems($request, $items);
 
         // View
         return view('public/catalog/category', [
@@ -121,8 +135,9 @@ class CategoryController extends Controller
             'properties' => $properties,
             'sortProps' => $sortProps,
             'arSortProp' => $arSortProp,
-            'itemsLink' => $itemsLink,
-            'template' => $template
+            'itemLinks' => $itemLinks,
+            'template' => $template,
+            'filterFields' => $filterFields
         ]);
 
     }

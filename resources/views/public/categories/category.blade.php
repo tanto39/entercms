@@ -68,11 +68,8 @@
                 </div>
             @endisset
 
-            <div class="pagination-wrap">
-                <ul class="pagination">
-                    {!!$itemsLink!!}
-                </ul>
-            </div>
+            {{-- Pagination include --}}
+            @include('public.partials.pagination')
         </div>
     </div>
 

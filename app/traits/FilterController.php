@@ -46,7 +46,7 @@ trait FilterController
 
         // Sort
         if($request->sort && $request->sort != "default")
-            $cookieJar->queue(cookie('sort' . $prefix, $request-> sort, 60));
+            $cookieJar->queue(cookie('sort' . $prefix, $request->sort, 60));
         elseif($request->sort == "default")
             $cookieJar->queue($cookieJar->forget('sort' . $prefix));
 
@@ -62,10 +62,14 @@ trait FilterController
      * @param $selectTable
      * @return mixed
      */
-    public function filterExec(Request $request, $selectTable)
+    public function filterExec(Request $request, $selectTable, $sortval='admin')
     {
-        // Get filter and sort from cookies
+        // Get filter and sort from cookies for admin panel
         $this->getFilterFromCookies($request);
+
+        // Get sort by fields for public
+        if (($sortval != 'admin') && (null == $request->get('unsetsortCategoryPublic')))
+            $this->sortVal = $request->get('sortCategoryPublic');
 
         // Filter
         if (is_array($this->arFilter)) {
@@ -89,6 +93,14 @@ trait FilterController
 
             case "title":
                 $selectTable = $selectTable->orderby('title', 'asc');
+                break;
+
+            case "priceDown":
+                $selectTable = $selectTable->orderby('price', 'desc');
+                break;
+
+            case "priceUp":
+                $selectTable = $selectTable->orderby('price', 'asc');
                 break;
 
             default:
@@ -118,10 +130,30 @@ trait FilterController
     public function smartFilterExec(Request $request, $selectTable)
     {
         $arProperty = $request->get('property');
+        $filterFields = $request->get('fields');
 
         $regex = '';
         $ifToMoreThenFrom = "";
 
+        // Filter by fields
+        if ($filterFields !== null) {
+            foreach ($filterFields as $fieldTitle=>$filterField) {
+                // Number field
+                if (isset($filterField['from']) || isset($filterField['to'])) {
+                    if (is_null($filterField['from']))
+                        $filterField['from'] = 0;
+
+                    if (is_null($filterField['to'])) {
+                        $selectTable = $selectTable->where($fieldTitle, '>=', $filterField['from']);
+                    }
+                    else {
+                        $selectTable = $selectTable->whereBetween($fieldTitle, $filterField);
+                    }
+                }
+            }
+        }
+
+        // Filter by properties
         if (isset($arProperty)) {
             foreach ($arProperty as $propId=>$selectValue) {
                 // Number properties
@@ -273,7 +305,7 @@ trait FilterController
 
         //$requestUri = url()->getRequest()->getRequestUri();
 
-        $selectTable = $selectTable->get(); //paginate(PAGE_COUNT);
+        //$selectTable = $selectTable->get(); //paginate(PAGE_COUNT);
         //$selectTable->setPath($requestUri);
 
         return $selectTable;
