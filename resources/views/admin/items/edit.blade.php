@@ -10,6 +10,10 @@
 
     <hr>
 
+    <a href="{{$item->fullLink ?? ""}}" target="_blank">Посмотреть материал в публичной части сайта</a>
+
+    <hr>
+
     <form class="form-horizontal" enctype="multipart/form-data" method="post" action="{{route('admin.item.update', $item)}}">
         <input type="hidden" name="_method" value="put">
         {{csrf_field()}}
