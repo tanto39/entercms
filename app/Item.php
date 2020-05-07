@@ -28,7 +28,8 @@ class Item extends Model
         'created_by',
         'modify_by',
         'category_id',
-        'properties'
+        'properties',
+        'price'
     ];
 
     /**
@@ -49,7 +50,7 @@ class Item extends Model
     }
 
     /**
-     * Create table categories
+     * Create table items
      */
     public static function createTable()
     {
@@ -65,6 +66,7 @@ class Item extends Model
             $table->text('description')->nullable();
             $table->text('full_content')->nullable();
             $table->text('slug')->nullable();
+            $table->integer('price')->nullable();
             $table->integer('category_id')->nullable();
             $table->tinyInteger('published')->nullable();
             $table->integer('created_by')->nullable()->unsigned();

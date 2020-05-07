@@ -36,7 +36,8 @@ trait OrderTrait
                 'slug',
                 'description',
                 'properties',
-                'category_id'
+                'category_id',
+                'price'
             ])->get();
 
         $items = $this->handleItemsArray($items);
@@ -44,9 +45,9 @@ trait OrderTrait
         foreach ($items as $key=>$item) {
             $items[$key]['quantity'] = $arToBasket[$item['id']]['quantity'];
 
-            if (isset($item['properties'][PROP_GROUP_NAME_ALL][PROP_PRICE_ID]['value'])) {
-                $items[$key]['fullprice'] = (int)$items[$key]['properties'][PROP_GROUP_NAME_ALL][PROP_PRICE_ID]['value'] * (int)$arToBasket[$item['id']]['quantity'];
-                $items[$key]['price'] = (int)$items[$key]['properties'][PROP_GROUP_NAME_ALL][PROP_PRICE_ID]['value'];
+            if (isset($item['price'])) {
+                $items[$key]['fullprice'] = (int)$items[$key]['price'] * (int)$arToBasket[$item['id']]['quantity'];
+                $items[$key]['price'] = (int)$items[$key]['price'];
             }
             else {
                 $items[$key]['fullprice'] = 0;

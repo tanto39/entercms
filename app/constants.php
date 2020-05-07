@@ -4,7 +4,7 @@ define("ADMIN_EMAIL", 'tanto39@mail.ru');
 define("HOST_PATH", 'http://entercms/');
 
 // Pagination
-define("PAGE_COUNT", 21);
+define("PAGE_COUNT", 51);
 
 // Slugs
 define("BLOG_SLUG", 'blog');
@@ -40,10 +40,9 @@ define("PROP_TYPE_CATEGORY_LINK", 7);
 define("PROP_TYPE_ITEM_LINK", 8);
 
 define("PROP_GROUP_NAME_ALL", 'Характеристики');
-define("PROP_PRICE_ID", 14);
 
 // Array of properties to sort in public catalog
-define("AR_PROP_SORT", [PROP_PRICE_ID, 17]);
+define("AR_PROP_SORT", []); //define("AR_PROP_SORT", [PROP_PRICE_ID, 17]);
 
 // Menu types
 define("MENU_TYPE_CATEGORY", 1);

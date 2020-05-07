@@ -14,7 +14,7 @@
                         <div class="product-desc @if(empty($result['preview_img'])) full-flex-basis @endif">
                             <div class="top-product-block flex">
                                 <div class="price" itemprop="offers" itemscope itemtype="http://schema.org/Offer">Цена:
-                                    <span itemprop="price">@if(isset($result['properties'][PROP_GROUP_NAME_ALL][PROP_PRICE_ID]['value'])){{$result['properties'][PROP_GROUP_NAME_ALL][PROP_PRICE_ID]['value']}}@else 0 @endif</span>
+                                    <span itemprop="price">@if(isset($result['price'])){{$result['price']}}@else 0 @endif</span>
                                     <span>руб.</span>
                                     <meta itemprop="priceCurrency" content="RUB">
                                 </div>

@@ -8,7 +8,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 trait SortTrait
 {
     /**
-     * Sort items array
+     * Sort items array (deprecated, not used)
      *
      * @param $items
      * @param $arSortProp
@@ -44,37 +44,48 @@ trait SortTrait
     }
 
     /**
-     * Array paginate
-     *
-     * @param Request $request
-     * @param $items
-     * @return \Illuminate\Support\HtmlString
+     * @param $requestUri
+     * @param $page
+     * @param $countItems
+     * @return array
      */
-    public function arrayPaginate(Request $request, $items)
+    public function setPaginate($requestUri, $page, $countItems = 0)
     {
-        $page = $request->input('page', 1);
-        $itemsForCurrentPage = $this->getCurrentPageItems($request, $items);
-        $result = new LengthAwarePaginator($itemsForCurrentPage, count($items), PAGE_COUNT, $page);
-        $result->setPath(url()->getRequest()->getRequestUri());
+        $itemLinks = [];
+        $itemLinks['is_first_page'] = 'N';
+        $itemLinks['is_last_page'] = 'N';
 
-        $itemsLink = $result->links();
+        $pageStr = '?page=';
+        if ((strpos($requestUri, 'setfilter='))
+            || (strpos($requestUri, 'setsortCategoryPublic=')))
+            $pageStr = '&page=';
 
-        // Delete duble pages
-        $elements = [];
-        $elements = $itemsLink->elements[0];
-        if (!empty($elements)) {
-            foreach($elements as $key=>$element) {
-                $arPage = explode('page=', $element);
-                $endPage = end($arPage);
+        $requestUriWithoutPage = explode($pageStr, $requestUri)[0];
 
-                if($endPage == 1)
-                    $itemsLink->elements[0][$key] = substr($arPage[0],0,-1);
-                else
-                    $itemsLink->elements[0][$key] = $arPage[0]."page=".end($arPage);
+        $countPages = ceil($countItems / PAGE_COUNT);
+
+        if ($page == 1)
+            $itemLinks['is_first_page'] = 'Y';
+
+        for ($i = 1; $i <= $countPages; $i++) {
+            $itemLinks['pages'][$i]['url'] = $requestUriWithoutPage;
+
+            if ($i != 1)
+                $itemLinks['pages'][$i]['url'] .= $pageStr . $i;
+
+            if ($i == $page) {
+                $itemLinks['pages'][$i]['active'] = 'Y';
+            } else {
+                $itemLinks['pages'][$i]['active'] = 'N';
             }
         }
 
-        return $itemsLink;
+        $itemLinks['last_page'] = $i-1;
+
+        if ($page ==  $itemLinks['last_page'])
+            $itemLinks['is_last_page'] = 'Y';
+
+        return($itemLinks);
     }
 
     /**
@@ -83,14 +94,13 @@ trait SortTrait
      * @param $items
      * @return array
      */
-    public function getCurrentPageItems(Request $request, $items)
+    public function getCurrentPageItems(Request $request, $items, $page, $countItems = 0)
     {
         $itemsForCurrentPage = [];
 
-        $page = $request->input('page', 1);
-        $offSet = ($page * PAGE_COUNT) - PAGE_COUNT;
-        $itemsForCurrentPage = array_slice($items, $offSet, PAGE_COUNT, true);
-
+        $offset = ($page * PAGE_COUNT) - PAGE_COUNT;
+        $items = $items->offset($offset)->limit(PAGE_COUNT);
+        $itemsForCurrentPage = $items->get();
         return $itemsForCurrentPage;
     }
 
