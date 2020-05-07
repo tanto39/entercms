@@ -38,12 +38,17 @@ class SearchController extends Controller
 
         $items = $this->searchByTitle($request, $items);
 
-        $items = $items->with('category')->orderby('order', 'asc')->orderby('updated_at', 'desc')->get();
-        $items = $this->handleItemsArray($items);
-        $itemsLink = $this->arrayPaginate($request, $items);
+        $items = $items->with('category')->orderby('order', 'asc')->orderby('updated_at', 'desc');
+        // Paginate
+        $requestUri = $request->getRequestUri();
+        $page = $request->input('page', 1);
+        $countItems = $items->count();
+        $itemLinks = $this->setPaginate($requestUri, $page, $countItems);
 
         // Get items for current page
-        $items = $this->getCurrentPageItems($request, $items);
+        $items = $this->getCurrentPageItems($request, $items, $page, $countItems);
+
+        $items = $this->handleItemsArray($items);
 
         // Set hrefs
         foreach ($items as $key=>$item) {
@@ -62,7 +67,7 @@ class SearchController extends Controller
 
         return view('public/search/search', [
             'result' => $items,
-            'itemsLink' => $itemsLink,
+            'itemLinks' => $itemLinks,
             'searchText' => $searchText,
             'template' => $template
         ]);

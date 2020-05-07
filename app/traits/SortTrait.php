@@ -57,7 +57,8 @@ trait SortTrait
 
         $pageStr = '?page=';
         if ((strpos($requestUri, 'setfilter='))
-            || (strpos($requestUri, 'setsortCategoryPublic=')))
+            || (strpos($requestUri, 'setsortCategoryPublic='))
+            || (strpos($requestUri, 'searchText=')))
             $pageStr = '&page=';
 
         $requestUriWithoutPage = explode($pageStr, $requestUri)[0];
