@@ -117,6 +117,20 @@ class ItemController extends Controller
 
         $preview_images = unserialize($item->preview_img);
 
+        $item->fullLink = '/';
+
+        $category = Category::where('id', $item->category_id)->select(['id','title','slug'])->get();
+
+        if (count($category)) {
+            if ($item->is_product == 1)
+                $item->fullLink = '/'.CATALOG_SLUG.'/'.$category[0]->slug.'/'.$item->slug;
+            else
+                $item->fullLink = '/'.BLOG_SLUG.'/'.$category[0]->slug.'/'.$item->slug;
+        }
+        elseif($item->slug != '/') {
+            $item->fullLink = '/'.$item->slug;
+        }
+
         // Get properties
         $this->getProperties($item,PROP_KIND_ITEM, $item->properties, $item->category_id);
 
