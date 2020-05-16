@@ -10,17 +10,17 @@ if($template->isInstance == 'N') $template->setTemplateVariables();
     <div class="container text-center">
         <div class="adv-wrap flex">
             <div class="adv-item">
-                <div class="adv-img adv-img-1"></div>
+                <div class="adv-img"><img src="/images/price.jpg" alt="Доступные цены" title="Доступные цены"></div>
                 <p class="adv-title">Доступные цены</p>
                 <p class="adv-desc">Лучшие {{$template->contacts['companyWhere']}} цены</p>
             </div>
             <div class="adv-item">
-                <div class="adv-img adv-img-2"></div>
+                <div class="adv-img"><img src="/images/quality.jpg" alt="Высокое качество" title="Высокое качество"></div>
                 <p class="adv-title">Высокое качество</p>
                 <p class="adv-desc">Только официальные поставщики</p>
             </div>
             <div class="adv-item">
-                <div class="adv-img adv-img-3"></div>
+                <div class="adv-img"><img src="/images/success.jpg" alt="Многолетний опыт" title="Многолетний опыт"></div>
                 <p class="adv-title">Многолетний опыт</p>
                 <p class="adv-desc">Мы дорожим своим авторитетом</p>
             </div>

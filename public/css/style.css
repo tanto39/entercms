@@ -336,26 +336,24 @@ ul.pagination{padding:0;}
 
 /*------ adv ------*/
 .adv-wrap {
-    max-width: 1100px;
     padding: 2em 0 0 0;
     margin: 0 auto;
     font-size: 1.1em;
+    width: 90%;
 }
 .adv-img {
-    border: 10px solid #587bbb;
-    height: 280px;
-    width: 280px;
+    border: 0.5em solid #587bbb;
+    width: 16em;
     margin: 0 auto;
-    border-radius: 140px;
-    background: url(../images/adv-sprite.jpg) top left no-repeat;
+    border-radius: 18em;
+    overflow: hidden;
 }
-.adv-img-2 {background-position: -260px 0;}
-.adv-img-3 {background-position: -520px 0;}
 p.adv-title {
     font-size: 1.5em;
     margin: 0.3em 0 0 0;
     color: #12520b;
 }
+.adv-img img{width: 100%;}
 p.adv-desc {margin: 0;color: #401714;}
 
 /*------properties-----*/
@@ -685,10 +683,6 @@ p.adv-desc {margin: 0;color: #401714;}
     }
 }
 @media all and (max-width: 992px) {
-    .adv-img {width: 240px; height: 240px;}
-    .adv-img-1 {background-position: -20px -20px;}
-    .adv-img-2 {background-position: -280px -20px;}
-    .adv-img-3 {background-position: -540px -20px;}
     .header{font-size:1em;}
     .container{width: 95%;}
     .socbuttons {position: relative;top:0;}
@@ -775,12 +769,10 @@ p.adv-desc {margin: 0;color: #401714;}
     }
     .landing-section .order-button-link {width: 90%;}
     .landing-section img, .item-page img {width: 90%;}
+    .adv-img img {width: 100%;}
     img.list-item-img {width: auto;}
     .blog-item-img-link {width: 100%; float: none;}
     .basket-wrap .form-zakaz .order-button, .basket-summ{width: 100%;}
     .basket-wrap .form-zakaz{margin:0;}
     .basket-wrap{font-size:1.3em;}
-}
-@media all and (min-width: 2500px) {
-    .adv-wrap{font-size: 0.5em;}
 }
