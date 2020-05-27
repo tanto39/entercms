@@ -38,7 +38,7 @@
                         <div class="basket-summ">Общая сумма: <span class="sum-price">{{$price ?? "0"}}</span> руб.</div>
                     </div>
 
-                    <div class="form-zakaz">
+                    <div class="form-zakaz-order">
                         <form method="post" action="/sendorder">
                             {{csrf_field()}}
                             <div class="form-zakaz">
