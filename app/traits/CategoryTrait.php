@@ -93,7 +93,7 @@ trait CategoryTrait
             return $category[0];
         }
         else
-            App::abort(404);
+            \App::abort(404);
     }
 
     /**
@@ -158,7 +158,10 @@ trait CategoryTrait
             $category['preview_img'] = $this->createPublicImgPath(unserialize($category['preview_img']));
 
         if(isset($category['properties']))
-            $category['properties'] = $this->handlePropertyForPublic($category['properties']);
+            $category = $this->handlePropertyForPublic($category);
+
+        if(array_key_exists(0, $category))
+            $category = $category[0];
 
         return $category;
     }
@@ -177,10 +180,12 @@ trait CategoryTrait
         foreach ($items as $key=>$item) {
             if(isset($item['preview_img']))
                 $items[$key]['preview_img'] = $this->createPublicImgPath(unserialize($item['preview_img']));
-
-            if(isset($item['properties']))
-                $items[$key]['properties'] = $this->handlePropertyForPublic($item['properties']);
         }
+
+        $items = $this->handlePropertyForPublic($items);
+
+        if (empty($items[0]))
+            $items = [];
 
         return $items;
     }
@@ -196,10 +201,9 @@ trait CategoryTrait
         foreach ($categories as $key=>$category) {
             if(isset($category['preview_img']))
                 $categories[$key]['preview_img'] = $this->createPublicImgPath(unserialize($category['preview_img']));
-
-            if(isset($category['properties']))
-                $categories[$key]['properties'] = $this->handlePropertyForPublic($category['properties']);
         }
+
+        $categories = $this->handlePropertyForPublic($categories);
 
         return $categories;
     }

@@ -74,7 +74,7 @@ trait PropEnumController
     }
 
     /**
-     * Get list title for public
+     * Get list title for public DEPRECATED NOT USED
      *
      * @param $propId
      * @param $arEnumId
