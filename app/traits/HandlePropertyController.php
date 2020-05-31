@@ -328,38 +328,100 @@ trait HandlePropertyController
     /**
      * Handle properties for public
      *
-     * @param $strProperties
+     * @param $items
      * @return mixed
      */
-    public function handlePropertyForPublic($strProperties)
+    public function handlePropertyForPublic($items)
     {
-        $arPropGroup = unserialize($strProperties);
+        if(!array_key_exists(0, $items))
+            $items = [0 => $items];
 
-        if (!empty($arPropGroup)) {
-            foreach ($arPropGroup as $groupName=>$propGroup) {
+        $arPropEnumId = [];
+        $arPropEnum = [];
+        $arPropEnumGroup =[];
+        $arItemsId = [];
+        $arItems = [];
+        $arItemsGroup = [];
 
-                if (empty($propGroup))
-                    unset($arPropGroup[$groupName]);
+        foreach ($items as $keyItem => $item) {
+            if (!empty($item['properties'])) {
+                $items[$keyItem]['properties'] = unserialize($item['properties']);
 
-                foreach ($propGroup as $propId=>$property) {
+                foreach ($items[$keyItem]['properties'] as $groupName => $propGroup) {
 
-                    if ($property['type'] == PROP_TYPE_IMG) {
-                        $arPropGroup[$groupName][$propId]['value'] = $this->createPublicImgPath($property['value']);
-                    }
-                    elseif ($property['type'] == PROP_TYPE_LIST) {
-                        $arPropGroup[$groupName][$propId]['arList'] = $this->getListValue($property["id"], $property['value']);
-                    }
-                    elseif ($property['type'] == PROP_TYPE_ITEM_LINK) {
-                        $arPropGroup[$groupName][$propId]['arItem'] = $this->getLinkItems($property['value']);
-                    }
-                    elseif ($property['type'] == PROP_TYPE_CATEGORY_LINK) {
-                        $arPropGroup[$groupName][$propId]['arItem'] = $this->getLinkCategories($property['value']);
+                    if (empty($propGroup))
+                        unset($items[$keyItem]['properties'][$groupName]);
+
+                    foreach ($propGroup as $propId => $property) {
+
+                        if ($property['type'] == PROP_TYPE_IMG) {
+                            $items[$keyItem]['properties'][$groupName][$propId]['value'] = $this->createPublicImgPath($property['value']);
+                        }
+                        elseif ($property['type'] == PROP_TYPE_LIST) {
+                            // Create enum values array
+                            array_walk_recursive($property['value'], function ($value, $key) use (&$arPropEnumId){
+                                $arPropEnumId[] = (int)$value;
+                            }, $arPropEnumId);
+                        }
+                        elseif ($property['type'] == PROP_TYPE_ITEM_LINK) {
+                            // Create item ids array
+                            array_walk_recursive($property['value'], function ($value, $key) use (&$arItemsId){
+                                $arItemsId[] = (int)$value;
+                            }, $arItemsId);
+                        }
+                        elseif ($property['type'] == PROP_TYPE_CATEGORY_LINK) {
+                            $items[$keyItem]['properties'][$groupName][$propId]['arItem'] = $this->getLinkCategories($property['value']);
+                        }
                     }
                 }
+
             }
         }
 
-        return $arPropGroup;
+
+        // Get enum propertyes
+        if (!empty($arPropEnumId)) {
+            $arPropEnum = PropEnum::whereIn('id', $arPropEnumId)->select('id', 'title', 'order', 'slug', 'prop_id')
+                ->orderby('order', 'asc')->get()->toArray();
+
+            // Group enum properties by prop_id
+            foreach ($arPropEnum as $key => $propEnum) {
+                $arPropEnumGroup[$propEnum['prop_id']][] = $propEnum;
+            }
+        }
+
+        // Get items for item properties
+        if (!empty($arItemsId)) {
+            $arItems = $this->getLinkItems($arItemsId);
+
+            // Group item link properties by id
+            foreach ($arItems as $key => $arItem) {
+                $arItemsGroup[$arItem['id']] = $arItem;
+            }
+        }
+
+        // Fill properties values
+        foreach ($items as $keyItem => $item) {
+            if (!empty($item['properties'])) {
+
+                foreach ($item['properties'] as $groupName => $propGroup) {
+                    foreach ($propGroup as $propId => $property) {
+                        if ($property['type'] == PROP_TYPE_LIST) {
+                            if (array_key_exists($propId, $arPropEnumGroup))
+                                $items[$keyItem]['properties'][$groupName][$propId]['arList'] = $arPropEnumGroup[$propId];
+                        } elseif ($property['type'] == PROP_TYPE_ITEM_LINK) {
+                            foreach ($property['value'] as $key => $valueItemId) {
+                                if (array_key_exists($valueItemId, $arItemsGroup))
+                                    $items[$keyItem]['properties'][$groupName][$propId]['arItem'][] = $arItemsGroup[$valueItemId];
+                            }
+                        }
+                    }
+                }
+
+            }
+        }
+
+        return $items;
     }
 
     /**
@@ -372,13 +434,10 @@ trait HandlePropertyController
     {
         $arItems = [];
 
-        $arItems = Item::with('category')
-            ->orderby('order', 'asc')->orderby('updated_at', 'desc');
-
-        foreach ($arItemId as $itemId)
-            $arItems = $arItems->orWhere('id', $itemId);
-
-        $arItems = $arItems->select(['id', 'title', 'preview_img', 'properties', 'slug', 'is_product', 'category_id'])->get()->toArray();
+        $arItems = Item::with('category')->whereIn('id', $arItemId)
+            ->orderby('order', 'asc')->orderby('updated_at', 'desc')
+            ->select(['id', 'title', 'preview_img', 'properties', 'slug', 'is_product', 'category_id'])
+            ->get()->toArray();
 
         foreach ($arItems as $key=>$item) {
             if (isset($item['preview_img']))
