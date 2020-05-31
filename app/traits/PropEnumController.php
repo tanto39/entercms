@@ -25,7 +25,7 @@ trait PropEnumController
     }
 
     /**
-     * Get list values from property enumeration table
+     * Get list values from property enumeration table DEPRECATED NOT USED
      *
      * @param $propId
      */

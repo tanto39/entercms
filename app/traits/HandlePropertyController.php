@@ -91,13 +91,16 @@ trait HandlePropertyController
     public function getProperties($selectTable, $propKind, $strProp = "", $categoryId = NULL)
     {
         $propValues = [];
+        $arPropEnumId = [];
+        $arPropEnum = [];
+        $arPropEnumGroup = [];
 
         $propValues = unserialize($strProp);
 
         $this->getPropList($categoryId, $selectTable, $propKind);
 
         if (count($this->propList) > 0) {
-            foreach ($this->propList as $key=>$property) {
+            foreach ($this->propList as $key => $property) {
                 if (!is_null($property['group_id']))
                     $propGroupName = PropGroup::where('id', $property['group_id'])->get()->toArray()[0]['title'];
                 else
@@ -107,13 +110,38 @@ trait HandlePropertyController
 
                 // Enumeration property
                 if ($property['type'] == PROP_TYPE_LIST) {
-                    $this->getListValues($property["id"]);
-                    $this->arProps[$propGroupName][$property["id"]]['arList'] = $this->propEnums;
+                    // Create enum values array
+                    $arPropEnumId[] = $property["id"];
+
+                    //$this->getListValues($property["id"]); // Old version, deprecated
+                    //$this->arProps[$propGroupName][$property["id"]]['arList'] = $this->propEnums;
                 }
 
                 if (!empty($propValues[$propGroupName][$property["id"]]) && isset($propValues[$propGroupName][$property["id"]]['value']))
                     $this->arProps[$propGroupName][$property["id"]]['value'] = $propValues[$propGroupName][$property["id"]]['value'];
             }
+
+            // Get enum properties
+            if (!empty($arPropEnumId)) {
+                $arPropEnum = PropEnum::whereIn('prop_id', $arPropEnumId)->select('id', 'title', 'order', 'slug', 'prop_id')
+                    ->orderby('order', 'asc')->get()->toArray();
+
+                // Group enum properties by prop_id
+                foreach ($arPropEnum as $key => $propEnum) {
+                    $arPropEnumGroup[$propEnum['prop_id']][] = $propEnum;
+                }
+            }
+
+            // Fill enum values
+            foreach ($this->arProps as $propGroupName => $propGroup) {
+                foreach ($propGroup as $propId => $property) {
+                    if ($property['type'] == PROP_TYPE_LIST) {
+                        if (array_key_exists($propId, $arPropEnumGroup))
+                            $this->arProps[$propGroupName][$property["id"]]['arList'] = $arPropEnumGroup[$propId];
+                    }
+                }
+            }
+
         }
     }
 
@@ -379,7 +407,7 @@ trait HandlePropertyController
         }
 
 
-        // Get enum propertyes
+        // Get enum properties
         if (!empty($arPropEnumId)) {
             $arPropEnum = PropEnum::whereIn('id', $arPropEnumId)->select('id', 'title', 'order', 'slug', 'prop_id')
                 ->orderby('order', 'asc')->get()->toArray();
