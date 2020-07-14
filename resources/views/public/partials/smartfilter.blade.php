@@ -7,11 +7,11 @@
         <div class="flex smart-filter-wrap_num">
             <div class="smart-filter-item_num">
                 <span>От:</span>
-                <input type="number" class="form-control" name="fields[price][from]" value="@if($filterFields['price']['from']){{$filterFields['price']['from']}}@endif">
+                <input type="number" class="form-control" name="fields[price][from]" value="@if($filterFields !== null && $filterFields['price']['from']){{$filterFields['price']['from']}}@endif">
             </div>
             <div class="smart-filter-item_num">
                 <span>До:</span>
-                <input type="number" class="form-control" name="fields[price][to]" value="@if($filterFields['price']['to']){{$filterFields['price']['to']}}@endif">
+                <input type="number" class="form-control" name="fields[price][to]" value="@if($filterFields !== null && $filterFields['price']['to']){{$filterFields['price']['to']}}@endif">
             </div>
         </div>
     </div>

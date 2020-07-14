@@ -345,11 +345,20 @@ trait FilterController
             }
             // Number properties
             elseif ($property['type'] == PROP_TYPE_NUM) {
-                $properties[$key]['values']['from'] = $arPropertyGet[$property["id"]]['from'];
-                $properties[$key]['values']['to'] = $arPropertyGet[$property["id"]]['to'];
+                if($arPropertyGet !== null) {
+                    $properties[$key]['values']['from'] = $arPropertyGet[$property["id"]]['from'];
+                    $properties[$key]['values']['to'] = $arPropertyGet[$property["id"]]['to'];                    
+                }
+                else {
+                    $properties[$key]['values']['from'] = '';
+                    $properties[$key]['values']['to'] = ''; 
+                }
             }
             else {
-                $properties[$key]['text'] = $arPropertyGet[$property["id"]]['text'];
+                if($arPropertyGet !== null)
+                    $properties[$key]['text'] = $arPropertyGet[$property["id"]]['text'];
+                else
+                    $properties[$key]['text'] = '';
             }
         }
 
