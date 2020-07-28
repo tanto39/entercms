@@ -39,7 +39,7 @@ $result = \Enterkursk\Parce\parceExcel::execute($period, $files, $summ, $date);
 <body>
 <div class="container wrapper">
     <h1>Скачать результат</h1>
-    <p><a download href="/xlsDocParcer/files/git <?=$result?>">Скачать справки</a></p>
+    <p><a download href="/xlsDocParcer/files/<?=$result?>">Скачать справки</a></p>
 
     <p><a href="/xlsDocParcer/index.php">Вернуться</a></p>
 
