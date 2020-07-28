@@ -47,15 +47,7 @@ class parceExcel
    <Protection/>
   </Style>
   <Style ss:ID="s63">
-   <Alignment ss:Vertical="Bottom" ss:WrapText="1"/>
-   <Font ss:FontName="Arial" x:CharSet="204" x:Family="Swiss" ss:Size="11"/>
-  </Style>
-  <Style ss:ID="s65">
-   <Alignment ss:Vertical="Center"/>
-   <Font ss:FontName="Arial" x:CharSet="204" x:Family="Swiss" ss:Size="11"/>
-  </Style>
-  <Style ss:ID="s66">
-   <Alignment ss:Horizontal="Center" ss:Vertical="Bottom"/>
+   <Alignment ss:Vertical="Center" ss:WrapText="1"/>
    <Borders>
     <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
    </Borders>
@@ -72,8 +64,8 @@ class parceExcel
    <PageSetup>
     <Header x:Margin="0.51181102362204722"/>
     <Footer x:Margin="0.51181102362204722"/>
-    <PageMargins x:Bottom="0.98425196850393704" x:Left="0.74803149606299213"
-     x:Right="0.74803149606299213" x:Top="0.98425196850393704"/>
+    <PageMargins x:Bottom="0.38425196850393704" x:Left="0.54803149606299213"
+     x:Right="0.54803149606299213" x:Top="0.38425196850393704"/>
    </PageSetup>
    <Print>
     <ValidPrinterInfo/>
@@ -95,13 +87,9 @@ class parceExcel
  </Worksheet>
 </Workbook>';
 
-        $titleCell = '   <Row ss:AutoFitHeight="0" ss:Height="23.25">
-    <Cell ss:StyleID="s66"><Data ss:Type="String">СПРАВКА № ______</Data></Cell>
-   </Row>';
+        $titleCell = '                                                          СПРАВКА №______';
 
-        $endCell = '   <Row ss:AutoFitHeight="0" ss:Height="39">
-    <Cell ss:StyleID="s65"><Data ss:Type="String">И.о. начальника ОСО Пристенского района ________________ Г.В.Лашина</Data></Cell>
-   </Row>';
+        $endCell = '&#10; &#10;И.о. начальника ОСО Пристенского района _____________ Г.В.Лашина';
 
         $contentCell = '';
 
@@ -112,17 +100,17 @@ class parceExcel
 
         $monthVT = '';
         foreach ($summ['vt'] as $monthName=>$monthSum) {
-            $monthVT .= $monthName.' - '.$monthSum.'      ';
+            $monthVT .= $monthName.' - '.$monthSum.' руб.    ';
         }
 
         $monthTT = '';
         foreach ($summ['tt'] as $monthName=>$monthSum) {
-            $monthTT .= $monthName.' - '.$monthSum.'      ';
+            $monthTT .= $monthName.' - '.$monthSum.' руб.    ';
         }
 
         $monthVV = '';
         foreach ($summ['vv'] as $monthName=>$monthSum) {
-            $monthVV .= $monthName.' - '.$monthSum.'      ';
+            $monthVV .= $monthName.' - '.$monthSum.' руб.    ';
         }
 
         $inputFile = self::loadFile($files);
@@ -135,26 +123,25 @@ class parceExcel
         }
 
         foreach ($rows as $row) {
-            $contentCell .= $titleCell;
 
             if ($row[3] == 'вт') {
-                $contentCell .= '<Row ss:AutoFitHeight="0" ss:Height="81">
-    <Cell ss:StyleID="s63"><Data ss:Type="String">Дана '.$row[0].', '.$row[1].' проживающий (ая) '.$row[2].' в том, что она (он) состоит на учете в ОСО Пристенского района как получатель ежемесячной денежной выплаты ветеран труда.&#10;Размер ЕДВ за период '.$period.' составил - '.$sumVT.' рублей&#10; '.$monthVT.' &#10;Дата выдачи справки '.$date.'.</Data></Cell>
+                $contentCell .= '<Row ss:AutoFitHeight="0" ss:Height="191">
+    <Cell ss:StyleID="s63"><Data ss:Type="String">'.$titleCell.'&#10;&#10;Дана '.$row[0].', '.$row[1].' проживающий (ая) '.$row[2].' в том, что она (он) состоит на учете в ОСО Пристенского района как получатель ежемесячной денежной выплаты ветеран труда.&#10;Размер ЕДВ за период '.$period.' составил - '.$sumVT.' рублей&#10; '.$monthVT.' &#10; &#10;Дата выдачи справки '.$date.$endCell.'.</Data></Cell>
    </Row>';
             }
             elseif ($row[3] == 'тт') {
-                $contentCell .= '<Row ss:AutoFitHeight="0" ss:Height="81">
-    <Cell ss:StyleID="s63"><Data ss:Type="String">Дана '.$row[0].', '.$row[1].' проживающий (ая) '.$row[2].' в том, что она (он) состоит на учете в ОСО Пристенского района как получатель ежемесячной денежной выплаты труженик тыла.&#10;Размер ЕДВ за период '.$period.' составил - '.$sumVT.' рублей&#10; '.$monthTT.' &#10;Дата выдачи справки '.$date.'.</Data></Cell>
+                $contentCell .= '<Row ss:AutoFitHeight="0" ss:Height="191">
+    <Cell ss:StyleID="s63"><Data ss:Type="String">'.$titleCell.'&#10;&#10;Дана '.$row[0].', '.$row[1].' проживающий (ая) '.$row[2].' в том, что она (он) состоит на учете в ОСО Пристенского района как получатель ежемесячной денежной выплаты труженик тыла.&#10;Размер ЕДВ за период '.$period.' составил - '.$sumTT.' рублей&#10; '.$monthTT.' &#10; &#10;Дата выдачи справки '.$date.$endCell.'.</Data></Cell>
    </Row>';
             }
             elseif ($row[3] == 'вв') {
-                $contentCell .= '<Row ss:AutoFitHeight="0" ss:Height="81">
-    <Cell ss:StyleID="s63"><Data ss:Type="String">Дана '.$row[0].', '.$row[1].' проживающий (ая) '.$row[2].' в том, что она (он) состоит на учете в ОСО Пристенского района как получатель ежемесячной денежной выплаты компенсация взамен прод.товаров.&#10;Размер ЕДВ за период '.$period.' составил - '.$sumVT.' рублей&#10; '.$monthVV.' &#10;Дата выдачи справки '.$date.'.</Data></Cell>
+                $contentCell .= '<Row ss:AutoFitHeight="0" ss:Height="191">
+    <Cell ss:StyleID="s63"><Data ss:Type="String">'.$titleCell.'&#10;&#10;Дана '.$row[0].', '.$row[1].' проживающий (ая) '.$row[2].' в том, что она (он) состоит на учете в ОСО Пристенского района как получатель ежемесячной денежной выплаты компенсация взамен прод.товаров.&#10;Размер ЕДВ за период '.$period.' составил - '.$sumVV.' рублей&#10; '.$monthVV.' &#10; &#10;Дата выдачи справки '.$date.$endCell.'.</Data></Cell>
    </Row>';
             }
             else {
-                $contentCell .= '<Row ss:AutoFitHeight="0" ss:Height="81">
-    <Cell ss:StyleID="s63"><Data ss:Type="String">Дана '.$row[0].', '.$row[1].' проживающий (ая) '.$row[2].' в том, что она (он) не состоит на учете в ОСО Пристенского района как получатель ежемесячной денежной выплаты&#10;Размер ЕДВ за период '.$period.' составил -0 рублей&#10;Дата выдачи справки '.$date.'.</Data></Cell>
+                $contentCell .= '<Row ss:AutoFitHeight="0" ss:Height="161">
+    <Cell ss:StyleID="s63"><Data ss:Type="String">'.$titleCell.'&#10;&#10;Дана '.$row[0].', '.$row[1].' проживающий (ая) '.$row[2].' в том, что она (он) не состоит на учете в ОСО Пристенского района как получатель ежемесячной денежной выплаты&#10;Размер ЕДВ за период '.$period.' составил -0 рублей&#10;Дата выдачи справки '.$date.$endCell.'.</Data></Cell>
    </Row>';
             }
 
@@ -166,7 +153,7 @@ class parceExcel
 
         $hashName = "справки-".substr(md5(openssl_random_pseudo_bytes(20)),10).".xml";
 
-        file_put_contents($_SERVER["DOCUMENT_ROOT"] . "public/xlsDocParcer/files/".$hashName, $result);
+        file_put_contents($_SERVER["DOCUMENT_ROOT"] . "/public/xlsDocParcer/files/".$hashName, $result);
 
         return $hashName;
     }
@@ -185,7 +172,7 @@ class parceExcel
             $filename = $files['load-file']['name'];
 
             // путь для сохранения файла
-            $newname = $_SERVER["DOCUMENT_ROOT"] . "public/xlsDocParcer/files/".$filename;
+            $newname = $_SERVER["DOCUMENT_ROOT"] . "/public/xlsDocParcer/files/".$filename;
 
             if (move_uploaded_file($files['load-file']['tmp_name'], $newname)) {
                 $data = $files['load-file'];
