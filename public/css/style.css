@@ -512,7 +512,7 @@ p.adv-desc {margin: 0;color: #401714;}
 /*----socbuttons для горизонтального выравнивания просто удалить эти стили-----*/
 .socbuttons{position: fixed; display: block; right: 0.3rem; top: 36vh;}
 .socbuttons .ya-share2__container_size_m .ya-share2__icon{height: 7vh;width: 7vh;}
-.socbuttons .ya-share2__item, .socbuttons .ya-share2__list_direction_horizontal > .ya-share2__item{display: block; margin-top: 0.5rem;}
+.socbuttons .ya-share2__item, .socbuttons .ya-share2__list_direction_horizontal > .ya-share2__item{display: block !important; margin-top: 0.5rem !important;}
 .ya-share2__container_size_m .ya-share2__icon{background-size: auto !important;}
 
 /*---scroll---*/
